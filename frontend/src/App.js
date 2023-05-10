@@ -3,6 +3,7 @@ import './App.css';
 import Navbar from "./components/Navbar";
 
 const linksArray = ["Import", "Kalkulation", "Export", "Stammdaten"];
+
 function App() {
   return (
     <div className="App">
