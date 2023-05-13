@@ -31,4 +31,4 @@ build/
 
 ### VS Code ###
 .vscode/
-src/main/resources/files_from_work/company/RND_Stammdaten_032023.xlsx
+src/main/resources/importfiles/company/RND_Stammdaten_032023.xlsx
