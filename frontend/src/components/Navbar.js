@@ -1,13 +1,20 @@
 import React, {useState} from "react";
 import {AppBar, Box, Button, Grid, Tab, Tabs, Toolbar, Typography, useTheme, useMediaQuery} from "@mui/material";
 import UploadFileIcon from '@mui/icons-material/UploadFile';
-import {Link} from 'react-router-dom'
+import { Link, useLocation } from "react-router-dom";
 import DrawerComp from "./DrawerComp";
 
 const Navbar = ({links}) => {
     const theme = useTheme();
     const isMatch = useMediaQuery(theme.breakpoints.down('md'));
     const [value, setValue] = useState()
+    const location = useLocation();
+
+    React.useEffect(() => {
+        const currentPath = location.pathname;
+        const index = links.findIndex((link) => link.path === currentPath);
+        setValue(index >= 0 ? index : 0);
+    }, [location.pathname, links]);
 
     return (
         <AppBar
@@ -31,7 +38,7 @@ const Navbar = ({links}) => {
                               value={value}
                               onChange={(e, val) => setValue(val)}>
                             {links.map((link, index) => (
-                                <Tab key={index} label={link}/>
+                                <Tab key={index} label={link.label} component={Link} to={link.path} />
                             ))}
                         </Tabs>
                     </Grid>
