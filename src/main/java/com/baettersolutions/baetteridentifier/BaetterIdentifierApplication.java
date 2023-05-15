@@ -44,10 +44,10 @@ public class BaetterIdentifierApplication {
 					switch (cell.getCellType())
 					{
 						case NUMERIC:
-							System.out.print(cell.getNumericCellValue() + "t");
+							System.out.print(cell.getNumericCellValue() + " | ");
 							break;
 						case STRING:
-							System.out.print(cell.getStringCellValue() + "t");
+							System.out.print(cell.getStringCellValue() + " | ");
 							break;
 					}
 				}

@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import {AppBar, Box, Button, Grid, Tab, Tabs, Toolbar, Typography, useTheme, useMediaQuery} from "@mui/material";
 import UploadFileIcon from '@mui/icons-material/UploadFile';
+import {Link} from 'react-router-dom'
 import DrawerComp from "./DrawerComp";
 
 const Navbar = ({links}) => {
