@@ -1,3 +1,3 @@
 export const Export = () => {
-    return <div>Export Area</div>
+    return <div >Export Area</div>
 }

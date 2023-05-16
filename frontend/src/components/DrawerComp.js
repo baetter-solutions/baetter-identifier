@@ -12,7 +12,7 @@ const DrawerComp = ({links}) =>{
                     {links.map((link,index)=>(
                         <ListItemButton onClick={()=> setOpen(false)} key={index} divider>
                             <ListItemIcon>
-                                <ListItemText sx={{color:'white'}}>{link}</ListItemText>
+                                <ListItemText sx={{color:'white'}}>{link.label}</ListItemText>
                             </ListItemIcon>
                         </ListItemButton>
                     ))}
