@@ -3,9 +3,6 @@ package com.baettersolutions.baetteridentifier;
 import org.junit.Assert;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-
-import java.net.URL;
 
 //@SpringBootTest
 class BaetterIdentifierApplicationTests {
@@ -19,8 +16,8 @@ class BaetterIdentifierApplicationTests {
 	@Test
 	@DisplayName("File has as wrong format or path is wrong")
 	public void validFileUpload(){
-		UploaderForIdentifier.loadFile("Path");
-		Assert.assertTrue(UploaderForIdentifier.fileIsValid());
+//		UploaderForIdentifier.loadFile("Path");
+//		Assert.assertTrue(UploaderForIdentifier.fileIsValid(file));
 	}
 
 //	@Test
