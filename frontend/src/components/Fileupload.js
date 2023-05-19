@@ -13,11 +13,19 @@ const FileUploader = () => {
             body: formData,
         })
             .then((response) => {
-                // Handle response
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Upload failed');
+                }
+            })
+            .then((data) => {
+                console.log(data);
             })
             .catch((error) => {
-                // Handle error
+                console.error(error);
             });
+
     };
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });

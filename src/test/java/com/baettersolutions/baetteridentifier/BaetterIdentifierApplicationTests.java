@@ -13,12 +13,12 @@ class BaetterIdentifierApplicationTests {
 // Headline row
 // Hersteller & Artikelnummer (spalte/zeile fix)
 
-	@Test
-	@DisplayName("File has as wrong format or path is wrong")
-	public void validFileUpload(){
+//	@Test
+//	@DisplayName("File has as wrong format or path is wrong")
+//	public void validFileUpload(){
 //		UploaderForIdentifier.loadFile("Path");
 //		Assert.assertTrue(UploaderForIdentifier.fileIsValid(file));
-	}
+//	}
 
 //	@Test
 //	@DisplayName("File contains nothing")

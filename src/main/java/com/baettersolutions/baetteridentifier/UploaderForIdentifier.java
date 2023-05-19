@@ -5,7 +5,6 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -13,15 +12,13 @@ import java.util.Iterator;
 
 public class UploaderForIdentifier {
 
-    public XSSFSheet BSFileloader(String filepath, int selectSheetToLoad) {
+    public XSSFSheet bsFileloader(String filepath, int selectSheetToLoad) {
         try {
-            FileInputStream userfile = loadFile(filepath);
-            if (fileIsValid(userfile)) {
-                XSSFWorkbook userWorkbook = makeWorkbook(userfile);
-                workWithSelectedSheet(userWorkbook, selectSheetToLoad);
-            } else {
-                System.err.println("Die Datei ist ungültig.");
-            }
+            FileInputStream userfile = new FileInputStream(filepath);
+            XSSFWorkbook userWorkbook = new XSSFWorkbook(userfile);
+            XSSFSheet userSheetOfWorkbook = userWorkbook.getSheetAt(selectSheetToLoad);
+//            workWithSelectedSheet(userWorkbook, selectSheetToLoad);
+            return userSheetOfWorkbook;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -29,8 +26,8 @@ public class UploaderForIdentifier {
     }
 
     private void workWithSelectedSheet(XSSFWorkbook workbook, int selectSheetToLoad) {
-        System.out.println("[ Tabellenblatt wurde umgewandelt ]");
         workbook.getSheetAt(selectSheetToLoad);
+        System.out.println("[ Tabellenblatt wurde umgewandelt ]");
     }
 
     private XSSFWorkbook makeWorkbook(FileInputStream file) {
@@ -44,24 +41,27 @@ public class UploaderForIdentifier {
         }
     }
 
-    private FileInputStream loadFile(String path) {
+    private XSSFWorkbook loadFile(String path) {
         try {
             System.out.println("[ Datei wird nun geladen. }");
-            return new FileInputStream(new File(path));
+            FileInputStream userfile = new FileInputStream(path);
+            XSSFWorkbook userWorkbook = new XSSFWorkbook(userfile);
+            return userWorkbook;
         } catch (FileNotFoundException e) {
             System.err.println("Die angegebene Datei wurde nicht gefunden.");
             e.printStackTrace();
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        return null;
     }
 
-    public static boolean fileIsValid(FileInputStream file) {
-        try (XSSFWorkbook testWorkbook = new XSSFWorkbook(file)) {
+    public static boolean fileIsValid(XSSFWorkbook file) {
+        if (file != null) {
             return true;
-        } catch (IOException e) {
-            return false;
+        } else return false;
         }
-    }
+
 
     public static void showFileWithIterator(XSSFSheet sheet) {
         Iterator<Row> rowIterator = sheet.iterator();
