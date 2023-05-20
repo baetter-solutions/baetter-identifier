@@ -1,80 +1,42 @@
-import React from 'react';
-import { useDropzone } from 'react-dropzone';
+import React, { Component } from 'react';
+import Dropzone from 'react-dropzone';
+import axios from 'axios';
 
-const FileUploader = () => {
-    const onDrop = (acceptedFiles) => {
+class FileUploader extends Component {
+    onDrop = (acceptedFiles) => {
         const formData = new FormData();
-        acceptedFiles.forEach((file) => {
-            formData.append('files', file);
-        });
+        formData.append('file', acceptedFiles[0]);
 
-        fetch('/upload', {
-            method: 'POST',
-            body: formData,
-        })
+        axios
+            .post('http://localhost:8080/upload', formData)
             .then((response) => {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    throw new Error('Upload failed');
-                }
-            })
-            .then((data) => {
-                console.log(data);
+                console.log(response.data);
             })
             .catch((error) => {
                 console.error(error);
             });
-
     };
 
-    const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
-
-    return (
-        <div {...getRootProps()}>
-            <input {...getInputProps()} />
-            {isDragActive ? (
-                <p>Drop the files here...</p>
-            ) : (
-                <p>Drag and drop files here, or click to select files</p>
-            )}
-        </div>
-    );
-};
-
-export default FileUploader;
-
-
-// BACKUP OLD CODE
-/*
-import React, {useCallback} from 'react'
-import {useDropzone} from 'react-dropzone'
-
-
-function FileUploader() {
-    const onDrop = useCallback(acceptedFiles => {
-        // Do something with the files
-    }, [])
-    const {getRootProps, getInputProps, isDragActive} = useDropzone({
-        onDrop,
-        accept: '.xls, .xlsx' // Nur XLS- und XLSX-Dateien akzeptieren
-    })
-
-    return (
-        <div>
-            <div>BOOOOOOOOM1</div>
-
-            <div {...getRootProps()}>
-                <input {...getInputProps()} />
-                {
-                    isDragActive ?
-                        <p>Drop the files here ...</p> :
-                        <p>Drag 'n' drop some files here, or click to select files</p>
-                }
+    render() {
+        return (
+            <div className="text-center mt-5">
+                <Dropzone onDrop={this.onDrop}>
+                    {({ getRootProps, getInputProps, isDragActive }) => (
+                        <div {...getRootProps()}>
+                            <input {...getInputProps()} />
+                            {isDragActive
+                                ? "Drop it like it's hot!"
+                                : 'Click me or drag a file to upload!'}
+                        </div>
+                    )}
+                </Dropzone>
+                <p>Zu ergänzen: <br/>
+                    Kundennummer, Kundenname und inkl. Pfad+Dateiname, wird ein JSON generiert und in die DB gespeichert <br/>
+                    Forumlarfelder [   alskdjf     ]
+                </p>
             </div>
-        </div>
-    )
+        );
+    }
 }
 
-export default FileUploader
- */
+export default FileUploader;

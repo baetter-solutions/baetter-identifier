@@ -17,7 +17,6 @@ public class UploaderForIdentifier {
             FileInputStream userfile = new FileInputStream(filepath);
             XSSFWorkbook userWorkbook = new XSSFWorkbook(userfile);
             XSSFSheet userSheetOfWorkbook = userWorkbook.getSheetAt(selectSheetToLoad);
-//            workWithSelectedSheet(userWorkbook, selectSheetToLoad);
             return userSheetOfWorkbook;
         } catch (Exception e) {
             e.printStackTrace();
