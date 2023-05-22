@@ -13,4 +13,10 @@ A program with WebUI, which converts customer article data from an Excel file to
 * Install: Material UI Core [Link](https://mui.com/material-ui/getting-started/installation/)
   or **`npm install @mui/material @emotion/react @emotion/styled`**
 * Install: Material UI Icon [Link](https://mui.com/material-ui/material-icons/) or `npm install @mui/icons-material @mui/material @emotion/styled @emotion/react`
- 
+
+### MongoDB Daten
+https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-windows/
+Public-Key: nappkptp
+Private-Key: 243b398b-adeb-4f28-8e26-66b88ee6919e
+User: mdbroot
+Pass: r00t4m0ng0db
