@@ -4,7 +4,7 @@ A program with WebUI, which converts customer article data from an Excel file to
 ## Used items
 * React
 * Spring
-* MySQL (MariaDB -> XAMPP)
+* MongoDB
 
 *\Baetter-Solutions\baetter-identifier\src\main\resources\files_from_work\company -> Stammdaten -> SPLIT! too big for GitHub
 
@@ -16,7 +16,3 @@ A program with WebUI, which converts customer article data from an Excel file to
 
 ### MongoDB Daten
 https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-windows/
-Public-Key: nappkptp
-Private-Key: 243b398b-adeb-4f28-8e26-66b88ee6919e
-User: mdbroot
-Pass: r00t4m0ng0db

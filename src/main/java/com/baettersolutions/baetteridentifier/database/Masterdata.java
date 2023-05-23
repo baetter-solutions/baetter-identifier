@@ -4,8 +4,6 @@ import org.bson.types.Decimal128;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.math.BigDecimal;
-
 @Document
 public class Masterdata {
     @Id
@@ -16,8 +14,45 @@ public class Masterdata {
     private String type;
     private String articlenumber;
     private String rabgroupe;
+    private String manufactureridnr;
     private Decimal128 ep1;
     private Decimal128 listprice;
+    private int status;
+    private int priceunit;
+    private String measureunit;
+    private String url;
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public int getPriceunit() {
+        return priceunit;
+    }
+
+    public void setPriceunit(int priceunit) {
+        this.priceunit = priceunit;
+    }
+
+    public String getMeasureunit() {
+        return measureunit;
+    }
+
+    public void setMeasureunit(String measureunit) {
+        this.measureunit = measureunit;
+    }
+
+    public String getManufactureridnr() {
+        return manufactureridnr;
+    }
+
+    public void setManufactureridnr(String manufactureridnr) {
+        this.manufactureridnr = manufactureridnr;
+    }
 
     public String getId() {
         return id;
@@ -98,6 +133,4 @@ public class Masterdata {
     public void setUrl(String url) {
         this.url = url;
     }
-
-    private String url;
 }

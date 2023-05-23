@@ -23,12 +23,7 @@ public class MasterdataController {
         return masterdataRepository.findAll();
     }
 
-    @PostMapping("/products")
-    public String hello() {
-        String text = "Hello World";
-        return text;
 
-    }
 
     @GetMapping("/products/{productId}")
     public Masterdata findProduct(@PathVariable final String productId) {
