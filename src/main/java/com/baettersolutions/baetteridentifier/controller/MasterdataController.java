@@ -13,17 +13,25 @@ public class MasterdataController {
     private MasterdataRepository masterdataRepository;
 
     @PostMapping("/products")
-    public void addProduct(@RequestBody final List<Masterdata> products){
+    public void addProduct(@RequestBody final List<Masterdata> products) {
         masterdataRepository.saveAll(products);
     }
+
     @GetMapping("/products")
-    public List<Masterdata> findProducts(){
+    public List<Masterdata> findProducts() {
 
         return masterdataRepository.findAll();
     }
 
+    @PostMapping("/products")
+    public String hello() {
+        String text = "Hello World";
+        return text;
+
+    }
+
     @GetMapping("/products/{productId}")
-    public Masterdata findProduct(@PathVariable final String productId){
+    public Masterdata findProduct(@PathVariable final String productId) {
         return masterdataRepository.findById(productId).orElseGet(Masterdata::new);
     }
 }
