@@ -23,7 +23,36 @@ public class UploaderForIdentifier {
         }
         return null;
     }
+    public static void showFileWithIterator(XSSFSheet sheet) {
+        Iterator<Row> rowIterator = sheet.iterator();
+        while (rowIterator.hasNext()) {
+            Row row = rowIterator.next();
+            Iterator<Cell> cellIterator = row.cellIterator();
 
+            while (cellIterator.hasNext()) {
+                Cell cell = cellIterator.next();
+                switch (cell.getCellType()) {
+                    case NUMERIC:
+                        System.out.print(cell.getNumericCellValue() + " | ");
+                        break;
+                    case STRING:
+                        System.out.print(cell.getStringCellValue() + " | ");
+                        break;
+                    default:
+                        System.out.println("Unsupported cell type!");
+                        break;
+                }
+            }
+            System.out.println("");
+        }
+    }
+    public static boolean fileIsValid(XSSFWorkbook file) {
+        if (file != null) {
+            return true;
+        } else return false;
+    }
+
+/*
     private void workWithSelectedSheet(XSSFWorkbook workbook, int selectSheetToLoad) {
         workbook.getSheetAt(selectSheetToLoad);
         System.out.println("[ Tabellenblatt wurde umgewandelt ]");
@@ -54,36 +83,7 @@ public class UploaderForIdentifier {
         }
         return null;
     }
+*/
 
-    public static boolean fileIsValid(XSSFWorkbook file) {
-        if (file != null) {
-            return true;
-        } else return false;
-        }
-
-
-    public static void showFileWithIterator(XSSFSheet sheet) {
-        Iterator<Row> rowIterator = sheet.iterator();
-        while (rowIterator.hasNext()) {
-            Row row = rowIterator.next();
-            Iterator<Cell> cellIterator = row.cellIterator();
-
-            while (cellIterator.hasNext()) {
-                Cell cell = cellIterator.next();
-                switch (cell.getCellType()) {
-                    case NUMERIC:
-                        System.out.print(cell.getNumericCellValue() + " | ");
-                        break;
-                    case STRING:
-                        System.out.print(cell.getStringCellValue() + " | ");
-                        break;
-                    default:
-                        System.out.println("Unsupported cell type!");
-                        break;
-                }
-            }
-            System.out.println("");
-        }
-    }
 
 }
