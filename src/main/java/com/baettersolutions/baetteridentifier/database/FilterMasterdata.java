@@ -23,10 +23,10 @@ public class FilterMasterdata {
             XSSFSheet mastersheet = masterWorkbook.getSheetAt(sheetNumber);
             System.out.println("... Seite wurde extrahiert \n .............");
             System.out.println("... initialisierung der Spaltenreduktion");
-            XSSFSheet filteredSheet = reductionMasterdata(mastersheet, lineOfHeadline);
+            XSSFSheet finalfilteredSheet = reductionMasterdata(mastersheet, lineOfHeadline);
             System.out.println("... Spalten wurden nach vorgaben reduziert");
-            System.out.println("... das XSSFSheet Object filteredSheet steht zur weiteren bearbeitung bereit");
-            return filteredSheet;
+            System.out.println("... das XSSFSheet Object finalfilteredSheet steht zur weiteren bearbeitung bereit");
+            return finalfilteredSheet;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -106,8 +106,8 @@ public class FilterMasterdata {
                 colIndex_priceunit,
                 colIndex_measureunit
         };
-        XSSFSheet filteredSheet = createFilteredSheet(sheet, columnIndexes);
-        return filteredSheet;
+        XSSFSheet reducedSheet = createFilteredSheet(sheet, columnIndexes);
+        return reducedSheet;
     }
 
     private XSSFSheet createFilteredSheet(XSSFSheet sourceSheet, int[] columnIndexes) {
