@@ -18,6 +18,7 @@ public class FilterMasterdata {
             System.out.println("... Masterdaten wurden fertig gestreamt");
             System.out.println("... erstelle ein Workbook");
             XSSFWorkbook masterWorkbook = new XSSFWorkbook(inputMasterdata);
+            inputMasterdata.close();
             System.out.println("... Workbook wurde fertig generiert");
             System.out.println("... Arbeitsseite wird extrahiert");
             XSSFSheet mastersheet = masterWorkbook.getSheetAt(sheetNumber);

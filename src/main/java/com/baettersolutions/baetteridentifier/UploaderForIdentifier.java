@@ -52,38 +52,4 @@ public class UploaderForIdentifier {
         } else return false;
     }
 
-/*
-    private void workWithSelectedSheet(XSSFWorkbook workbook, int selectSheetToLoad) {
-        workbook.getSheetAt(selectSheetToLoad);
-        System.out.println("[ Tabellenblatt wurde umgewandelt ]");
-    }
-
-    private XSSFWorkbook makeWorkbook(FileInputStream file) {
-        try {
-            System.out.println("[ Workbook wird erstellt ]");
-            return new XSSFWorkbook(file);
-        } catch (IOException e) {
-            System.err.println("Ein Fehler ist beim Lesen der Datei aufgetreten.");
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-    }
-
-    private XSSFWorkbook loadFile(String path) {
-        try {
-            System.out.println("[ Datei wird nun geladen. }");
-            FileInputStream userfile = new FileInputStream(path);
-            XSSFWorkbook userWorkbook = new XSSFWorkbook(userfile);
-            return userWorkbook;
-        } catch (FileNotFoundException e) {
-            System.err.println("Die angegebene Datei wurde nicht gefunden.");
-            e.printStackTrace();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return null;
-    }
-*/
-
-
 }

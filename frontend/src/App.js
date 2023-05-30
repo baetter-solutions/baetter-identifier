@@ -5,7 +5,7 @@ import {Main} from './components/Main'
 import Fileupload from "./components/Fileupload";
 import Calculation from "./components/Calculation";
 import {Export} from "./components/Export";
-import {ReferenceData} from "./components/ReferenceData";
+import ReferenceData from "./components/ReferenceData";
 import {About} from "./components/About";
 import {Navbar} from "./components/Navbar";
 
