@@ -8,25 +8,42 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/products")
 public class MasterdataController {
     @Autowired
     private MasterdataRepository masterdataRepository;
 
-    @PostMapping("/products")
+    @PostMapping
     public void addProduct(@RequestBody final List<Masterdata> products) {
-        masterdataRepository.saveAll(products);
+        for (Masterdata product : products) {
+            Masterdata existingProduct = masterdataRepository.findByAxnr(product.getAxnr());
+            if (existingProduct != null) {
+                existingProduct.setManufacturer(product.getManufacturer());
+                existingProduct.setShortdescription(product.getShortdescription());
+
+                masterdataRepository.save(existingProduct);
+            } else {
+                masterdataRepository.save(product);
+            }
+        }
     }
 
-    @GetMapping("/products")
+    @GetMapping
     public List<Masterdata> findProducts() {
-
         return masterdataRepository.findAll();
     }
 
-
-
-    @GetMapping("/products/{productId}")
-    public Masterdata findProduct(@PathVariable final String productId) {
-        return masterdataRepository.findById(productId).orElseGet(Masterdata::new);
+    @GetMapping("/{axnr}")
+    public Masterdata findProductByAxnr(@PathVariable int axnr) {
+        return masterdataRepository.findByAxnr(axnr);
     }
+
+    @DeleteMapping("/{axnr}")
+    public void deleteProductByAxnr(@PathVariable int axnr) {
+        Masterdata existingProduct = masterdataRepository.findByAxnr(axnr);
+        if (existingProduct != null) {
+            masterdataRepository.delete(existingProduct);
+        }
+    }
+
 }

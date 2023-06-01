@@ -1,13 +1,10 @@
 package com.baettersolutions.baetteridentifier.database;
 
 import org.bson.types.Decimal128;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
 public class Masterdata {
-    @Id
-    private String id;
     private int axnr;
     private String manufacturer;
     private String shortdescription;
@@ -52,14 +49,6 @@ public class Masterdata {
 
     public void setManufactureridnr(String manufactureridnr) {
         this.manufactureridnr = manufactureridnr;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public int getAxnr() {
