@@ -5,7 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 //@SpringBootTest
-class BaetterIdentifierApplicationTests {
+class BaetterIdentifierApplicationTest {
 
 // Testlist: Valid File,
 // Format ok,

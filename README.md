@@ -1,5 +1,6 @@
-![event=push](https://github.com/baetter-solutions/baetter-identifier/actions/workflows/ubuntu_run_tests.yml/badge.svg?event=push)
-![event=push](https://github.com/baetter-solutions/baetter-identifier/actions/workflows/win_run_tests.yml/badge.svg?event=push)
+[//]: # (![event=push]&#40;https://github.com/baetter-solutions/baetter-identifier/actions/workflows/ubuntu_run_tests.yml/badge.svg?event=push&#41;)
+
+[//]: # (![event=push]&#40;https://github.com/baetter-solutions/baetter-identifier/actions/workflows/win_run_tests.yml/badge.svg?event=push&#41;)
 
 
 # Baetter-Identifier
