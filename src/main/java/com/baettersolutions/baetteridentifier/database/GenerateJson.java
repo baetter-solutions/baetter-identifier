@@ -1,5 +1,6 @@
 package com.baettersolutions.baetteridentifier.database;
 
+import com.baettersolutions.baetteridentifier.controller.MasterdataController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -49,8 +50,22 @@ public class GenerateJson {
     public void giveConverterTheFile(String filepath) throws IOException {
         FilterMasterdata newMasterdataInput = new FilterMasterdata();
         XSSFSheet worksheet = newMasterdataInput.generateWorksheet(filepath, 0,0);
+        System.out.println("JSON file wird erstellt");
         GenerateJson jsonMasterdate = new GenerateJson();
+
+        System.out.println("1");
         jsonMasterdate.convertToJSON(worksheet,0);
+        System.out.println("2");
+        TransferMasterdata transferMasterdata = new TransferMasterdata();
+        System.out.println("3");
+        try {
+            System.out.println("Start");
+            transferMasterdata.transferToDatabase(filepath);
+            System.out.println("Transfer");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         System.out.println("JSON-File erstellt");
         boolean deletionSuccessful = new File(filepath).delete();

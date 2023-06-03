@@ -12,8 +12,8 @@ public class Masterdata {
     private String articlenumber;
     private String rabgroupe;
     private String manufactureridnr;
-    private Decimal128 ep1;
-    private Decimal128 listprice;
+    private double ep1;
+    private double listprice;
     private int status;
     private int priceunit;
     private String measureunit;
@@ -99,19 +99,19 @@ public class Masterdata {
         this.rabgroupe = rabgroupe;
     }
 
-    public Decimal128 getEp1() {
+    public double getEp1() {
         return ep1;
     }
 
-    public void setEp1(Decimal128 ep1) {
+    public void setEp1(double ep1) {
         this.ep1 = ep1;
     }
 
-    public Decimal128 getListprice() {
+    public double getListprice() {
         return listprice;
     }
 
-    public void setListprice(Decimal128 listprice) {
+    public void setListprice(double listprice) {
         this.listprice = listprice;
     }
 

@@ -30,11 +30,13 @@ public class MasterdataController {
 
     @GetMapping
     public List<Masterdata> findProducts() {
+        System.out.println("localhost:8080/products");
         return masterdataRepository.findAll();
     }
 
     @GetMapping("/{axnr}")
     public Masterdata findProductByAxnr(@PathVariable int axnr) {
+        System.out.println("localhost:8080/products/120753952");
         return masterdataRepository.findByAxnr(axnr);
     }
 

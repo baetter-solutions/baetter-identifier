@@ -1,36 +1,68 @@
 package com.baettersolutions.baetteridentifier.database;
 
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestTemplate;
+import com.baettersolutions.baetteridentifier.controller.MasterdataController;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TransferMasterdata {
-    public void transferJsonFile(String jsonFile) {
-        // Setzen Sie die URL, an die das JSON-Datei übermittelt werden soll
-        String url = "src/main/resources/outputfiles/testfiles/testfile.json";
+    public void transferToDatabase(String jsonFilePath) {
+        List<Masterdata> products = readJsonFile(jsonFilePath);
 
-        // Erstellen Sie den RestTemplate
-        RestTemplate restTemplate = new RestTemplate();
+        MasterdataController masterdataController = new MasterdataController();
+        System.out.println("Transfer wird initialisiert");
+        masterdataController.addProduct(products);
+        System.out.println("Transfer abgeschlossen!");
+    }
 
-        // Erstellen Sie den HttpHeaders-Objekt und setzen Sie den Content-Type auf "application/json"
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
+    private List<Masterdata> readJsonFile(String jsonFilePath) {
+        List<Masterdata> products = new ArrayList<>();
 
-        // Erstellen Sie die HttpEntity mit dem JSON-String und den HttpHeaders
-        HttpEntity<String> requestEntity = new HttpEntity<>(jsonFile, headers);
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode jsonNode = objectMapper.readTree(new File(jsonFilePath));
 
-        // Senden Sie den HTTP POST-Request mit dem JSON-String
-        ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
+            if (jsonNode.isArray()) {
+                ArrayNode arrayNode = (ArrayNode) jsonNode;
+                for (JsonNode node : arrayNode) {
+                    int axnr = node.get("axnr").asInt();
+                    String manufacturer = node.get("manufacturer").asText();
+                    String shortdescription = node.get("shortdescription").asText();
+                    String type = node.get("type").asText();
+                    String articlenumber= node.get("type").asText();
+                    String rabgroupe= node.get("type").asText();
+                    String manufactureridnr= node.get("type").asText();
+                    double ep1 = node.get("ep1").asDouble();
+                    double listprice = node.get("listprice").asDouble();
+                    int status = node.get("status").asInt();
+                    int priceunit = node.get("priceunit").asInt();
+                    String measureunit = node.get("measureunit").asText();
 
-        // Überprüfen Sie die Antwort
-        if (responseEntity.getStatusCode().is2xxSuccessful()) {
-            System.out.println("JSON-Datei erfolgreich übermittelt.");
-        } else {
-            System.out.println("Fehler beim Übermitteln der JSON-Datei.");
+                    Masterdata product = new Masterdata();
+                    product.setAxnr(axnr);
+                    product.setManufacturer(manufacturer);
+                    product.setShortdescription(shortdescription);
+                    product.setType(type);
+                    product.setArticlenumber(articlenumber);
+                    product.setRabgroupe(rabgroupe);
+                    product.setManufactureridnr(manufactureridnr);
+                    product.setEp1(ep1);
+                    product.setListprice(listprice);
+                    product.setStatus(status);
+                    product.setPriceunit(priceunit);
+                    product.setMeasureunit(measureunit);
+                    products.add(product);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
+        return products;
     }
 }
-
