@@ -53,11 +53,8 @@ public class GenerateJson {
         System.out.println("JSON file wird erstellt");
         GenerateJson jsonMasterdate = new GenerateJson();
 
-        System.out.println("1");
         jsonMasterdate.convertToJSON(worksheet,0);
-        System.out.println("2");
         TransferMasterdata transferMasterdata = new TransferMasterdata();
-        System.out.println("3");
         try {
             System.out.println("Start");
             transferMasterdata.transferToDatabase(filepath);

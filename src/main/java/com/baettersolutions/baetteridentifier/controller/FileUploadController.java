@@ -37,7 +37,7 @@ public class FileUploadController {
 
             String fileUrl = "/importfiles/uploads/ " + newFileName;
 
-            return ResponseEntity.ok(fileUrl + " Upload successful!!!!!");
+            return ResponseEntity.ok(fileUrl + "  wurde hochgeladen");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Upload failed");
         }
@@ -53,6 +53,7 @@ public class FileUploadController {
             Path uploadPath = Paths.get(UPLOAD_MASTERDATA).toAbsolutePath().normalize();
             String filePath = uploadPath.resolve(file.getOriginalFilename()).toString();
             file.transferTo(new File(filePath));
+            // Hier wird bereits der Converter gestartet
             new GenerateJson().giveConverterTheFile(filePath);
             return ResponseEntity.ok(file.getOriginalFilename() + " wurde hochgeladen und wird nun konvertiert");
         } catch (Exception e) {

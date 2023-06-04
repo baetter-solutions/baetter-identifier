@@ -1,10 +1,13 @@
 package com.baettersolutions.baetteridentifier.database;
 
-import org.bson.types.Decimal128;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
 public class Masterdata {
+
+    @Id
+    private String id;
     private int axnr;
     private String manufacturer;
     private String shortdescription;
@@ -17,7 +20,14 @@ public class Masterdata {
     private int status;
     private int priceunit;
     private String measureunit;
-    private String url;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public int getStatus() {
         return status;
@@ -115,11 +125,5 @@ public class Masterdata {
         this.listprice = listprice;
     }
 
-    public String getUrl() {
-        return url;
-    }
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
 }
