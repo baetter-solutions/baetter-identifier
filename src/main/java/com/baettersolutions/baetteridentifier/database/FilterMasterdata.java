@@ -13,20 +13,17 @@ public class FilterMasterdata {
 
     public XSSFSheet generateWorksheet(String path, int sheetNumber, int lineOfHeadline) {
         try {
-            System.out.println("... Starte Stream für Input");
+//             ToDo: Zu viel in einer Funktion
+            System.out.println("FileInputStream ...");
             FileInputStream inputMasterdata = new FileInputStream(path);
-            System.out.println("... Masterdaten wurden fertig gestreamt");
-            System.out.println("... erstelle ein Workbook");
+            System.out.println("... erstelle ein Workbook ...");
             XSSFWorkbook masterWorkbook = new XSSFWorkbook(inputMasterdata);
             inputMasterdata.close();
-            System.out.println("... Workbook wurde fertig generiert");
-            System.out.println("... Arbeitsseite wird extrahiert");
+            System.out.println("... extract worksheet ...");
             XSSFSheet mastersheet = masterWorkbook.getSheetAt(sheetNumber);
-            System.out.println("... Seite wurde extrahiert \n .............");
-            System.out.println("... initialisierung der Spaltenreduktion");
+            System.out.println("... filtering");
             XSSFSheet finalfilteredSheet = reductionMasterdata(mastersheet, lineOfHeadline);
-            System.out.println("... Spalten wurden nach vorgaben reduziert");
-            System.out.println("... das XSSFSheet Object finalfilteredSheet steht zur weiteren bearbeitung bereit");
+            System.out.println("... return finalfilteredSheet");
             return finalfilteredSheet;
         } catch (IOException e) {
             throw new RuntimeException(e);

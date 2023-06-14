@@ -3,6 +3,8 @@ package com.baettersolutions.baetteridentifier.database;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.math.BigDecimal;
+
 @Document
 public class Masterdata {
 
@@ -14,9 +16,9 @@ public class Masterdata {
     private String type;
     private String articlenumber;
     private String rabgroupe;
-    private String manufactureridnr;
-    private double ep1;
-    private double listprice;
+    private int manufactureridnr;
+    private BigDecimal ep1;
+    private BigDecimal listprice;
     private int status;
     private int priceunit;
     private String measureunit;
@@ -27,38 +29,6 @@ public class Masterdata {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    public int getPriceunit() {
-        return priceunit;
-    }
-
-    public void setPriceunit(int priceunit) {
-        this.priceunit = priceunit;
-    }
-
-    public String getMeasureunit() {
-        return measureunit;
-    }
-
-    public void setMeasureunit(String measureunit) {
-        this.measureunit = measureunit;
-    }
-
-    public String getManufactureridnr() {
-        return manufactureridnr;
-    }
-
-    public void setManufactureridnr(String manufactureridnr) {
-        this.manufactureridnr = manufactureridnr;
     }
 
     public int getAxnr() {
@@ -109,21 +79,51 @@ public class Masterdata {
         this.rabgroupe = rabgroupe;
     }
 
-    public double getEp1() {
+    public int getManufactureridnr() {
+        return manufactureridnr;
+    }
+
+    public void setManufactureridnr(int manufactureridnr) {
+        this.manufactureridnr = manufactureridnr;
+    }
+
+    public BigDecimal getEp1() {
         return ep1;
     }
 
-    public void setEp1(double ep1) {
+    public void setEp1(BigDecimal ep1) {
         this.ep1 = ep1;
     }
 
-    public double getListprice() {
+    public BigDecimal getListprice() {
         return listprice;
     }
 
-    public void setListprice(double listprice) {
+    public void setListprice(BigDecimal listprice) {
         this.listprice = listprice;
     }
 
+    public int getStatus() {
+        return status;
+    }
 
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public int getPriceunit() {
+        return priceunit;
+    }
+
+    public void setPriceunit(int priceunit) {
+        this.priceunit = priceunit;
+    }
+
+    public String getMeasureunit() {
+        return measureunit;
+    }
+
+    public void setMeasureunit(String measureunit) {
+        this.measureunit = measureunit;
+    }
 }
