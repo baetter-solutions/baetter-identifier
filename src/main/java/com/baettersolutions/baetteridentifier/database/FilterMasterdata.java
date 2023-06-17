@@ -2,6 +2,7 @@ package com.baettersolutions.baetteridentifier.database;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -14,6 +15,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class FilterMasterdata {
+
+    private static final String[] COLUMN_NAMES = {
+            "col0_axnr", "col1_manufacturer", "col2_shortdesciption", "col3_type", "col4_arctilenumber",
+            "col5_rabgroupe", "col6_manufactureridnr", "col7_epi1", "col8_listprice", "col9_status",
+            "col10_priceunit", "col11_measureunit"
+    };
+    private int[] columnNumbers;
+
+    public FilterMasterdata(){
+        columnNumbers = new int[COLUMN_NAMES.length];
+    }
 
     private final Map<String, String> headlineConverter = new HashMap<String, String>() {{
         put("ARTIKELNUMMER", "axnr");
@@ -44,119 +56,29 @@ public class FilterMasterdata {
         put("measureunit", String.class);
     }};
 
-    private XSSFSheet reductionMasterdata(XSSFSheet sheet, int lineOfHeadline) {
-        // Headlines
-        final String col1_axnr = "ARTIKELNUMMER";
-        final String col2_manufacturer = "HERSTELLER NAME";
-        final String col3_shortdescription = "KURZBESCHREIBUNG";
-        final String col4_type = "HERSTELLER TYPE";
-        final String col5_articlenumber = "LIEFERANTEN ARTIKELNUMMER";
-        final String col6_rabgroupe = "POSITIONSRABATT";
-        final String col7_manufactureridnr = "HERSTELLER";
-        final String col8_ep1 = "STATISTIKEINSTANDSPREIS";
-        final String col9_listprice = "BRUTTO PREIS";
-        final String col10_status = "STATUS";
-        final String col11_priceunit = "PREISEINHEIT";
-        final String col12_measureunit = "EINHEIT VK";
-
-        // Column numbers
-        int colnr_axnr = -1;
-        int colnr_manufacturer = -1;
-        int colnr_shortdesciption = -1;
-        int colnr_type = -1;
-        int colnr_arctilenumber = -1;
-        int colnr_rabgroupe = -1;
-        int colnr_manufactureridnr = -1;
-        int colnr_epi1 = -1;
-        int colnr_listprice = -1;
-        int colnr_status = -1;
-        int colnr_priceunit = -1;
-        int colnr_measureunit = -1;
-
-        // Get the headline row
+    private void findColumnNumbers(XSSFSheet sheet, int lineOfHeadline) {
         XSSFRow headlineRow = sheet.getRow(lineOfHeadline);
-        if (headlineRow != null) {
-            int lastCellNum = headlineRow.getLastCellNum();
-            for (int col = 0; col < lastCellNum; col++) {
-                XSSFCell cell = headlineRow.getCell(col);
-                if (cell != null && cell.getCellType() == CellType.STRING) {
-                    String cellValue = cell.getStringCellValue();
-                    switch (cellValue) {
-                        case col1_axnr:
-                            colnr_axnr = col;
-                            break;
-                        case col2_manufacturer:
-                            colnr_manufacturer = col;
-                            break;
-                        case col3_shortdescription:
-                            colnr_shortdesciption = col;
-                            break;
-                        case col4_type:
-                            colnr_type = col;
-                            break;
-                        case col5_articlenumber:
-                            colnr_arctilenumber = col;
-                            break;
-                        case col6_rabgroupe:
-                            colnr_rabgroupe = col;
-                            break;
-                        case col7_manufactureridnr:
-                            colnr_manufactureridnr = col;
-                            break;
-                        case col8_ep1:
-                            colnr_epi1 = col;
-                            break;
-                        case col9_listprice:
-                            colnr_listprice = col;
-                            break;
-                        case col10_status:
-                            colnr_status = col;
-                            break;
-                        case col11_priceunit:
-                            colnr_priceunit = col;
-                            break;
-                        case col12_measureunit:
-                            colnr_measureunit = col;
-                            break;
-                        default:
-                            throw new IllegalStateException("Unexpected value: " + cellValue);
+        if (headlineRow == null) {
+            throw new IllegalArgumentException("Headline row not found.");
+        }
+
+        for (int col = 0; col < headlineRow.getLastCellNum(); col++) {
+            XSSFCell cell = headlineRow.getCell(col);
+            if (cell != null) {
+                String cellValue = cell.getStringCellValue();
+                for (int i = 0; i < COLUMN_NAMES.length; i++) {
+                    if (cellValue.equals(COLUMN_NAMES[i])) {
+                        columnNumbers[i] = col;
+                        break;
                     }
                 }
             }
         }
 
-        // Reorder the columns
-        XSSFSheet filteredSheet = sheet.getWorkbook().createSheet("SpecificMasterdatasheet");
-        for (int rowNum = 0; rowNum <= sheet.getLastRowNum(); rowNum++) {
-            XSSFRow row = sheet.getRow(rowNum);
-            if (row != null) {
-                XSSFRow newRow = filteredSheet.createRow(rowNum);
-                copyCellsByColumnIndex(row, newRow, colnr_axnr);
-                copyCellsByColumnIndex(row, newRow, colnr_manufacturer);
-                copyCellsByColumnIndex(row, newRow, colnr_shortdesciption);
-                copyCellsByColumnIndex(row, newRow, colnr_type);
-                copyCellsByColumnIndex(row, newRow, colnr_arctilenumber);
-                copyCellsByColumnIndex(row, newRow, colnr_rabgroupe);
-                copyCellsByColumnIndex(row, newRow, colnr_manufactureridnr);
-                copyCellsByColumnIndex(row, newRow, colnr_epi1);
-                copyCellsByColumnIndex(row, newRow, colnr_listprice);
-                copyCellsByColumnIndex(row, newRow, colnr_status);
-                copyCellsByColumnIndex(row, newRow, colnr_priceunit);
-                copyCellsByColumnIndex(row, newRow, colnr_measureunit);
+        for (int i = 0; i < COLUMN_NAMES.length; i++) {
+            if (columnNumbers[i] == 0) {
+                throw new IllegalArgumentException("Column not found: " + COLUMN_NAMES[i]);
             }
-        }
-
-        return filteredSheet;
-    }
-
-    private XSSFSheet headlineConverter(XSSFSheet filteredSheet) {
-        Row row = filteredSheet.getRow(0);
-
-        for (Cell cell : row) {
-            int columnIndex = cell.getColumnIndex();
-            Cell headlineCell = filteredSheet.getRow(0).getCell(columnIndex);
-            String columnName = headlineConverter.get(headlineCell.getStringCellValue());
-            return filteredSheetWithCorrectHeadlines;
         }
     }
 
@@ -169,6 +91,7 @@ public class FilterMasterdata {
             }
         }
     }
+
     private XSSFSheet headlineConverter(XSSFSheet filteredSheet) {
         XSSFSheet filteredSheetWithCorrectHeadlines = filteredSheet;
         Row row = filteredSheetWithCorrectHeadlines.getRow(0);
@@ -232,17 +155,14 @@ public class FilterMasterdata {
 
     public XSSFSheet generateWorksheet(String path, int sheetNumber, int lineOfHeadline) {
         try {
-//             ToDo: Zu viel in einer Funktion
-            System.out.println("FileInputStream ...");
             FileInputStream inputMasterdata = new FileInputStream(path);
-            System.out.println("... erstelle ein Workbook ...");
             XSSFWorkbook masterWorkbook = new XSSFWorkbook(inputMasterdata);
             inputMasterdata.close();
-            System.out.println("... extract worksheet ...");
             XSSFSheet mastersheet = masterWorkbook.getSheetAt(sheetNumber);
-            System.out.println("... filtering");
-            XSSFSheet finalfilteredSheet = reductionMasterdata(mastersheet, lineOfHeadline);
-            System.out.println("... return finalfilteredSheet");
+            findColumnNumbers(mastersheet, lineOfHeadline);
+            XSSFSheet filteredSheet = reductionMasterdata(mastersheet, lineOfHeadline);
+            XSSFSheet sheetWithCorrectHeadlines = headlineConverter(filteredSheet);
+            XSSFSheet finalfilteredSheet = adjustColumnDataTypes(sheetWithCorrectHeadlines);
             return finalfilteredSheet;
         } catch (IOException e) {
             throw new RuntimeException(e);
