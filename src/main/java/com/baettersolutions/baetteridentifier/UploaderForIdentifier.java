@@ -1,25 +1,14 @@
 package com.baettersolutions.baetteridentifier;
 
-import com.baettersolutions.baetteridentifier.database.FilterMasterdata;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import java.io.FileInputStream;
 import java.util.Iterator;
 
 public class UploaderForIdentifier {
 
-    public XSSFSheet bsFileloader(String filepath, int sheetNumber, int lineOfHeadline) {
-        try {
-            XSSFSheet testfile =  new FilterMasterdata().generateWorksheet(filepath,sheetNumber,lineOfHeadline);
-            showFileWithIterator(testfile);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
     public static void showFileWithIterator(XSSFSheet sheet) {
         Iterator<Row> rowIterator = sheet.iterator();
         while (rowIterator.hasNext()) {

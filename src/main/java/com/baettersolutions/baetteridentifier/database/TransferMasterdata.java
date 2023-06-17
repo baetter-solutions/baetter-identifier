@@ -4,19 +4,22 @@ import com.baettersolutions.baetteridentifier.controller.MasterdataController;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import org.bson.types.Decimal128;
 
 import java.io.File;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TransferMasterdata {
+
+    private final MasterdataController masterdataController;
+
+    public TransferMasterdata(MasterdataController masterdataController) {
+        this.masterdataController = masterdataController;
+    }
+
     public void transferToDatabase(String jsonFilePath) {
         List<Masterdata> products = readJsonFile(jsonFilePath);
-
-        MasterdataController masterdataController = new MasterdataController();
         System.out.println("Transfer wird initialisiert");
                 masterdataController.addProduct(products);
         for (Masterdata product : products) {
@@ -39,11 +42,11 @@ public class TransferMasterdata {
                     String manufacturer = node.get("manufacturer").asText();
                     String shortdescription = node.get("shortdescription").asText();
                     String type = node.get("type").asText();
-                    String articlenumber= node.get("articlenumber").asText();
-                    String rabgroupe= node.get("rabgroupe").asText();
-                    int manufactureridnr= node.get("manufactureridnr").asInt();
-                    BigDecimal ep1 = node.get("ep1").decimalValue();
-                    BigDecimal listprice = node.get("listprice").decimalValue();
+                    String articlenumber = node.get("articlenumber").asText();
+                    String rabgroupe = node.get("rabgroupe").asText();
+                    int manufactureridnr = node.get("manufactureridnr").asInt();
+                    double ep1 = node.get("ep1").asDouble();
+                    double listprice = node.get("listprice").asDouble();
                     int status = node.get("status").asInt();
                     int priceunit = node.get("priceunit").asInt();
                     String measureunit = node.get("measureunit").asText();

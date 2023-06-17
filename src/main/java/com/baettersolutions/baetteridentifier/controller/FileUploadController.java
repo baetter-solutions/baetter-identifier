@@ -21,6 +21,8 @@ import java.util.Date;
 public class FileUploadController {
     private static final String UPLOAD_FOLDER = "src/main/resources/importfiles/testfiles/";
     private static final String UPLOAD_MASTERDATA = "src/main/resources/importfiles/company/temp_masterinput";
+    private int sheetNumber;
+    private int lineOfHealine;
 
     @PostMapping("/upload")
     public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file) {
@@ -54,7 +56,7 @@ public class FileUploadController {
             String filePath = uploadPath.resolve(file.getOriginalFilename()).toString();
             file.transferTo(new File(filePath));
             // Hier wird bereits der Converter gestartet
-            new GenerateJson().giveConverterTheFile(filePath);
+            new GenerateJson().giveConverterTheFile(filePath, sheetNumber, lineOfHealine);
             return ResponseEntity.ok(file.getOriginalFilename() + " wurde hochgeladen und wird nun konvertiert");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Upload failed");

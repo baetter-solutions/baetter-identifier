@@ -5,21 +5,26 @@ import com.baettersolutions.baetteridentifier.repository.MasterdataRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/products")
 public class MasterdataController {
+    private final MasterdataRepository masterdataRepository;
+
     @Autowired
-    private MasterdataRepository masterdataRepository;
+    public MasterdataController(MasterdataRepository masterdataRepository) {
+        this.masterdataRepository = masterdataRepository;
+    }
 
     @PostMapping
     public void addProduct(@RequestBody final List<Masterdata> products) {
         for (Masterdata product : products) {
             int axnrnewdata = product.getAxnr();
+            System.out.println("Number to submit: " + axnrnewdata);
             Masterdata existingProduct = masterdataRepository.findByAxnr(axnrnewdata);
+            System.out.println("Test 123");
             if (existingProduct != null) {
                 updateProduct(product, existingProduct.getId());
             } else {
@@ -33,11 +38,10 @@ public class MasterdataController {
         for (Masterdata productToUpdate : productsToUpdate) {
             int axNrToUpdate = productToUpdate.getAxnr();
             Masterdata existingProduct = masterdataRepository.findByAxnr(axNrToUpdate);
-            if (existingProduct != null){
+            if (existingProduct != null) {
                 updateProduct(productToUpdate, existingProduct.getId());
                 System.out.println(axNrToUpdate + " wurde aktualisiert");
-            }
-            else {
+            } else {
                 System.err.println("Fehler bei Aktualisierung");
             }
         }
@@ -82,6 +86,11 @@ public class MasterdataController {
         if (existingProduct != null) {
             masterdataRepository.delete(existingProduct);
         }
+    }
+
+    @DeleteMapping
+    public void deleteAllProducts() {
+        masterdataRepository.deleteAll();
     }
 
 
