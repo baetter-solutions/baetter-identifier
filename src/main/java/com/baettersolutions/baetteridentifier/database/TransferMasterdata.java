@@ -18,7 +18,7 @@ public class TransferMasterdata {
 
         MasterdataController masterdataController = new MasterdataController();
         System.out.println("Transfer wird initialisiert");
-        masterdataController.addProduct(products);
+                masterdataController.addProduct(products);
         for (Masterdata product : products) {
             System.out.println(product);
         }

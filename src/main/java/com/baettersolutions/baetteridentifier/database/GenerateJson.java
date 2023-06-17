@@ -2,6 +2,7 @@ package com.baettersolutions.baetteridentifier.database;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.poi.ss.usermodel.Cell;
@@ -11,9 +12,9 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 import java.io.File;
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.text.DecimalFormat;
+
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class GenerateJson {
@@ -42,7 +43,8 @@ public class GenerateJson {
             ObjectNode jsonRow = mapper.createObjectNode();
             for (Cell cell : row) {
                 int columnIndex = cell.getColumnIndex();
-                String columnName = headlineConverter.get(filteredSheet.getRow(lineOfHeadline).getCell(columnIndex).getStringCellValue());
+                Cell headlineCell = filteredSheet.getRow(lineOfHeadline).getCell(columnIndex);
+                String columnName = headlineConverter.get(headlineCell.getStringCellValue());
                 JsonNode cellValue;
                 if (cell.getCellType() == CellType.STRING) {
                     cellValue = mapper.valueToTree(cell.getStringCellValue());
