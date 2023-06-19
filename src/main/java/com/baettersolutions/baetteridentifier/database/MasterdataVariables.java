@@ -3,10 +3,9 @@ package com.baettersolutions.baetteridentifier.database;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.math.BigDecimal;
 
 @Document
-public class Masterdata {
+public class MasterdataVariables {
 
     @Id
     private String id;

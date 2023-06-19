@@ -18,7 +18,7 @@ import java.io.IOException;
 
 public class GenerateJson {
 
-    private String outputPath = "src/main/resources/outputfiles/testfiles/testfile.json";
+    private final String outputPath = "src/main/resources/outputfiles/testfiles/testfile.json";
 
     @Autowired
     private MasterdataRepository masterdataRepository;
@@ -57,16 +57,15 @@ public class GenerateJson {
 
     public void giveConverterTheFile(String filepath, int sheetNumber, int lineOfHeadline) throws IOException {
         XSSFSheet fileToConvert = new ConvertFromExcel().generateWorksheet(filepath, sheetNumber, lineOfHeadline);
-        UploaderForIdentifier.showFileWithIterator(fileToConvert);
         System.out.println("JSON file wird erstellt");
         this.convertToJSON(fileToConvert, lineOfHeadline);
 
-        MasterdataController masterdataController = new MasterdataController(masterdataRepository);
-        TransferMasterdata transferMasterdata = new TransferMasterdata(masterdataController);
-
-        System.out.println("Start transferToDatabase");
-        transferMasterdata.transferToDatabase(outputPath);
-        System.out.println("Transfer finished");
+//        MasterdataController masterdataController = new MasterdataController(masterdataRepository);
+//        TransferMasterdata transferMasterdata = new TransferMasterdata(masterdataController);
+//
+//        System.out.println("Start transferToDatabase");
+//        transferMasterdata.transferToDatabase(outputPath);
+//        System.out.println("Transfer finished");
 
         boolean deletionSuccessful = new File(filepath).delete();
         if (deletionSuccessful) {
@@ -74,5 +73,7 @@ public class GenerateJson {
         } else {
             System.out.println("Fehler beim Löschen der Datei: " + filepath);
         }
+
+
     }
 }

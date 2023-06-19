@@ -1,6 +1,6 @@
 package com.baettersolutions.baetteridentifier.controller;
 
-import com.baettersolutions.baetteridentifier.database.Masterdata;
+import com.baettersolutions.baetteridentifier.database.MasterdataVariables;
 import com.baettersolutions.baetteridentifier.repository.MasterdataRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,11 +19,11 @@ public class MasterdataController {
     }
 
     @PostMapping
-    public void addProduct(@RequestBody final List<Masterdata> products) {
-        for (Masterdata product : products) {
+    public void addProduct(@RequestBody final List<MasterdataVariables> products) {
+        for (MasterdataVariables product : products) {
             int axnrnewdata = product.getAxnr();
             System.out.println("Number to submit: " + axnrnewdata);
-            Masterdata existingProduct = masterdataRepository.findByAxnr(axnrnewdata);
+            MasterdataVariables existingProduct = masterdataRepository.findByAxnr(axnrnewdata);
             System.out.println("Test 123");
             if (existingProduct != null) {
                 updateProduct(product, existingProduct.getId());
@@ -34,10 +34,10 @@ public class MasterdataController {
     }
 
     @PutMapping
-    public void putUpdateProduct(@RequestBody final List<Masterdata> productsToUpdate) {
-        for (Masterdata productToUpdate : productsToUpdate) {
+    public void putUpdateProduct(@RequestBody final List<MasterdataVariables> productsToUpdate) {
+        for (MasterdataVariables productToUpdate : productsToUpdate) {
             int axNrToUpdate = productToUpdate.getAxnr();
-            Masterdata existingProduct = masterdataRepository.findByAxnr(axNrToUpdate);
+            MasterdataVariables existingProduct = masterdataRepository.findByAxnr(axNrToUpdate);
             if (existingProduct != null) {
                 updateProduct(productToUpdate, existingProduct.getId());
                 System.out.println(axNrToUpdate + " wurde aktualisiert");
@@ -47,10 +47,10 @@ public class MasterdataController {
         }
     }
 
-    private void updateProduct(Masterdata updatedProduct, String productId) {
-        Optional<Masterdata> optionalExistingProduct = masterdataRepository.findById(productId);
+    private void updateProduct(MasterdataVariables updatedProduct, String productId) {
+        Optional<MasterdataVariables> optionalExistingProduct = masterdataRepository.findById(productId);
         if (optionalExistingProduct.isPresent()) {
-            Masterdata existingProduct = optionalExistingProduct.get();
+            MasterdataVariables existingProduct = optionalExistingProduct.get();
             existingProduct.setAxnr(updatedProduct.getAxnr());
             existingProduct.setManufacturer(updatedProduct.getManufacturer());
             existingProduct.setShortdescription(updatedProduct.getShortdescription());
@@ -69,20 +69,20 @@ public class MasterdataController {
 
 
     @GetMapping
-    public List<Masterdata> findProducts() {
+    public List<MasterdataVariables> findProducts() {
         System.out.println("localhost:8080/products");
         return masterdataRepository.findAll();
     }
 
     @GetMapping("/{axnr}")
-    public Masterdata findProductByAxnr(@PathVariable int axnr) {
+    public MasterdataVariables findProductByAxnr(@PathVariable int axnr) {
         System.out.println("localhost:8080/products/120753952");
         return masterdataRepository.findByAxnr(axnr);
     }
 
     @DeleteMapping("/{axnr}")
     public void deleteProductByAxnr(@PathVariable int axnr) {
-        Masterdata existingProduct = masterdataRepository.findByAxnr(axnr);
+        MasterdataVariables existingProduct = masterdataRepository.findByAxnr(axnr);
         if (existingProduct != null) {
             masterdataRepository.delete(existingProduct);
         }

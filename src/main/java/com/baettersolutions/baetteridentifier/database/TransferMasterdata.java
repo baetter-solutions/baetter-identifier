@@ -19,17 +19,18 @@ public class TransferMasterdata {
     }
 
     public void transferToDatabase(String jsonFilePath) {
-        List<Masterdata> products = readJsonFile(jsonFilePath);
+        List<MasterdataVariables> products = readJsonFile(jsonFilePath);
         System.out.println("Transfer wird initialisiert");
                 masterdataController.addProduct(products);
-        for (Masterdata product : products) {
+        for (MasterdataVariables product : products) {
             System.out.println(product);
         }
         System.out.println("Transfer abgeschlossen!");
     }
 
-    private List<Masterdata> readJsonFile(String jsonFilePath) {
-        List<Masterdata> products = new ArrayList<>();
+
+    private List<MasterdataVariables> readJsonFile(String jsonFilePath) {
+        List<MasterdataVariables> products = new ArrayList<>();
 
         try {
             ObjectMapper objectMapper = new ObjectMapper();
@@ -51,7 +52,7 @@ public class TransferMasterdata {
                     int priceunit = node.get("priceunit").asInt();
                     String measureunit = node.get("measureunit").asText();
 
-                    Masterdata product = new Masterdata();
+                    MasterdataVariables product = new MasterdataVariables();
                     product.setAxnr(axnr);
                     product.setManufacturer(manufacturer);
                     product.setShortdescription(shortdescription);
