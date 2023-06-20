@@ -16,19 +16,9 @@ import java.io.IOException;
 
 public class GenerateJson {
 
-    private final String outputPath = "src/main/resources/outputfiles/testfiles/testfile.json";
 
     @Autowired
     private MasterdataRepository masterdataRepository;
-
-    public void deleteCachedExcelFile(String filepath) {
-        boolean deletionSuccessful = new File(filepath).delete();
-        if (deletionSuccessful) {
-            System.out.println("Datei gelöscht: " + filepath);
-        } else {
-            System.out.println("Fehler beim Löschen der Datei: " + filepath);
-        }
-    }
 
     public void convertToJSON(XSSFSheet sheet, int lineOfHeadline) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
@@ -58,12 +48,11 @@ public class GenerateJson {
             }
             jsonArray.add(jsonRow);
         }
-        mapper.writerWithDefaultPrettyPrinter().writeValue(new File(outputPath), jsonArray);
+        mapper.writerWithDefaultPrettyPrinter().writeValue(new File(MasterdataMainHandler.getJsonFilepath()), jsonArray);
     }
 
     public void giveConverterTheFile(String filepath, int sheetNumber, int lineOfHeadline) throws IOException {
         XSSFSheet fileToConvert = new ConvertFromExcel().generateWorksheet(filepath, sheetNumber, lineOfHeadline);
-        System.out.println("JSON file wird erstellt");
         this.convertToJSON(fileToConvert, lineOfHeadline);
     }
 }

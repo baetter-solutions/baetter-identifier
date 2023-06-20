@@ -3,6 +3,8 @@ package com.baettersolutions.baetteridentifier.controller;
 import com.baettersolutions.baetteridentifier.database.MasterdataVariables;
 import com.baettersolutions.baetteridentifier.repository.MasterdataRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,7 +26,6 @@ public class MasterdataController {
             int axnrnewdata = product.getAxnr();
             System.out.println("Number to submit: " + axnrnewdata);
             MasterdataVariables existingProduct = masterdataRepository.findByAxnr(axnrnewdata);
-            System.out.println("Test 123");
             if (existingProduct != null) {
                 updateProduct(product, existingProduct.getId());
             } else {
@@ -63,7 +64,11 @@ public class MasterdataController {
             existingProduct.setStatus(updatedProduct.getStatus());
             existingProduct.setPriceunit(updatedProduct.getPriceunit());
             existingProduct.setMeasureunit(updatedProduct.getMeasureunit());
+            System.out.println(updatedProduct.getAxnr() + " wurde aktualisiert");
+            ResponseEntity.ok(updatedProduct.getAxnr() + "were updated");
             masterdataRepository.save(existingProduct);
+        } else {
+            ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Update failed");
         }
     }
 

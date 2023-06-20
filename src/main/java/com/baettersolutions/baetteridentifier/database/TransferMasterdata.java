@@ -1,3 +1,4 @@
+/*
 package com.baettersolutions.baetteridentifier.database;
 
 import com.baettersolutions.baetteridentifier.controller.MasterdataController;
@@ -75,3 +76,4 @@ public class TransferMasterdata {
         return products;
     }
 }
+*/
