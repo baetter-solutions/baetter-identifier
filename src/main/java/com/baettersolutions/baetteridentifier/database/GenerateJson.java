@@ -21,7 +21,7 @@ public class GenerateJson {
     @Autowired
     private MasterdataRepository masterdataRepository;
 
-    private static void deleteCachedExcelFile(String filepath) {
+    public void deleteCachedExcelFile(String filepath) {
         boolean deletionSuccessful = new File(filepath).delete();
         if (deletionSuccessful) {
             System.out.println("Datei gelöscht: " + filepath);
@@ -65,6 +65,5 @@ public class GenerateJson {
         XSSFSheet fileToConvert = new ConvertFromExcel().generateWorksheet(filepath, sheetNumber, lineOfHeadline);
         System.out.println("JSON file wird erstellt");
         this.convertToJSON(fileToConvert, lineOfHeadline);
-        deleteCachedExcelFile(filepath);
     }
 }
