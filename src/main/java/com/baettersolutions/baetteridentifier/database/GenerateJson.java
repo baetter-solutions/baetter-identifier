@@ -1,7 +1,5 @@
 package com.baettersolutions.baetteridentifier.database;
 
-import com.baettersolutions.baetteridentifier.UploaderForIdentifier;
-import com.baettersolutions.baetteridentifier.controller.MasterdataController;
 import com.baettersolutions.baetteridentifier.repository.MasterdataRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,6 +20,15 @@ public class GenerateJson {
 
     @Autowired
     private MasterdataRepository masterdataRepository;
+
+    private static void deleteCachedExcelFile(String filepath) {
+        boolean deletionSuccessful = new File(filepath).delete();
+        if (deletionSuccessful) {
+            System.out.println("Datei gelöscht: " + filepath);
+        } else {
+            System.out.println("Fehler beim Löschen der Datei: " + filepath);
+        }
+    }
 
     public void convertToJSON(XSSFSheet sheet, int lineOfHeadline) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
@@ -54,26 +61,10 @@ public class GenerateJson {
         mapper.writerWithDefaultPrettyPrinter().writeValue(new File(outputPath), jsonArray);
     }
 
-
     public void giveConverterTheFile(String filepath, int sheetNumber, int lineOfHeadline) throws IOException {
         XSSFSheet fileToConvert = new ConvertFromExcel().generateWorksheet(filepath, sheetNumber, lineOfHeadline);
         System.out.println("JSON file wird erstellt");
         this.convertToJSON(fileToConvert, lineOfHeadline);
-
-//        MasterdataController masterdataController = new MasterdataController(masterdataRepository);
-//        TransferMasterdata transferMasterdata = new TransferMasterdata(masterdataController);
-//
-//        System.out.println("Start transferToDatabase");
-//        transferMasterdata.transferToDatabase(outputPath);
-//        System.out.println("Transfer finished");
-
-        boolean deletionSuccessful = new File(filepath).delete();
-        if (deletionSuccessful) {
-            System.out.println("Datei gelöscht: " + filepath);
-        } else {
-            System.out.println("Fehler beim Löschen der Datei: " + filepath);
-        }
-
-
+        deleteCachedExcelFile(filepath);
     }
 }
