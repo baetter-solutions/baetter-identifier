@@ -51,7 +51,6 @@ public class HttpClient {
             String line = null;
             while ((line = fileReader.readLine()) != null) {
                 jsonPayload.append(line);
-                System.out.println(line);
             }
             fileReader.close();
 
@@ -68,9 +67,10 @@ public class HttpClient {
             StringBuilder response = new StringBuilder();
             while ((line = reader.readLine()) != null) {
                 response.append(line);
+                System.out.println("# Server response: " + response.toString());
             }
             reader.close();
-            System.out.println("# Server response: " + response.toString());
+
 
             connection.disconnect();
         } catch (IOException e) {

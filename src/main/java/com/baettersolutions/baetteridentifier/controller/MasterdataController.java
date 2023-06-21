@@ -64,8 +64,6 @@ public class MasterdataController {
             existingProduct.setStatus(updatedProduct.getStatus());
             existingProduct.setPriceunit(updatedProduct.getPriceunit());
             existingProduct.setMeasureunit(updatedProduct.getMeasureunit());
-            System.out.println(updatedProduct.getAxnr() + " wurde aktualisiert");
-            ResponseEntity.ok(updatedProduct.getAxnr() + "were updated");
             masterdataRepository.save(existingProduct);
         } else {
             ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Update failed");
@@ -75,14 +73,12 @@ public class MasterdataController {
 
     @GetMapping
     public List<MasterdataVariables> findProducts() {
-        System.out.println("localhost:8080/products");
-        return masterdataRepository.findAll();
+        return masterdataRepository.findAll(); //localhost:8080/products
     }
 
     @GetMapping("/{axnr}")
     public MasterdataVariables findProductByAxnr(@PathVariable int axnr) {
-        System.out.println("localhost:8080/products/120753952");
-        return masterdataRepository.findByAxnr(axnr);
+        return masterdataRepository.findByAxnr(axnr); //localhost:8080/products/120753952"
     }
 
     @DeleteMapping("/{axnr}")
@@ -97,6 +93,4 @@ public class MasterdataController {
     public void deleteAllProducts() {
         masterdataRepository.deleteAll();
     }
-
-
 }
