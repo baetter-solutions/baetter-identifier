@@ -7,7 +7,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.util.Iterator;
 
-public class UploaderForIdentifier {
+public class XSSFsheetIterator {
 
     public static void showFileWithIterator(XSSFSheet sheet) {
         Iterator<Row> rowIterator = sheet.iterator();
@@ -31,11 +31,6 @@ public class UploaderForIdentifier {
             }
             System.out.println("");
         }
-    }
-    public static boolean fileIsValid(XSSFWorkbook file) {
-        if (file != null) {
-            return true;
-        } else return false;
     }
 
 }

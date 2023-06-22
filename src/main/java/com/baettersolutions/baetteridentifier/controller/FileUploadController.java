@@ -1,5 +1,6 @@
 package com.baettersolutions.baetteridentifier.controller;
 
+import com.baettersolutions.baetteridentifier.custfile.CustomerUpload;
 import com.baettersolutions.baetteridentifier.database.GenerateJson;
 import com.baettersolutions.baetteridentifier.database.MasterdataMainHandler;
 import org.springframework.http.HttpStatus;
@@ -35,11 +36,9 @@ public class FileUploadController {
             Path uploadPath = Paths.get(UPLOAD_FOLDER).toAbsolutePath().normalize();
             String filePath = uploadPath.resolve(newFileName).toString();
             file.transferTo(new File(filePath));
-
             System.out.println(newFileName + " wurde hochgeladen");
-
             String fileUrl = "/importfiles/uploads/ " + newFileName;
-
+            new CustomerUpload().setUploadedFileFromUser(fileUrl);
             return ResponseEntity.ok(fileUrl + "  wurde hochgeladen");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Upload failed");
@@ -56,7 +55,6 @@ public class FileUploadController {
             Path uploadPath = Paths.get(UPLOAD_MASTERDATA).toAbsolutePath().normalize();
             String filePath = uploadPath.resolve(file.getOriginalFilename()).toString();
             file.transferTo(new File(filePath));
-            // Hier wird bereits der Converter gestartet
             new MasterdataMainHandler().handlingOfMasterdataInput(filePath, sheetNumber, lineOfHealine);
             return ResponseEntity.ok(file.getOriginalFilename() + " wurde hochgeladen und wird nun konvertiert");
         } catch (Exception e) {

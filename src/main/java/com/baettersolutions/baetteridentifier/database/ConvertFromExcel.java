@@ -16,7 +16,6 @@ public class ConvertFromExcel {
     public XSSFSheet generateWorksheet(String path, int sheetNumber, int lineOfHeadline) {
         try {
 
-//             ToDo: Zu viel in einer Funktion
             FileInputStream inputMasterdata = new FileInputStream(path);
             XSSFWorkbook masterWorkbook = new XSSFWorkbook(inputMasterdata);
             inputMasterdata.close();
