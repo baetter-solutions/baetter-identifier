@@ -1,7 +1,6 @@
 package com.baettersolutions.baetteridentifier.controller;
 
-import com.baettersolutions.baetteridentifier.custfile.CustomerUpload;
-import com.baettersolutions.baetteridentifier.database.GenerateJson;
+import com.baettersolutions.baetteridentifier.custfile.CustomerdataMainHandler;
 import com.baettersolutions.baetteridentifier.database.MasterdataMainHandler;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +20,7 @@ import java.util.Date;
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 public class FileUploadController {
-    private static final String UPLOAD_FOLDER = "src/main/resources/importfiles/testfiles/";
+    private static final String UPLOAD_FOLDER = "src/main/resources/importfiles/customer";
     private static final String UPLOAD_MASTERDATA = "src/main/resources/importfiles/company/temp_masterinput";
     private int sheetNumber;
     private int lineOfHealine;
@@ -37,9 +36,9 @@ public class FileUploadController {
             String filePath = uploadPath.resolve(newFileName).toString();
             file.transferTo(new File(filePath));
             System.out.println(newFileName + " wurde hochgeladen");
-            String fileUrl = "/importfiles/uploads/ " + newFileName;
-            new CustomerUpload().setUploadedFileFromUser(fileUrl);
-            return ResponseEntity.ok(fileUrl + "  wurde hochgeladen");
+            CustomerdataMainHandler newUserfile = new CustomerdataMainHandler();
+            newUserfile.handlingOfUserdataInput(filePath);
+            return ResponseEntity.ok(file.getOriginalFilename() + "  wurde hochgeladen");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Upload failed");
         }

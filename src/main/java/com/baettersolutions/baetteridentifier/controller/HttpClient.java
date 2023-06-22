@@ -1,4 +1,4 @@
-package com.baettersolutions.baetteridentifier.database;
+package com.baettersolutions.baetteridentifier.controller;
 
 import java.io.*;
 import java.net.HttpURLConnection;

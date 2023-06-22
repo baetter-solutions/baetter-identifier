@@ -41,9 +41,9 @@ public class MasterdataController {
             MasterdataVariables existingProduct = masterdataRepository.findByAxnr(axNrToUpdate);
             if (existingProduct != null) {
                 updateProduct(productToUpdate, existingProduct.getId());
-                System.out.println(axNrToUpdate + " wurde aktualisiert");
+                System.out.println(axNrToUpdate + " were updated");
             } else {
-                System.err.println("Fehler bei Aktualisierung");
+                System.err.println("Update failed");
             }
         }
     }
@@ -64,6 +64,7 @@ public class MasterdataController {
             existingProduct.setStatus(updatedProduct.getStatus());
             existingProduct.setPriceunit(updatedProduct.getPriceunit());
             existingProduct.setMeasureunit(updatedProduct.getMeasureunit());
+            System.out.println(existingProduct.getAxnr() + " were updated");
             masterdataRepository.save(existingProduct);
         } else {
             ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Update failed");

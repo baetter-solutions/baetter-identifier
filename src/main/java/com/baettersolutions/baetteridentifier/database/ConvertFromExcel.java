@@ -13,21 +13,30 @@ import java.util.HashMap;
 
 public class ConvertFromExcel {
 
-    public XSSFSheet generateWorksheet(String path, int sheetNumber, int lineOfHeadline) {
+    public XSSFSheet generateWorksheet(String path) {
         try {
-
             FileInputStream inputMasterdata = new FileInputStream(path);
-            XSSFWorkbook masterWorkbook = new XSSFWorkbook(inputMasterdata);
+            XSSFWorkbook workbook = new XSSFWorkbook(inputMasterdata);
             inputMasterdata.close();
-            XSSFSheet mastersheet = masterWorkbook.getSheetAt(sheetNumber);
+            return workbook.createSheet();
 
-            XSSFSheet filteredSheet = reductionMasterdata(mastersheet, lineOfHeadline);
-            XSSFSheet newHeadlines = headlineChanger(filteredSheet);
-            XSSFSheet newDatatype = correctDatatype(newHeadlines);
-            return newDatatype;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public XSSFSheet userData(XSSFWorkbook workbook, int sheetNumber, int lineOfHeadline){
+
+
+        return null;
+    }
+
+    public XSSFSheet masterdataConversion(XSSFWorkbook workbook, int sheetNumber, int lineOfHeadline){
+        XSSFSheet mastersheet = workbook.getSheetAt(sheetNumber);
+        XSSFSheet filteredSheet = reductionMasterdata(mastersheet, lineOfHeadline);
+        XSSFSheet newHeadlines = headlineChanger(filteredSheet);
+        XSSFSheet newDatatypes = correctDatatype(newHeadlines);
+        return newDatatypes;
     }
 
 

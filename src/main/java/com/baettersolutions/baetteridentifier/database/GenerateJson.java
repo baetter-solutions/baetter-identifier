@@ -1,6 +1,5 @@
 package com.baettersolutions.baetteridentifier.database;
 
-import com.baettersolutions.baetteridentifier.repository.MasterdataRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -9,18 +8,13 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
 import java.io.IOException;
 
 public class GenerateJson {
 
-
-    @Autowired
-    private MasterdataRepository masterdataRepository;
-
-    public void convertToJSON(XSSFSheet sheet, int lineOfHeadline) throws IOException {
+    public void convertXSSFMasterdataToJSON(XSSFSheet sheet, int lineOfHeadline) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         ArrayNode jsonArray = mapper.createArrayNode();
         int lastRowNum = sheet.getLastRowNum();
@@ -49,10 +43,5 @@ public class GenerateJson {
             jsonArray.add(jsonRow);
         }
         mapper.writerWithDefaultPrettyPrinter().writeValue(new File(MasterdataMainHandler.getJsonFilepath()), jsonArray);
-    }
-
-    public void giveConverterTheFile(String filepath, int sheetNumber, int lineOfHeadline) throws IOException {
-        XSSFSheet fileToConvert = new ConvertFromExcel().generateWorksheet(filepath, sheetNumber, lineOfHeadline);
-        this.convertToJSON(fileToConvert, lineOfHeadline);
     }
 }
