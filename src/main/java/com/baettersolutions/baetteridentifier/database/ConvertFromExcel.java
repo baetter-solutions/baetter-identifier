@@ -3,7 +3,8 @@ package com.baettersolutions.baetteridentifier.database;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
-
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -12,6 +13,35 @@ import java.io.IOException;
 import java.util.HashMap;
 
 public class ConvertFromExcel {
+
+    private final HashMap<String, String> headlineMap = new HashMap<String, String>() {{
+        put("ARTIKELNUMMER", "axnr");
+        put("HERSTELLER NAME", "manufacturer");
+        put("KURZBESCHREIBUNG", "shortdescription");
+        put("HERSTELLER TYPE", "type");
+        put("LIEFERANTEN ARTIKELNUMMER", "articlenumber");
+        put("POSITIONSRABATT", "rabgroupe");
+        put("HERSTELLER", "manufactureridnr");
+        put("STATISTIKEINSTANDSPREIS", "ep1");
+        put("BRUTTO PREIS", "listprice");
+        put("STATUS", "status");
+        put("PREISEINHEIT", "priceunit");
+        put("EINHEIT VK", "measureunit");
+    }};
+    private final HashMap<String, Class> datatypeMap = new HashMap<String, Class>() {{
+        put("axnr", Integer.class);
+        put("manufacturer", String.class);
+        put("shortdescription", String.class);
+        put("type", String.class);
+        put("articlenumber", String.class);
+        put("rabgroupe", String.class);
+        put("manufactureridnr", Integer.class);
+        put("ep1", Double.class);
+        put("listprice", Double.class);
+        put("status", Integer.class);
+        put("priceunit", Integer.class);
+        put("measureunit", String.class);
+    }};
 
     public XSSFSheet generateWorksheet(String path) {
         try {
@@ -25,20 +55,51 @@ public class ConvertFromExcel {
         }
     }
 
-    public XSSFSheet userData(XSSFWorkbook workbook, int sheetNumber, int lineOfHeadline){
+    public XSSFSheet generateUsersheetForWork(XSSFWorkbook workbook, int sheetNumber, int lineOfHeadline, int[] columns) {
+        XSSFSheet sourceSheet = workbook.getSheetAt(sheetNumber);
+        XSSFSheet workusersheet = workbook.createSheet("WorkUserSheet");
+        XSSFRow sourceHeadlineRow = sourceSheet.getRow(lineOfHeadline);
+        XSSFRow workusersheetHeadlineRow = workusersheet.createRow(0);
+        for (int i = 0; i < columns.length; i++) {
+            XSSFCell sourceCell = sourceHeadlineRow.getCell(columns[i]);
+            XSSFCell targetCell = workusersheetHeadlineRow.createCell(i);
+            targetCell.setCellValue(sourceCell.getStringCellValue());
+        }
 
+        int targetRowIndex = 1;
+        for (int sourceRowIndex = 1; sourceRowIndex <= sourceSheet.getLastRowNum(); sourceRowIndex++) {
+            XSSFRow sourceRow = sourceSheet.getRow(sourceRowIndex);
+            XSSFRow targetRow = workusersheet.createRow(targetRowIndex);
 
-        return null;
+            for (int i = 0; i < columns.length; i++) {
+                XSSFCell sourceCell = sourceRow.getCell(columns[i]);
+                XSSFCell targetCell = targetRow.createCell(i);
+
+                if (sourceCell != null) {
+                    switch (sourceCell.getCellType()) {
+                        case NUMERIC:
+                            targetCell.setCellValue(sourceCell.getNumericCellValue());
+                            break;
+                        case STRING:
+                            targetCell.setCellValue(sourceCell.getStringCellValue());
+                            break;
+                    }
+                }
+            }
+            targetRowIndex++;
+        }
+
+        return workusersheet;
     }
 
-    public XSSFSheet masterdataConversion(XSSFWorkbook workbook, int sheetNumber, int lineOfHeadline){
+
+    public XSSFSheet masterdataConversion(XSSFWorkbook workbook, int sheetNumber, int lineOfHeadline) {
         XSSFSheet mastersheet = workbook.getSheetAt(sheetNumber);
         XSSFSheet filteredSheet = reductionMasterdata(mastersheet, lineOfHeadline);
         XSSFSheet newHeadlines = headlineChanger(filteredSheet);
         XSSFSheet newDatatypes = correctDatatype(newHeadlines);
         return newDatatypes;
     }
-
 
     private XSSFSheet reductionMasterdata(XSSFSheet sheet, int lineOfHeadline) {
         String headline_axnr = "ARTIKELNUMMER";
@@ -194,35 +255,4 @@ public class ConvertFromExcel {
 
         return sheet;
     }
-
-
-    private final HashMap<String, String> headlineMap = new HashMap<String, String>() {{
-        put("ARTIKELNUMMER", "axnr");
-        put("HERSTELLER NAME", "manufacturer");
-        put("KURZBESCHREIBUNG", "shortdescription");
-        put("HERSTELLER TYPE", "type");
-        put("LIEFERANTEN ARTIKELNUMMER", "articlenumber");
-        put("POSITIONSRABATT", "rabgroupe");
-        put("HERSTELLER", "manufactureridnr");
-        put("STATISTIKEINSTANDSPREIS", "ep1");
-        put("BRUTTO PREIS", "listprice");
-        put("STATUS", "status");
-        put("PREISEINHEIT", "priceunit");
-        put("EINHEIT VK", "measureunit");
-    }};
-
-    private final HashMap<String, Class> datatypeMap = new HashMap<String, Class>() {{
-        put("axnr", Integer.class);
-        put("manufacturer", String.class);
-        put("shortdescription", String.class);
-        put("type", String.class);
-        put("articlenumber", String.class);
-        put("rabgroupe", String.class);
-        put("manufactureridnr", Integer.class);
-        put("ep1", Double.class);
-        put("listprice", Double.class);
-        put("status", Integer.class);
-        put("priceunit", Integer.class);
-        put("measureunit", String.class);
-    }};
 }

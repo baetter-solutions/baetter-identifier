@@ -37,12 +37,14 @@ public class FileUploadController {
             file.transferTo(new File(filePath));
             System.out.println(newFileName + " wurde hochgeladen");
             CustomerdataMainHandler newUserfile = new CustomerdataMainHandler();
-            newUserfile.handlingOfUserdataInput(filePath);
+            newUserfile.userdatapath(filePath);
             return ResponseEntity.ok(file.getOriginalFilename() + "  wurde hochgeladen");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Upload failed");
         }
     }
+
+
 
     @PostMapping("/masterdata")
     public ResponseEntity<String> uploadMasterdata(@RequestParam("file") MultipartFile file) {

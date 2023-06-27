@@ -14,16 +14,11 @@ public class MasterdataMainHandler {
     }
 
     public static void handlingOfMasterdataInput(String importFilepathOrigin, int sheetNumber, int lineOfHeadline) throws IOException {
-        System.out.println("Step 1");
         ConvertFromExcel xslxToWorkitem = new ConvertFromExcel();
-        System.out.println("Step 2");
         XSSFWorkbook mastabook = xslxToWorkitem.generateWorksheet(importFilepathOrigin).getWorkbook();
-        System.out.println("Step 3");
         XSSFSheet mastasheet = xslxToWorkitem.masterdataConversion(mastabook, sheetNumber, lineOfHeadline);
-        System.out.println("Step 4");
         GenerateJson filehandler = new GenerateJson();
         filehandler.convertXSSFMasterdataToJSON(mastasheet, lineOfHeadline);
-        System.out.println("Step 5");
         HttpClient.httpClient(jsonFilepath);
     }
 
