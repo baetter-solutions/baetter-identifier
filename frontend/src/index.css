@@ -13,13 +13,43 @@ code {
 }
 
 nav {
-  background-color: aliceblue;
+  background-color: #bbdffc;
   padding:  16px 32px;
 }
 
 nav a{
   margin-right: 16px;
 }
+
+.testclass{
+  background-color: darkred;
+}
+
+.mainstyle{
+  padding: 10px 0;
+  max-width: 90%;
+  display: flex;
+  flex-wrap: wrap;
+
+  /*justify-content: center;*/
+  /*align-items: center;*/
+}
+
+.divcontent{
+  display: flex;
+  vertical-align: middle;
+  text-align: center;
+  margin: 10px;
+
+}
+
+.dropzonestyle{
+  background-color: grey;
+  min-width: 450px;
+  max-width: 50%;
+  height: 200px;
+}
+
 
 /*nav a.active{*/
 /*  text-decoration: none;*/
