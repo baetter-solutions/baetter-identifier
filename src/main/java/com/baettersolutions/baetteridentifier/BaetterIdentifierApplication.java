@@ -1,5 +1,6 @@
 package com.baettersolutions.baetteridentifier;
 
+import com.baettersolutions.baetteridentifier.controller.MongoDB;
 import com.baettersolutions.baetteridentifier.custfile.CustomerdataMainHandler;
 import com.baettersolutions.baetteridentifier.database.MasterdataMainHandler;
 import org.springframework.boot.SpringApplication;
@@ -11,9 +12,10 @@ import java.io.IOException;
 public class BaetterIdentifierApplication {
 
     public static void main(String[] args) throws IOException {
-//        SpringApplication.run(BaetterIdentifierApplication.class, args);
+        SpringApplication.run(BaetterIdentifierApplication.class, args);
 
         testcaseUserdata();
+//        MongoDB.testConnection();
     }
 
     private static void testcaseMasterdata() throws IOException {
@@ -28,6 +30,8 @@ public class BaetterIdentifierApplication {
         int custSheetnumber = 0;
         int custHeadline = 0;
         int[] columns = {0, 2, 3, 4};
-        CustomerdataMainHandler.handlingOfUserdataInput(uploadedFilepathFromUser,custSheetnumber,custHeadline,columns);
+        int columnWithNumberToIdentify = 2;
+        CustomerdataMainHandler.handlingOfUserdataInput(uploadedFilepathFromUser,custSheetnumber,custHeadline,columns, columnWithNumberToIdentify);
     }
+
 }

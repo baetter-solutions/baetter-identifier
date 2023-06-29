@@ -14,14 +14,14 @@ public class CustomerdataMainHandler {
     }
 
 
-    public static void handlingOfUserdataInput(String filepathToExcelfileFromUser, int custSheetnumber, int custHeadline, int[] columns) {
+    public static void handlingOfUserdataInput(String filepathToExcelfileFromUser, int custSheetnumber, int custHeadline, int[] columns, int columnWithNumberToIdentify) {
         System.out.println("File located at: " + filepathToExcelfileFromUser);
         ConvertFromExcel xslxToWorkitem = new ConvertFromExcel();
         XSSFWorkbook userbook = xslxToWorkitem.generateWorksheet(filepathToExcelfileFromUser).getWorkbook();
         XSSFSheet usersheet = xslxToWorkitem.generateUsersheetForWork(userbook, custSheetnumber, custHeadline, columns);
-        new XSSFsheetIterator().showFileWithIterator(usersheet);
         XSSFSheet usersheetwithAXRow = addRowAXNr(usersheet);
-        new XSSFsheetIterator().showFileWithIterator(usersheetwithAXRow);
+        XSSFSheet filledUsersheet = new Identifier().addAxNr(usersheetwithAXRow, columnWithNumberToIdentify);
+        iteratorsheet(filledUsersheet);
 
     }
 
@@ -29,7 +29,13 @@ public class CustomerdataMainHandler {
         Row headerRow = usersheet.getRow(0);
         int lastCellNum = headerRow.getLastCellNum();
         Cell headerCell = headerRow.createCell(lastCellNum);
-        headerCell.setCellValue("AX Number");
+        headerCell.setCellValue("AX-Number");
         return usersheet;
     }
+
+    private static void iteratorsheet(XSSFSheet toPrint) {
+        new XSSFsheetIterator().showFileWithIterator(toPrint);
+    }
+
+
 }

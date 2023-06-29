@@ -1,24 +1,62 @@
 package com.baettersolutions.baetteridentifier.controller;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 
+import java.text.DecimalFormat;
+
 public class Identifier {
-    public int identifyByManufacturArticlenumber(String manufactureNumber) {
-        int result = new MongoDB().getAxnrByArticlenumber(manufactureNumber);
-        return result;
-    }
-
-
-
-
-
-    private String getCellValue(XSSFSheet usersheet, int rowToFind, int columnToFind){
-        Cell cell = usersheet.getRow(rowToFind).getCell(columnToFind);
+    private String getCellValue(Cell cell) {
         String cellValue = "";
-        if (cell != null){
-            cellValue = cell.getStringCellValue();
+        if (cell != null) {
+            switch (cell.getCellType()) {
+                case STRING:
+                    cellValue = cell.getStringCellValue();
+                    break;
+                case NUMERIC:
+                    double numericValue = cell.getNumericCellValue();
+                    DecimalFormat decimalFormat = new DecimalFormat("#");
+                    cellValue = decimalFormat.format(numericValue);
+                    break;
+                default:
+                    break;
+            }
         }
         return cellValue;
     }
+
+    public String identifyByManufacturArticlenumber(String manufactureNumber) {
+        String result = new MongoDB().getAxnrByArticlenumber(manufactureNumber);
+            return result;
+    }
+
+    public String identifyByManufacturType(String manufacturerType) {
+        String result = new MongoDB().getAxnrByType(manufacturerType);
+        return result;
+    }
+
+    public XSSFSheet addAxNr(XSSFSheet usersheet, int rowToFindValue){
+        int lastRow = usersheet.getPhysicalNumberOfRows();
+        for (int i = 1; i < lastRow; i++){
+            Row currentRow = usersheet.getRow(i);
+            Cell targetCell = currentRow.getCell(rowToFindValue);
+            Cell axNumToAdd = currentRow.createCell(lastRow+1);
+
+
+            String targetValue = getCellValue(targetCell);
+            if (!targetValue.isEmpty()){
+                String axNr = identifyByManufacturArticlenumber(targetValue);
+                if (axNr == null){
+                    axNr = identifyByManufacturType(targetValue);
+                }
+                axNumToAdd.setCellValue(axNr);
+            } else {axNumToAdd.setCellValue("");}
+        }
+
+
+        return usersheet;
+    }
+
+
 }
