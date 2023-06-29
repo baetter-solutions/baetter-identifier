@@ -15,13 +15,12 @@ public class MongoDB {
     private static MongoDatabase database;
     private static MongoCollection<Document> collection;
 
-    private static String connectionString = "mongodb+srv://mongodbuser:CoDeRsBaY1@cluster4solutions.vc73cl1.mongodb.net/dbidentifier?retryWrites=true&w=majority";
+    private static String connectionString = new MongoConfiguration().getConnectionString();
     private static String collectionName = "masterdata";
 
     private static final Logger logger = LoggerFactory.getLogger(MongoDB.class);
 
-
-    public String getAxnrByArticlenumber(String articlenumber) {
+        public String getAxnrByArticlenumber(String articlenumber) {
         try {
             connectionMongo();
             Document query = new Document("articlenumber", articlenumber);

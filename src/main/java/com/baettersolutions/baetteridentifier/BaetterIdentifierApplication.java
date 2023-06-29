@@ -12,7 +12,7 @@ import java.io.IOException;
 public class BaetterIdentifierApplication {
 
     public static void main(String[] args) throws IOException {
-        SpringApplication.run(BaetterIdentifierApplication.class, args);
+//        SpringApplication.run(BaetterIdentifierApplication.class, args);
 
         testcaseUserdata();
 //        MongoDB.testConnection();
