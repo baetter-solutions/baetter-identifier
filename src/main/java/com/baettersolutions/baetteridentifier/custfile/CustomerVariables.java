@@ -10,7 +10,7 @@ import java.util.Date;
 
 
 @Document(collection = "customer")
-public class Customer {
+public class CustomerVariables {
 
     @Id
     private String id;

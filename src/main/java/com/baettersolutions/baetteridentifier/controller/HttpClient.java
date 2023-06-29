@@ -7,7 +7,7 @@ import java.net.URL;
 public class HttpClient {
     private static String masterdataUrl = "http://localhost:8080/products";
 
-    public static void httpTestClient() throws IOException {
+    public static void httpTestClient(){
 
         try {
             URL url = new URL(masterdataUrl);
