@@ -1,6 +1,6 @@
 package com.baettersolutions.baetteridentifier.database;
 
-import com.baettersolutions.baetteridentifier.controller.HttpClient;
+import com.baettersolutions.baetteridentifier.controller.HttpMasterdataClient;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -19,7 +19,7 @@ public class MasterdataMainHandler {
         XSSFSheet mastasheet = xslxToWorkitem.masterdataConversion(mastabook, sheetNumber, lineOfHeadline);
         GenerateJson filehandler = new GenerateJson();
         filehandler.convertXSSFMasterdataToJSON(mastasheet, lineOfHeadline);
-        HttpClient.httpClient(jsonFilepath);
+        HttpMasterdataClient.httpPOSTClientForMasterdata(jsonFilepath);
     }
 
 }

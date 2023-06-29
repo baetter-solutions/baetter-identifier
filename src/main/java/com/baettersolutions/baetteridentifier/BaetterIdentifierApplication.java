@@ -2,6 +2,7 @@ package com.baettersolutions.baetteridentifier;
 
 import com.baettersolutions.baetteridentifier.custfile.CustomerdataMainHandler;
 import com.baettersolutions.baetteridentifier.database.MasterdataMainHandler;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.io.IOException;
