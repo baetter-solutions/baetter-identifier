@@ -11,6 +11,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class ConvertFromExcel {
 
@@ -84,6 +85,7 @@ public class ConvertFromExcel {
                             targetCell.setCellValue(sourceCell.getStringCellValue());
                             break;
                     }
+
                 }
             }
             targetRowIndex++;
@@ -181,18 +183,15 @@ public class ConvertFromExcel {
     private XSSFSheet createFilteredSheet(XSSFSheet sourceSheet, int[] columnIndexes) {
         XSSFWorkbook filteredWorkbook = sourceSheet.getWorkbook();
         XSSFSheet filteredSheet = filteredWorkbook.createSheet("SpecificMasterdatasheet");
-
         for (Row sourceRow : sourceSheet) {
-            Row filteredRow = filteredSheet.createRow(sourceRow.getRowNum());
+            if (rowChecker(sourceRow)) {
+                Row filteredRow = filteredSheet.createRow(sourceRow.getRowNum());
+                for (int columnIndex : columnIndexes) {
+                    Cell sourceCell = sourceRow.getCell(columnIndex);
+                    Cell filteredCell = filteredRow.createCell(columnIndex);
 
-            for (int columnIndex : columnIndexes) {
-                Cell sourceCell = sourceRow.getCell(columnIndex);
-                Cell filteredCell = filteredRow.createCell(columnIndex);
-
-                if (sourceCell != null) {
                     CellType cellType = sourceCell.getCellType();
                     filteredCell.setCellType(cellType);
-
                     switch (cellType) {
                         case STRING:
                             filteredCell.setCellValue(sourceCell.getStringCellValue());
@@ -203,12 +202,40 @@ public class ConvertFromExcel {
                         case BOOLEAN:
                             filteredCell.setCellValue(sourceCell.getBooleanCellValue());
                             break;
+
+
                     }
+
                 }
             }
         }
         return filteredSheet;
     }
+
+    private boolean cellCheckerForReturning(Cell cell) {
+        String deletedArticle = "gelöschter Artikel";
+        CellType cellType = cell.getCellType();
+
+        if (cellType == CellType.STRING) {
+            String cellValue = cell.getStringCellValue();
+            System.out.println(cellValue);
+            if (cellValue.equals(deletedArticle) || cellValue.isBlank()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean rowChecker(Row row) {
+        for (Cell cell : row) {
+            if (!cellCheckerForReturning(cell)) {
+                System.out.println("Something happens with this row");
+                return false; // Eine Abweichung
+            }
+        }
+        return true; // keine Abweichung
+    }
+
 
     private XSSFSheet headlineChanger(XSSFSheet sheet) {
         XSSFSheet filteredSheetWithCorrectHeadlines = sheet;
