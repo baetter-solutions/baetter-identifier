@@ -11,6 +11,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
 
 public class GenerateJson {
 
@@ -20,27 +21,30 @@ public class GenerateJson {
             ArrayNode jsonArray = mapper.createArrayNode();
             int lastRowNum = sheet.getPhysicalNumberOfRows() - 1;
             System.out.println("- Last row Number: " + lastRowNum);
-            for (int rowNum = lineOfHeadline + 1; rowNum <= lastRowNum; rowNum++) {
-                Row row = sheet.getRow(rowNum);
+            for (Iterator<Row> it = sheet.rowIterator(); it.hasNext(); ) {
+                Row row = it.next();
                 ObjectNode jsonRow = mapper.createObjectNode();
-                for (Cell cell : row) {
-                    int columnIndex = cell.getColumnIndex();
-                    String columnName = sheet.getRow(lineOfHeadline).getCell(columnIndex).getStringCellValue();
-                    JsonNode cellValue;
-                    if (cell.getCellType() == CellType.STRING) {
-                        cellValue = mapper.valueToTree(cell.getStringCellValue());
-                    } else if (cell.getCellType() == CellType.NUMERIC) {
-                        if (cell.getNumericCellValue() % 1 == 0) {
-                            cellValue = mapper.valueToTree((int) cell.getNumericCellValue());
+                Cell firstcell = row.getCell(row.getFirstCellNum());
+                if (!isHeadline(firstcell)) {
+                    for (Cell cell : row) {
+                        int columnIndex = cell.getColumnIndex();
+                        String columnName = sheet.getRow(lineOfHeadline).getCell(columnIndex).getStringCellValue();
+                        JsonNode cellValue;
+                        if (cell.getCellType() == CellType.STRING) {
+                            cellValue = mapper.valueToTree(cell.getStringCellValue());
+                        } else if (cell.getCellType() == CellType.NUMERIC) {
+                            if (cell.getNumericCellValue() % 1 == 0) {
+                                cellValue = mapper.valueToTree((int) cell.getNumericCellValue());
+                            } else {
+                                cellValue = mapper.valueToTree(cell.getNumericCellValue());
+                            }
+                        } else if (cell.getCellType() == CellType.BOOLEAN) {
+                            cellValue = mapper.valueToTree(cell.getBooleanCellValue());
                         } else {
-                            cellValue = mapper.valueToTree(cell.getNumericCellValue());
+                            cellValue = mapper.valueToTree(null);
                         }
-                    } else if (cell.getCellType() == CellType.BOOLEAN) {
-                        cellValue = mapper.valueToTree(cell.getBooleanCellValue());
-                    } else {
-                        cellValue = mapper.valueToTree(null);
+                        jsonRow.set(columnName, cellValue);
                     }
-                    jsonRow.set(columnName, cellValue);
                 }
                 String jsonRowString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(jsonRow);
                 System.out.println(jsonRowString);
@@ -48,14 +52,25 @@ public class GenerateJson {
             }
 
 
+            mapper.writerWithDefaultPrettyPrinter().
 
-            mapper.writerWithDefaultPrettyPrinter().writeValue(new File(MasterdataMainHandler.getJsonFilepath()), jsonArray);
-        } catch (IllegalArgumentException e) {
+                    writeValue(new File(MasterdataMainHandler.getJsonFilepath()), jsonArray);
+        } catch (
+                IllegalArgumentException e) {
             throw new RuntimeException(e);
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             throw new RuntimeException(e);
-        } catch (NullPointerException e) {
+        } catch (
+                NullPointerException e) {
             throw new NullPointerException("NullPointerException occurred");
         }
+    }
+
+    private static boolean isHeadline(Cell firstcell) {
+        if(firstcell.getCellType()== CellType.STRING){
+            return firstcell.getStringCellValue().equals("axnr");
+        }
+        return false;
     }
 }
