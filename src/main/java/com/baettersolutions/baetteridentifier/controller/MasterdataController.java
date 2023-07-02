@@ -22,15 +22,25 @@ public class MasterdataController {
 
     @PostMapping
     public void addProduct(@RequestBody final List<MasterdataVariables> products) {
+        int saveCounter = 0;
+        int updateCounter = 0;
         for (MasterdataVariables product : products) {
             int axnrnewdata = product.getAxnr();
-            System.out.println("Number to submit: " + axnrnewdata);
             MasterdataVariables existingProduct = masterdataRepository.findByAxnr(axnrnewdata);
             if (existingProduct != null) {
                 updateProduct(product, existingProduct.getId());
+                updateCounter++;
             } else {
                 masterdataRepository.save(product);
+                saveCounter++;
+
             }
+        }
+        int totalCount = saveCounter + updateCounter;
+        if (totalCount > 0) {
+            System.out.println("Total transmitted: " + totalCount);
+            System.out.println(" - New: " + saveCounter);
+            System.out.println(" - Updated " + updateCounter);
         }
     }
 
@@ -41,7 +51,6 @@ public class MasterdataController {
             MasterdataVariables existingProduct = masterdataRepository.findByAxnr(axNrToUpdate);
             if (existingProduct != null) {
                 updateProduct(productToUpdate, existingProduct.getId());
-                System.out.println(axNrToUpdate + " were updated");
             } else {
                 System.err.println("Update failed");
             }
@@ -64,7 +73,6 @@ public class MasterdataController {
             existingProduct.setStatus(updatedProduct.getStatus());
             existingProduct.setPriceunit(updatedProduct.getPriceunit());
             existingProduct.setMeasureunit(updatedProduct.getMeasureunit());
-            System.out.println(existingProduct.getAxnr() + " were updated");
             masterdataRepository.save(existingProduct);
         } else {
             ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Update failed");

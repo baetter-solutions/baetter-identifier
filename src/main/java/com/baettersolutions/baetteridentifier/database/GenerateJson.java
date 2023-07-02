@@ -19,8 +19,6 @@ public class GenerateJson {
         try {
             ObjectMapper mapper = new ObjectMapper();
             ArrayNode jsonArray = mapper.createArrayNode();
-            int lastRowNum = sheet.getPhysicalNumberOfRows() - 1;
-            System.out.println("- Last row Number: " + lastRowNum);
             for (Iterator<Row> it = sheet.rowIterator(); it.hasNext(); ) {
                 Row row = it.next();
                 ObjectNode jsonRow = mapper.createObjectNode();
@@ -45,19 +43,17 @@ public class GenerateJson {
                         }
                         jsonRow.set(columnName, cellValue);
                     }
+
                 }
-                String jsonRowString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(jsonRow);
-                System.out.println(jsonRowString);
-                jsonArray.add(jsonRow);
+                if (jsonRow.size() > 0) {
+                    jsonArray.add(jsonRow);
+                }
             }
 
 
             mapper.writerWithDefaultPrettyPrinter().
 
                     writeValue(new File(MasterdataMainHandler.getJsonFilepath()), jsonArray);
-        } catch (
-                IllegalArgumentException e) {
-            throw new RuntimeException(e);
         } catch (
                 IOException e) {
             throw new RuntimeException(e);
@@ -68,7 +64,7 @@ public class GenerateJson {
     }
 
     private static boolean isHeadline(Cell firstcell) {
-        if(firstcell.getCellType()== CellType.STRING){
+        if (firstcell.getCellType() == CellType.STRING) {
             return firstcell.getStringCellValue().equals("axnr");
         }
         return false;

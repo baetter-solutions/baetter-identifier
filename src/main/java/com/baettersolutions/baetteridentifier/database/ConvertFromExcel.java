@@ -241,7 +241,6 @@ public class ConvertFromExcel {
         for (Cell cell : row) {
             if (!cellCheckerForReturning(cell)) {
                 rowCheckSuccessFul = false;
-                System.out.println("Something happens with this row");
             }
         }
         return rowCheckSuccessFul;
@@ -304,7 +303,6 @@ public class ConvertFromExcel {
                 }
             }
         }
-        System.out.println("- Enthaltene Zeilen " + sheet.getLastRowNum());
         return sheet;
     }
 }

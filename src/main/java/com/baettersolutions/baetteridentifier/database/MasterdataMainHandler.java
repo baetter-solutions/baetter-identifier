@@ -19,19 +19,18 @@ public class MasterdataMainHandler {
         ConvertFromExcel xslxToWorkitem = new ConvertFromExcel();
         System.out.println("- convert from Excel");
         XSSFWorkbook mastabook = xslxToWorkitem.generateWorksheet(importFilepathOrigin).getWorkbook();
-        System.out.println(" - generate Workbook");
+        System.out.println("- generate Workbook");
         XSSFSheet mastasheet = xslxToWorkitem.masterdataConversion(mastabook, sheetNumber, lineOfHeadline);
-        System.out.println("  - generate Worksheet");
-
-        XSSFsheetIterator.showFileWithIterator(mastasheet);
-
+        System.out.println("- generate Worksheet");
         GenerateJson filehandler = new GenerateJson();
-        System.out.println("   - generate JSON");
+        System.out.println("- generate JSON");
         filehandler.convertXSSFMasterdataToJSON(mastasheet, lineOfHeadline);
-        System.out.println("    - send JSON to Database");
+        System.out.println("- send JSON to Database");
+        System.out.println("- temporary file will be deleted");
         Eraser.deleteFile(importFilepathOrigin);
+        System.out.println("-- STARTING TRANSFER TO DATABASE - PLEASE WAIT --");
         HttpMasterdataClient.httpPOSTClientForMasterdata(jsonFilepath);
-        System.out.println("     - all operations done!");
+        System.out.println("- all operations done!");
     }
 
 }
