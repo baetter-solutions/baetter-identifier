@@ -37,6 +37,7 @@ nav a{
 
 .divcontent{
   display: flex;
+  flex-direction: column;
   vertical-align: middle;
   text-align: center;
   margin: 10px;

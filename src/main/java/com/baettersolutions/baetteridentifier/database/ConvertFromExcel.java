@@ -94,13 +94,38 @@ public class ConvertFromExcel {
         return workusersheet;
     }
 
-
     public XSSFSheet masterdataConversion(XSSFWorkbook workbook, int sheetNumber, int lineOfHeadline) {
         XSSFSheet mastersheet = workbook.getSheetAt(sheetNumber);
         XSSFSheet filteredSheet = reductionMasterdata(mastersheet, lineOfHeadline);
         XSSFSheet newHeadlines = headlineChanger(filteredSheet);
-        XSSFSheet newDatatypes = correctDatatype(newHeadlines);
+        XSSFSheet deleteTrash = deleteMasterdataJunk(newHeadlines);
+        XSSFSheet newDatatypes = correctDatatype(deleteTrash);
         return newDatatypes;
+    }
+
+    private XSSFSheet deleteMasterdataJunk(XSSFSheet sheet) {
+        XSSFSheet filteredSheet = sheet.getWorkbook().createSheet("FilteredMasterdata");
+
+        for (Row row : sheet) {
+            if (rowChecker(row)) {
+                Row filteredRow = filteredSheet.createRow(row.getRowNum());
+                for (Cell cell : row) {
+                    Cell filteredCell = filteredRow.createCell(cell.getColumnIndex());
+                    CellType cellType = cell.getCellType();
+                    filteredCell.setCellType(cellType);
+
+                    switch (cellType) {
+                        case STRING:
+                            filteredCell.setCellValue(cell.getStringCellValue());
+                            break;
+                        case NUMERIC:
+                            filteredCell.setCellValue(cell.getNumericCellValue());
+                            break;
+                    }
+                }
+            }
+        }
+        return filteredSheet;
     }
 
     private XSSFSheet reductionMasterdata(XSSFSheet sheet, int lineOfHeadline) {
@@ -184,56 +209,57 @@ public class ConvertFromExcel {
         XSSFWorkbook filteredWorkbook = sourceSheet.getWorkbook();
         XSSFSheet filteredSheet = filteredWorkbook.createSheet("SpecificMasterdatasheet");
         for (Row sourceRow : sourceSheet) {
-            if (rowChecker(sourceRow)) {
-                Row filteredRow = filteredSheet.createRow(sourceRow.getRowNum());
-                for (int columnIndex : columnIndexes) {
-                    Cell sourceCell = sourceRow.getCell(columnIndex);
-                    Cell filteredCell = filteredRow.createCell(columnIndex);
+            Row filteredRow = filteredSheet.createRow(sourceRow.getRowNum());
+            for (int columnIndex : columnIndexes) {
+                Cell sourceCell = sourceRow.getCell(columnIndex);
+                Cell filteredCell = filteredRow.createCell(columnIndex);
 
-                    CellType cellType = sourceCell.getCellType();
-                    filteredCell.setCellType(cellType);
-                    switch (cellType) {
-                        case STRING:
-                            filteredCell.setCellValue(sourceCell.getStringCellValue());
-                            break;
-                        case NUMERIC:
-                            filteredCell.setCellValue(sourceCell.getNumericCellValue());
-                            break;
-                        case BOOLEAN:
-                            filteredCell.setCellValue(sourceCell.getBooleanCellValue());
-                            break;
+                CellType cellType = sourceCell.getCellType();
+                filteredCell.setCellType(cellType);
+                switch (cellType) {
+                    case STRING:
+                        filteredCell.setCellValue(sourceCell.getStringCellValue());
+                        break;
+                    case NUMERIC:
+                        filteredCell.setCellValue(sourceCell.getNumericCellValue());
+                        break;
+                    case BOOLEAN:
+                        filteredCell.setCellValue(sourceCell.getBooleanCellValue());
+                        break;
 
-
-                    }
 
                 }
+
             }
+
         }
         return filteredSheet;
     }
 
+    private boolean rowChecker(Row row) {
+        boolean rowCheckSuccessFul = true;
+        for (Cell cell : row) {
+            if (!cellCheckerForReturning(cell)) {
+                rowCheckSuccessFul = false;
+                System.out.println("Something happens with this row");
+            }
+        }
+        return rowCheckSuccessFul;
+    }
+
     private boolean cellCheckerForReturning(Cell cell) {
-        String deletedArticle = "gelöschter Artikel";
         CellType cellType = cell.getCellType();
 
         if (cellType == CellType.STRING) {
+            String deletedArticle = "gelöschter Artikel";
             String cellValue = cell.getStringCellValue();
-            System.out.println(cellValue);
-            if (cellValue.equals(deletedArticle) || cellValue.isBlank()) {
+            if (cellValue.equalsIgnoreCase(deletedArticle) || cellValue.isBlank() || cellValue.isEmpty()) {
                 return false;
             }
+        } else if (cellType == CellType.BLANK) {
+            return false;
         }
         return true;
-    }
-
-    private boolean rowChecker(Row row) {
-        for (Cell cell : row) {
-            if (!cellCheckerForReturning(cell)) {
-                System.out.println("Something happens with this row");
-                return false; // Eine Abweichung
-            }
-        }
-        return true; // keine Abweichung
     }
 
 
@@ -272,14 +298,13 @@ public class ConvertFromExcel {
                                 cell.setCellValue(cellValue);
                                 cell.setCellType(CellType.STRING);
                             }
-                        } catch (NumberFormatException e) {
-
+                        } catch (NumberFormatException ignored) {
                         }
                     }
                 }
             }
         }
-
+        System.out.println("- Enthaltene Zeilen " + sheet.getLastRowNum());
         return sheet;
     }
 }

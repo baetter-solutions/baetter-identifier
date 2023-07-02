@@ -15,14 +15,34 @@ public class BaetterIdentifierApplication {
         SpringApplication.run(BaetterIdentifierApplication.class, args);
 
 //        testcaseUserdata();
+//        testcaseMasterdata();
 //        MongoDB.testConnection();
     }
 
     private static void testcaseMasterdata() throws IOException {
-        String testfilepath = "src/main/resources/importfiles/testfiles/RND_Std_032023_sample_single.xlsx";
+        String testfilepath = "src/main/resources/importfiles/testfiles/";
+        String correctfile = "RND_Std_032023_sample_single.xlsx";
+        String fileWithDel = "RND_Std_032023_sample_problems - gel.xlsx";
+        String fileWithMultiProblems = "RND_Std_032023_sample_problems.xlsx";
+        String filechoise = testfilepath;
+        int choice = 1;
+        switch (choice) {
+            case 1:
+                filechoise = testfilepath + correctfile;
+                break;
+            case 2:
+                filechoise = testfilepath + fileWithDel;
+                break;
+            case 3:
+                filechoise = testfilepath + fileWithMultiProblems;
+                break;
+            default:
+                System.out.println("Ungültige Auswahl");
+                break;
+        }
         int sheetnumber = 0;
         int headlinecolumn = 0;
-        MasterdataMainHandler.handlingOfMasterdataInput(testfilepath, sheetnumber, headlinecolumn);
+        MasterdataMainHandler.handlingOfMasterdataInput(filechoise, sheetnumber, headlinecolumn);
     }
 
     private static void testcaseUserdata() {

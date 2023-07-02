@@ -1,5 +1,7 @@
 package com.baettersolutions.baetteridentifier.database;
 
+import com.baettersolutions.baetteridentifier.XSSFsheetIterator;
+import com.baettersolutions.baetteridentifier.controller.Eraser;
 import com.baettersolutions.baetteridentifier.controller.HttpMasterdataClient;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -20,10 +22,14 @@ public class MasterdataMainHandler {
         System.out.println(" - generate Workbook");
         XSSFSheet mastasheet = xslxToWorkitem.masterdataConversion(mastabook, sheetNumber, lineOfHeadline);
         System.out.println("  - generate Worksheet");
+
+        XSSFsheetIterator.showFileWithIterator(mastasheet);
+
         GenerateJson filehandler = new GenerateJson();
         System.out.println("   - generate JSON");
         filehandler.convertXSSFMasterdataToJSON(mastasheet, lineOfHeadline);
         System.out.println("    - send JSON to Database");
+        Eraser.deleteFile(importFilepathOrigin);
         HttpMasterdataClient.httpPOSTClientForMasterdata(jsonFilepath);
         System.out.println("     - all operations done!");
     }

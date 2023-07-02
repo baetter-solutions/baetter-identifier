@@ -14,34 +14,48 @@ import java.io.IOException;
 
 public class GenerateJson {
 
-    public void convertXSSFMasterdataToJSON(XSSFSheet sheet, int lineOfHeadline) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        ArrayNode jsonArray = mapper.createArrayNode();
-        int lastRowNum = sheet.getLastRowNum();
-        for (int rowNum = lineOfHeadline + 1; rowNum <= lastRowNum; rowNum++) {
-            Row row = sheet.getRow(rowNum);
-            ObjectNode jsonRow = mapper.createObjectNode();
-            for (Cell cell : row) {
-                int columnIndex = cell.getColumnIndex();
-                String columnName = sheet.getRow(lineOfHeadline).getCell(columnIndex).getStringCellValue();
-                JsonNode cellValue;
-                if (cell.getCellType() == CellType.STRING) {
-                    cellValue = mapper.valueToTree(cell.getStringCellValue());
-                } else if (cell.getCellType() == CellType.NUMERIC) {
-                    if (cell.getNumericCellValue() % 1 == 0) {
-                        cellValue = mapper.valueToTree((int) cell.getNumericCellValue());
+    public void convertXSSFMasterdataToJSON(XSSFSheet sheet, int lineOfHeadline) {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            ArrayNode jsonArray = mapper.createArrayNode();
+            int lastRowNum = sheet.getPhysicalNumberOfRows() - 1;
+            System.out.println("- Last row Number: " + lastRowNum);
+            for (int rowNum = lineOfHeadline + 1; rowNum <= lastRowNum; rowNum++) {
+                Row row = sheet.getRow(rowNum);
+                ObjectNode jsonRow = mapper.createObjectNode();
+                for (Cell cell : row) {
+                    int columnIndex = cell.getColumnIndex();
+                    String columnName = sheet.getRow(lineOfHeadline).getCell(columnIndex).getStringCellValue();
+                    JsonNode cellValue;
+                    if (cell.getCellType() == CellType.STRING) {
+                        cellValue = mapper.valueToTree(cell.getStringCellValue());
+                    } else if (cell.getCellType() == CellType.NUMERIC) {
+                        if (cell.getNumericCellValue() % 1 == 0) {
+                            cellValue = mapper.valueToTree((int) cell.getNumericCellValue());
+                        } else {
+                            cellValue = mapper.valueToTree(cell.getNumericCellValue());
+                        }
+                    } else if (cell.getCellType() == CellType.BOOLEAN) {
+                        cellValue = mapper.valueToTree(cell.getBooleanCellValue());
                     } else {
-                        cellValue = mapper.valueToTree(cell.getNumericCellValue());
+                        cellValue = mapper.valueToTree(null);
                     }
-                } else if (cell.getCellType() == CellType.BOOLEAN) {
-                    cellValue = mapper.valueToTree(cell.getBooleanCellValue());
-                } else {
-                    cellValue = mapper.valueToTree(null);
+                    jsonRow.set(columnName, cellValue);
                 }
-                jsonRow.set(columnName, cellValue);
+                String jsonRowString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(jsonRow);
+                System.out.println(jsonRowString);
+                jsonArray.add(jsonRow);
             }
-            jsonArray.add(jsonRow);
+
+
+
+            mapper.writerWithDefaultPrettyPrinter().writeValue(new File(MasterdataMainHandler.getJsonFilepath()), jsonArray);
+        } catch (IllegalArgumentException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (NullPointerException e) {
+            throw new NullPointerException("NullPointerException occurred");
         }
-        mapper.writerWithDefaultPrettyPrinter().writeValue(new File(MasterdataMainHandler.getJsonFilepath()), jsonArray);
     }
 }
