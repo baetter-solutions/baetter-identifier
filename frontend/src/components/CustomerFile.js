@@ -2,7 +2,9 @@ import React, {Component} from 'react';
 import Dropzone from 'react-dropzone';
 import axios from 'axios';
 
-class FileUploader extends Component {
+class CustomerFile extends Component {
+
+    state = {sheetForWork: '',};
     onDrop = (acceptedFiles) => {
         const formData = new FormData();
         formData.append('file', acceptedFiles[0]);
@@ -15,6 +17,15 @@ class FileUploader extends Component {
             .catch((error) => {
                 console.error(error);
             });
+    };
+
+    handleSubmit = (event) => {
+        event.preventDefault();
+        console.log(this.state.sheetForWork);
+    };
+
+    handleInputChange = (event) => {
+        this.setState({sheetForWork: event.target.value});
     };
 
     render() {
@@ -38,12 +49,10 @@ class FileUploader extends Component {
                         gespeichert <br/>
                         Forumlarfelder [ alskdjf ]
                     </p>
-                    <div className="mb-3">
-                        <label for="userInputTable" className="form-label">Welches Tabellenblatt?</label>
-                        <input type="text" className="form-control" id="userInputTable" placeholder="0"/>
-                    </div>
-                    <select className="form-select form-select-lg mb-3" multiple aria-label=".form-select-lg multiple select example">
-                        <option selected>Open this select menu</option>
+
+                    <select className="form-select form-select-lg mb-3" multiple
+                            aria-label=".form-select-lg multiple select example">
+                        <option defaultValue>Open this select menu</option>
                         <option value="0">A</option>
                         <option value="1">B</option>
                         <option value="2">C</option>
@@ -71,10 +80,20 @@ class FileUploader extends Component {
                         <option value="24">Y</option>
                         <option value="25">Z</option>
                     </select>
+                    <form onSubmit={this.handleSubmit}>
+                        <div className="mb-3">
+                            <label htmlFor="userInputTable" className="form-label">
+                                Welches Tabellenblatt?
+                            </label>
+                            <input type="text" className="form-control" id="userInputTable" placeholder="0"
+                                   value={this.state.sheetForWork} onChange={this.handleInputChange}/>
+                        </div>
+                        <button type="submit">Submit</button>
+                    </form>
                 </div>
             </div>
         );
     }
 }
 
-export default FileUploader;
+export default CustomerFile;

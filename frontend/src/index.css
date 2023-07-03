@@ -27,28 +27,28 @@ nav a{
 
 .mainstyle{
   padding: 10px 0;
-  max-width: 90%;
   display: flex;
   flex-wrap: wrap;
-
-  /*justify-content: center;*/
-  /*align-items: center;*/
+  flex-direction: column;
+  align-content: space-around;
 }
 
 .divcontent{
   display: flex;
   flex-direction: column;
   vertical-align: middle;
-  text-align: center;
+  justify-content: center;
+    text-align: center;
   margin: 10px;
 
 }
 
 .dropzonestyle{
-  background-color: grey;
-  min-width: 450px;
-  max-width: 50%;
-  height: 200px;
+  display: flex;
+  background-color: #beb6b6;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
 }
 
 
