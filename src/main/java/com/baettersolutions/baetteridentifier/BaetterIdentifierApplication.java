@@ -21,14 +21,14 @@ public class BaetterIdentifierApplication {
 
     private static void testcaseMasterdata() throws IOException {
         String testfilepath = "src/main/resources/importfiles/testfiles/";
-        String correctfile = "RND_Std_032023_sample_single.xlsx";
+        String everything100k = "RND_Stammdaten_032023.xlsx";
         String fileWithDel = "RND_Std_032023_sample_problems - gel.xlsx";
         String fileWithMultiProblems = "RND_Std_032023_sample_problems.xlsx";
         String filechoise = testfilepath;
         int choice = 1;
         switch (choice) {
             case 1:
-                filechoise = testfilepath + correctfile;
+                filechoise = testfilepath + everything100k;
                 break;
             case 2:
                 filechoise = testfilepath + fileWithDel;
