@@ -5,10 +5,7 @@ import com.baettersolutions.baetteridentifier.database.MasterdataMainHandler;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -16,6 +13,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -63,4 +61,16 @@ public class FileUploadController {
         }
     }
 
+    @GetMapping("/masterdataresponse")
+    public ResponseEntity<?> buildResponse(int saveCounter, int updateCounter, int totalCount) {
+        System.out.println(saveCounter +"/"+  updateCounter +"/"+ totalCount);
+        HashMap<String, Integer> response = new HashMap<>();
+        response.put("saveCounter", saveCounter);
+        response.put("updateCounter", updateCounter);
+        response.put("totalCount", totalCount);
+        System.out.println(response);
+
+        System.out.println("Ans Frontend übergeben");
+        return ResponseEntity.ok(response);
+    }
 }

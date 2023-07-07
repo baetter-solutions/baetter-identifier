@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,6 +42,8 @@ public class MasterdataController {
             System.out.println("Total transmitted: " + totalCount);
             System.out.println(" - New: " + saveCounter);
             System.out.println(" - Updated " + updateCounter);
+            FileUploadController response = new FileUploadController();
+            response.buildResponse(saveCounter, updateCounter, totalCount);
         }
     }
 
@@ -102,4 +105,7 @@ public class MasterdataController {
     public void deleteAllProducts() {
         masterdataRepository.deleteAll();
     }
+
+
 }
+
