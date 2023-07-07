@@ -12,14 +12,14 @@ code {
     monospace;
 }
 
-nav {
+.navStyle {
     background-color: #bbdffc;
-    padding: 16px 32px;
+    padding-top: 16px;
+}
+.firstitemPad{
+    margin-left: 10px;
 }
 
-nav a {
-    margin-right: 16px;
-}
 
 .testclass {
     background-color: darkred;
