@@ -4,7 +4,12 @@ import axios from 'axios';
 
 class CustomerFile extends Component {
 
-    state = {sheetForWork: '',};
+    state = {
+        sheetForWork: '',
+        custNumber: '',
+        custName: ''
+    };
+
     onDrop = (acceptedFiles) => {
         const formData = new FormData();
         formData.append('file', acceptedFiles[0]);
@@ -22,10 +27,12 @@ class CustomerFile extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
         console.log(this.state.sheetForWork);
+        console.log(this.state.custNumber);
+        console.log(this.state.custName);
     };
 
     handleInputChange = (event) => {
-        this.setState({sheetForWork: event.target.value});
+        this.setState({[event.target.id]: event.target.value});
     };
 
     render() {
@@ -45,9 +52,9 @@ class CustomerFile extends Component {
                 </div>
                 <div className="divcontent rounded border">
                     <p>Zu ergänzen: <br/>
-                        Kundennummer, Kundenname und inkl. Pfad+Dateiname, wird ein JSON generiert und in die DB
+                        und inkl. Pfad+Dateiname, wird ein JSON generiert und in die DB
                         gespeichert <br/>
-                        Forumlarfelder [ alskdjf ]
+                        Forumlarfelder [ ]
                     </p>
 
                     <select className="form-select form-select-lg mb-3" multiple
@@ -81,14 +88,36 @@ class CustomerFile extends Component {
                         <option value="25">Z</option>
                     </select>
                     <form onSubmit={this.handleSubmit}>
-                        <div className="mb-3">
-                            <label htmlFor="userInputTable" className="form-label">
-                                Welches Tabellenblatt?
-                            </label>
-                            <input type="text" className="form-control" id="userInputTable" placeholder="0"
-                                   value={this.state.sheetForWork} onChange={this.handleInputChange}/>
+                            <div className="label-container">
+                                <label htmlFor="sheetForWork" className="col-sm-3 col-form-label">Welches
+                                Tabellenblatt?</label>
+                            </div>
+                            <div className="input-container">
+                                <input type="text" className="form-control custInputMaxWidth" id="sheetForWork"
+                                       value={this.state.sheetForWork}
+                                       onChange={this.handleInputChange}/>
+                            </div>
+                        <div className="mb-3 row">
+                            <label htmlFor="custNumber" className="col-sm-3 col-form-label">Kundennummer</label>
+                            <div className="col-sm-9">
+                                <input type="number" className="form-control custInputMaxWidth" id="custNumber"
+                                       value={this.state.custNumber}
+                                       onChange={this.handleInputChange} min="0" max="999999"/>
+                            </div>
                         </div>
-                        <button type="submit">Submit</button>
+                        <div className="mb-3 row">
+                            <label htmlFor="custName" className="col-sm-3 col-form-label">Kundenname</label>
+                            <div className="col-sm-9">
+                                <input type="text" className="form-control custInputMaxWidth" id="custName"
+                                       value={this.state.custName}
+                                       onChange={this.handleInputChange}/>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col-sm-9 offset-sm-3">
+                                <button type="submit" className="btn btn-primary">Submit</button>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>
