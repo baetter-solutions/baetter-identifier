@@ -21,20 +21,20 @@ class ReferenceData extends Component {
         return (
             <div className="mainstyle">
                 <div className="divcontent">
+                    <div className="divcontent rounded border">
+                        <p>Stammdaten integrieren bzw. aktualisieren</p>
+                    </div>
+                    <div className="divcontent">
                     <Dropzone onDrop={this.onDrop}>
                         {({getRootProps, getInputProps, isDragActive}) => (
                             <div {...getRootProps()} className="dropzonestyle rounded border">
                                 <input {...getInputProps()} />
                                 {isDragActive
                                     ? "Drop it like it's hot!"
-                                    : 'Click me or drag a file to upload!'}
+                                    : 'Klicken oder Datei mit der Maus darauf schieben!'}
                             </div>
                         )}
                     </Dropzone>
-                    <div className="divcontent rounded border">
-                        <p>Hier soll das Stammdaten Excelfile hochgeladen werden<br/>
-                            Automatisierter Prozess zur Aktualisierung der hinterlegten Datenbank
-                        </p>
                     </div>
                 </div>
             </div>

@@ -38,31 +38,11 @@ class CustomerFile extends Component {
     render() {
         return (
             <div className="mainstyle">
-                <div className="divcontent">
-                    <Dropzone onDrop={this.onDrop}>
-                        {({getRootProps, getInputProps, isDragActive}) => (
-                            <div {...getRootProps()} className="dropzonestyle rounded border">
-                                <input {...getInputProps()} />
-                                {isDragActive
-                                    ? "Drop it like it's hot!"
-                                    : 'Click me or drag a file to upload!'}
-                            </div>
-                        )}
-                    </Dropzone>
-                </div>
+
                 <div className="divcontent rounded border">
-                    <p>
-                    </p>
-                    {/*
-                <select className="form-select form-select-lg mb-3" multiple aria-label=".form-select-lg multiple select example">
-                        <option defaultValue>Open this select menu</option>
-                        {Array.from(Array(26), (_, index) => {
-                            const letter = String.fromCharCode(65 + index);
-                            return <option key={index} value={index}>{letter}</option>;
-                        })}
-                    </select>
-                    */}
+
                     <form onSubmit={this.handleSubmit}>
+                        <p>Kundendetails</p>
                         <div className="form-container">
                             <label htmlFor="sheetForWork">Tabellenblatt:</label>
                             <input type="text" className="form-control custInputWidth" id="sheetForWork"
@@ -80,9 +60,23 @@ class CustomerFile extends Component {
                                    onChange={this.handleInputChange}/>
                         </div>
                         <div className="form-container">
+                            <div className="btnPosition">
                             <button type="submit" className="btn btn-primary">Submit</button>
+                            </div>
                         </div>
                     </form>
+                </div>
+                <div className="divcontent">
+                    <Dropzone onDrop={this.onDrop}>
+                        {({getRootProps, getInputProps, isDragActive}) => (
+                            <div {...getRootProps()} className="dropzonestyle rounded border">
+                                <input {...getInputProps()} />
+                                {isDragActive
+                                    ? "Drop it like it's hot!"
+                                    : 'Klicken oder Datei mit der Maus darauf schieben'}
+                            </div>
+                        )}
+                    </Dropzone>
                 </div>
             </div>
         );

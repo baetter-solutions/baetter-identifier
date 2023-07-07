@@ -43,6 +43,9 @@ nav a {
     padding: 10px;
 
 }
+.btnPosition{
+    display: flex;
+}
 
 .custInputWidth {
     width: 200px;
