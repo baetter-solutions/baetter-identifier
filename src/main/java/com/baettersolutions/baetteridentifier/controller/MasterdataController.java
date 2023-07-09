@@ -15,7 +15,22 @@ import java.util.Optional;
 @RequestMapping("/products")
 public class MasterdataController {
     private final MasterdataRepository masterdataRepository;
+    public int saveCounter;
 
+    public int updateCounter;
+
+    public int totalCount;
+    public int getSaveCounter() {
+        return saveCounter;
+    }
+
+    public int getUpdateCounter() {
+        return updateCounter;
+    }
+
+    public int getTotalCount() {
+        return totalCount;
+    }
     @Autowired
     public MasterdataController(MasterdataRepository masterdataRepository) {
         this.masterdataRepository = masterdataRepository;
@@ -23,8 +38,9 @@ public class MasterdataController {
 
     @PostMapping
     public void addProduct(@RequestBody final List<MasterdataVariables> products) {
-        int saveCounter = 0;
-        int updateCounter = 0;
+        saveCounter = 0;
+        updateCounter = 0;
+        totalCount = 0;
         for (MasterdataVariables product : products) {
             int axnrnewdata = product.getAxnr();
             MasterdataVariables existingProduct = masterdataRepository.findByAxnr(axnrnewdata);
@@ -37,13 +53,11 @@ public class MasterdataController {
 
             }
         }
-        int totalCount = saveCounter + updateCounter;
+        totalCount = saveCounter + totalCount;
         if (totalCount > 0) {
             System.out.println("Total transmitted: " + totalCount);
             System.out.println(" - New: " + saveCounter);
-            System.out.println(" - Updated " + updateCounter);
-            FileUploadController response = new FileUploadController();
-            response.buildResponse(saveCounter, updateCounter, totalCount);
+            System.out.println(" - Updated " + totalCount);
         }
     }
 

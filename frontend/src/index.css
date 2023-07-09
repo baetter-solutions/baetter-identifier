@@ -31,8 +31,8 @@ code {
     padding: 10px;
     display: flex;
     flex-wrap: wrap;
-    flex-direction: column;
-    align-content: space-around;
+    justify-content: center;
+    align-content: space-between;
 }
 
 .divcontent {
@@ -40,7 +40,13 @@ code {
     flex-direction: column;
     align-items: center;
     text-align: center;
+    /*padding: 10px;*/
+}
+.div2ndlvl{
+    display: flex;
+    flex: 0 0 calc(33.33% - 20px);
     padding: 10px;
+    margin-bottom: 10px;
 
 }
 .btnPosition{

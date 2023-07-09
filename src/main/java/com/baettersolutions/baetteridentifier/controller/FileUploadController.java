@@ -2,6 +2,7 @@ package com.baettersolutions.baetteridentifier.controller;
 
 import com.baettersolutions.baetteridentifier.custfile.CustomerdataMainHandler;
 import com.baettersolutions.baetteridentifier.database.MasterdataMainHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
@@ -20,8 +21,15 @@ import java.util.HashMap;
 public class FileUploadController {
     private static final String UPLOAD_FOLDER = "src/main/resources/importfiles/customer";
     private static final String UPLOAD_MASTERDATA = "src/main/resources/importfiles/company/temp_masterinput";
-    private int sheetNumber;
-    private int lineOfHealine;
+    public int sheetNumber;
+    public int lineOfHealine;
+
+    private final MasterdataController masterdataController;
+
+    @Autowired
+    public FileUploadController(MasterdataController masterdataController) {
+        this.masterdataController = masterdataController;
+    }
 
     @PostMapping("/upload")
     public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file) {
@@ -43,7 +51,6 @@ public class FileUploadController {
     }
 
 
-
     @PostMapping("/masterdata")
     public ResponseEntity<String> uploadMasterdata(@RequestParam("file") MultipartFile file) {
         if (file.isEmpty()) {
@@ -55,6 +62,7 @@ public class FileUploadController {
             String filePath = uploadPath.resolve(file.getOriginalFilename()).toString();
             file.transferTo(new File(filePath));
             new MasterdataMainHandler().handlingOfMasterdataInput(filePath, sheetNumber, lineOfHealine);
+            buildResponse();
             return ResponseEntity.ok(file.getOriginalFilename() + " wurde hochgeladen und wird nun konvertiert");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Upload failed");
@@ -62,15 +70,19 @@ public class FileUploadController {
     }
 
     @GetMapping("/masterdataresponse")
-    public ResponseEntity<?> buildResponse(int saveCounter, int updateCounter, int totalCount) {
-        System.out.println(saveCounter +"/"+  updateCounter +"/"+ totalCount);
-        HashMap<String, Integer> response = new HashMap<>();
-        response.put("saveCounter", saveCounter);
-        response.put("updateCounter", updateCounter);
-        response.put("totalCount", totalCount);
-        System.out.println(response);
-
-        System.out.println("Ans Frontend übergeben");
-        return ResponseEntity.ok(response);
+    public ResponseEntity<HashMap<String, Integer>> buildResponse() {
+        try {
+            int totalCount = masterdataController.getTotalCount();
+            int updateCounter = masterdataController.getUpdateCounter();
+            int saveCounter = masterdataController.getSaveCounter();
+            HashMap<String, Integer> response = new HashMap<>();
+            response.put("saveCounter", saveCounter);
+            response.put("updateCounter", updateCounter);
+            response.put("totalCount", totalCount);
+            System.out.println(response);
+            return ResponseEntity.ok(response);
+        } catch (RuntimeException e){
+            throw new RuntimeException(e);
+        }
     }
 }
