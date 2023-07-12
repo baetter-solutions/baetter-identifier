@@ -81,6 +81,15 @@ class CustomerFile extends Component {
                         </Dropzone>
                         <a href="#top">{this.formData}</a>
                     </div>
+                    <footer>
+                        <h3>Implemented</h3>
+                        On Drop -> Call to Backend
+
+
+                        <h3>Coming soon</h3>
+                        EXCEL File preview to select specific sheet, <br/>
+                        row number and details from top
+                    </footer>
                 </div>
             </article>
         );

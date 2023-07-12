@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Dropzone from 'react-dropzone';
 import axios from 'axios';
 
 const ReferenceData = () => {
-    const [counters, setCounters] = useState({});
+    /*  const [counters, setCounters] = useState({});
 
-    useEffect(() => {
-        fetch('/masterdataresponse')
-            .then(response => response.json())
-            .then(data => setCounters(data))
-            .catch(error => console.error(error));
-    }, []);
+      useEffect(() => {
+          fetch('/masterdataresponse')
+              .then(response => response.json())
+              .then(data => setCounters(data))
+              .catch(error => console.error(error));
+      }, []);*/
 
     const onDrop = acceptedFiles => {
         const formData = new FormData();
@@ -25,6 +25,26 @@ const ReferenceData = () => {
                 console.error(error);
             });
     };
+
+    /*const {MongoClient} = require('mongodb');
+    const uri = process.env.REACT_APP_MONGODB_CONNECTION;
+
+    const client = new MongoClient(uri, {useNewUrlParser: true, useUnifiedTopology: true});
+
+    async function getTotalDocuments(){
+        try {
+            await client.connect();
+            const database = client.db('dbidentifier');
+            const collection = database.collection('masterdata');
+
+            const totalDocuments = await collection.countDocuments();
+            return totalDocuments;
+        } finally {
+            await client.close();
+        }
+    }
+*/
+    // let countOfDocuments = "getTotalDocuments()";
 
     return (
         <div className="mainstyle">
@@ -45,11 +65,25 @@ const ReferenceData = () => {
                     </Dropzone>
                 </div>
                 <div className="div2ndlvl rounded border">
-                    Total transmitted: {counters.saveCounter}<br />
-                    New: {counters.updateCounter}<br />
-                    Updated: {counters.totalCount}
+                    <p>Total number of articles: "countOfDocuments"</p>
                 </div>
+                <div className="div2ndlvl rounded border">
+                    Total transmitted: "counters.saveCounter"<br/>
+                    New: "counters.updateCounter"<br/>
+                    Updated: "counters.totalCount"
+                </div>
+                <footer>
+                    <h3>Implemented</h3>
+                    On Drop -> Call to Backend <br/>
+                    Convert from Excel to JSON <br/>
+                    Look in DB, is it Article = exist ? POST : PUT;
+                    <h3>Coming soon</h3>
+                    installation of batch processing for large files <br/>
+                    feedback of transmission <br/>
+                    DB Status Display
+                </footer>
             </div>
+
         </div>
     );
 };

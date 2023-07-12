@@ -37,14 +37,15 @@ code {
 
 .divcontent {
     display: flex;
+
     flex-direction: column;
     align-items: center;
     text-align: center;
-    /*padding: 10px;*/
 }
 .div2ndlvl{
     display: flex;
-    flex: 0 0 calc(33.33% - 20px);
+    width: 100%;
+    justify-content: center;
     padding: 10px;
     margin-bottom: 10px;
 
@@ -78,6 +79,6 @@ code {
     background-color: #beb6b6;
     align-items: center;
     justify-content: center;
-    height: 50px;
+    height: 100px;
     padding: 20px;
 }
