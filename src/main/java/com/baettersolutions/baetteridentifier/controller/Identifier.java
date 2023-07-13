@@ -28,34 +28,58 @@ public class Identifier {
 
     public String identifyByManufacturArticlenumber(String manufactureNumber) {
         String result = new MongoDB().getAxnrByArticlenumber(manufactureNumber);
-        if (result != null){
-        System.out.println(result + ": identified");}
-            return result;
+        int maxRetries = 5;
+        int retryDelay = 500;
+        int retryCount = 0;
+        while (result == null && retryCount < maxRetries) {
+            try {
+                Thread.sleep(retryDelay);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            result = new MongoDB().getAxnrByArticlenumber(manufactureNumber);
+            retryDelay *= 2;
+            retryCount++;
+        }
+        return result;
     }
 
     public String identifyByManufacturType(String manufacturerType) {
         String result = new MongoDB().getAxnrByType(manufacturerType);
-        if (result != null){
-            System.out.println(result + ": identified");}
+        int maxRetries = 5;
+        int retryDelay = 500;
+        int retryCount = 0;
+        while (result == null && retryCount < maxRetries) {
+            try {
+                Thread.sleep(retryDelay);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            result = new MongoDB().getAxnrByType(manufacturerType);
+            retryDelay *= 2;
+            retryCount++;
+        }
         return result;
     }
 
-    public XSSFSheet addAxNr(XSSFSheet usersheet, int rowToFindValue){
+    public XSSFSheet addAxNr(XSSFSheet usersheet, int rowToFindValue) {
         int lastRow = usersheet.getPhysicalNumberOfRows();
-        for (int i = 1; i < lastRow; i++){
+        for (int i = 1; i < lastRow; i++) {
             Row currentRow = usersheet.getRow(i);
             Cell targetCell = currentRow.getCell(rowToFindValue);
-            Cell axNumToAdd = currentRow.createCell(lastRow+1);
+            Cell axNumToAdd = currentRow.createCell(lastRow + 1);
 
 
             String targetValue = getCellValue(targetCell);
-            if (!targetValue.isEmpty()){
+            if (!targetValue.isEmpty()) {
                 String axNr = identifyByManufacturArticlenumber(targetValue);
-                if (axNr == null){
+                if (axNr == null) {
                     axNr = identifyByManufacturType(targetValue);
                 }
                 axNumToAdd.setCellValue(axNr);
-            } else {axNumToAdd.setCellValue("");}
+            } else {
+                axNumToAdd.setCellValue("");
+            }
         }
 
 
