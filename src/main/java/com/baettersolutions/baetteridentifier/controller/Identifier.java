@@ -28,8 +28,8 @@ public class Identifier {
 
     public String identifyByManufacturArticlenumber(String manufactureNumber) {
         String result = new MongoDB().getAxnrByArticlenumber(manufactureNumber);
-        int maxRetries = 5;
-        int retryDelay = 500;
+        int maxRetries = 100;
+        int retryDelay = 50;
         int retryCount = 0;
         while (result == null && retryCount < maxRetries) {
             try {
@@ -38,7 +38,6 @@ public class Identifier {
                 e.printStackTrace();
             }
             result = new MongoDB().getAxnrByArticlenumber(manufactureNumber);
-            retryDelay *= 2;
             retryCount++;
         }
         return result;
@@ -46,8 +45,8 @@ public class Identifier {
 
     public String identifyByManufacturType(String manufacturerType) {
         String result = new MongoDB().getAxnrByType(manufacturerType);
-        int maxRetries = 5;
-        int retryDelay = 500;
+        int maxRetries = 100;
+        int retryDelay = 50;
         int retryCount = 0;
         while (result == null && retryCount < maxRetries) {
             try {
@@ -56,14 +55,17 @@ public class Identifier {
                 e.printStackTrace();
             }
             result = new MongoDB().getAxnrByType(manufacturerType);
-            retryDelay *= 2;
             retryCount++;
         }
         return result;
     }
 
     public XSSFSheet addAxNr(XSSFSheet usersheet, int rowToFindValue) {
+
+        MongoDB connection = new MongoDB();
+        connection.connectionMongo();
         int lastRow = usersheet.getPhysicalNumberOfRows();
+        int counterIdentified = 0;
         for (int i = 1; i < lastRow; i++) {
             Row currentRow = usersheet.getRow(i);
             Cell targetCell = currentRow.getCell(rowToFindValue);
@@ -76,13 +78,16 @@ public class Identifier {
                 if (axNr == null) {
                     axNr = identifyByManufacturType(targetValue);
                 }
+                if (axNr != null) {
+                    System.out.println(axNr + " identified - actual Position -> "+ i +" of " + lastRow);
+                    counterIdentified++;
+                }
                 axNumToAdd.setCellValue(axNr);
             } else {
                 axNumToAdd.setCellValue("");
             }
         }
-
-
+        connection.closeConnection();
         return usersheet;
     }
 
