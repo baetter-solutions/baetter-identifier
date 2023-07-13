@@ -41,7 +41,7 @@ class CustomerFile extends Component {
                 <div className="divcontent">
                     <div className="div2ndlvl rounded border">
 
-                        <form onSubmit={this.handleSubmit}>
+                        {/*<form onSubmit={this.handleSubmit}>
                             <p>Kundendetails</p>
                             <div className="form-container">
                                 <label htmlFor="sheetForWork">Tabellenblatt:</label>
@@ -65,7 +65,7 @@ class CustomerFile extends Component {
                                     <button type="submit" className="btn btn-primary">Submit</button>
                                 </div>
                             </div>
-                        </form>
+                        </form>*/}
                     </div>
                     <div className="div2ndlvl">
                         <Dropzone onDrop={this.onDrop}>
@@ -79,7 +79,7 @@ class CustomerFile extends Component {
                                 </div>
                             )}
                         </Dropzone>
-                        <a href="#top">{this.formData}</a>
+                        {/*<a href="#top">{this.formData}</a>*/}
                     </div>
                     <footer>
                         <h3>Implemented</h3>

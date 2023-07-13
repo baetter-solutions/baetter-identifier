@@ -1,5 +1,6 @@
 package com.baettersolutions.baetteridentifier.controller;
 
+import com.baettersolutions.baetteridentifier.BaetterIdentifierApplication;
 import com.baettersolutions.baetteridentifier.custfile.CustomerdataMainHandler;
 import com.baettersolutions.baetteridentifier.database.MasterdataMainHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,12 +43,19 @@ public class FileUploadController {
             String filePath = uploadPath.resolve(newFileName).toString();
             file.transferTo(new File(filePath));
             System.out.println(newFileName + " wurde hochgeladen");
-            CustomerdataMainHandler newUserfile = new CustomerdataMainHandler();
-            newUserfile.userdatapath(filePath);
+            BaetterIdentifierApplication.caseUserdata(filePath);
             return ResponseEntity.ok(file.getOriginalFilename() + "  wurde hochgeladen");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Upload failed");
         }
+    }
+
+    private String fileNameUpload(MultipartFile file){
+        String timestamp = new SimpleDateFormat("yyMMdd-HHmm").format(new Date());
+        String originalFileName = StringUtils.cleanPath(file.getOriginalFilename());
+        String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
+        String newFileName = timestamp + "_" + originalFileName;
+        return newFileName;
     }
 
 

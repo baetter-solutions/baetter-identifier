@@ -14,7 +14,7 @@ public class BaetterIdentifierApplication {
     public static void main(String[] args) throws IOException {
         SpringApplication.run(BaetterIdentifierApplication.class, args);
 
-//        testcaseUserdata();
+//        caseUserdata();
 //        testcaseMasterdata();
 //        MongoDB.testConnection();
     }
@@ -45,13 +45,13 @@ public class BaetterIdentifierApplication {
         MasterdataMainHandler.handlingOfMasterdataInput(filechoise, sheetnumber, headlinecolumn);
     }
 
-    private static void testcaseUserdata() {
+    public static void caseUserdata(String path) {
         String uploadedFilepathFromUser = "src/main/resources/importfiles/testfiles/Preisanfrage Sonepar.xlsx";
         int custSheetnumber = 0;
         int custHeadline = 0;
         int[] columns = {0, 2, 3, 4};
         int columnWithNumberToIdentify = 2;
-        CustomerdataMainHandler.handlingOfUserdataInput(uploadedFilepathFromUser,custSheetnumber,custHeadline,columns, columnWithNumberToIdentify);
+        CustomerdataMainHandler.handlingOfUserdataInput(path,custSheetnumber,custHeadline,columns, columnWithNumberToIdentify);
     }
 
 }

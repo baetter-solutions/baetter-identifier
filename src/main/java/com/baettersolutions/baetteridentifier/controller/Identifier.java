@@ -28,11 +28,15 @@ public class Identifier {
 
     public String identifyByManufacturArticlenumber(String manufactureNumber) {
         String result = new MongoDB().getAxnrByArticlenumber(manufactureNumber);
+        if (result != null){
+        System.out.println(result + ": identified");}
             return result;
     }
 
     public String identifyByManufacturType(String manufacturerType) {
         String result = new MongoDB().getAxnrByType(manufacturerType);
+        if (result != null){
+            System.out.println(result + ": identified");}
         return result;
     }
 

@@ -80,7 +80,7 @@ const ReferenceData = () => {
                     <h3>Coming soon</h3>
                     installation of batch processing for large files <br/>
                     feedback of transmission <br/>
-                    DB Status Display
+                    DB Status/Submit Display
                 </footer>
             </div>
 
