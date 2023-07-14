@@ -7,6 +7,7 @@ target/
 ### ZEIG DES MA NET DORT BRAUCHT ###
 src/main/resources/outputfiles/customer
 src/main/resources/importfiles/customer
+RND_Stammdaten_032023.xlsx
 
 ### STS ###
 .apt_generated
@@ -35,7 +36,3 @@ build/
 
 ### VS Code ###
 .vscode/
-src/main/resources/importfiles/company/RND_Stammdaten_032023.xlsx
-src/main/resources/files_from_work/company/RND_Stammdaten_032023.xlsx
-/src/main/resources/importfiles/uploads/
-src/main/resources/importfiles/testfiles/~$RND_Std_032023_sample.xlsx
