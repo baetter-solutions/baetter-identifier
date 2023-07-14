@@ -32,7 +32,7 @@ public class CustomerdataMainHandler {
 
         ConvertFromExcel xslxToWorkitem = new ConvertFromExcel();
         XSSFWorkbook userbook = xslxToWorkitem.generateWorksheet(filepathToExcelfileFromUser).getWorkbook();
-        XSSFSheet usersheet = xslxToWorkitem.generateUsersheetForWork(userbook, custSheetnumber, custHeadline, columns);
+        XSSFSheet usersheet = xslxToWorkitem.generateUsersheetForWork(userbook, custSheetnumber, custHeadline);
         XSSFSheet usersheetwithAXRow = addRowAXNr(usersheet);
         XSSFSheet filledUsersheet = new Identifier().addAxNr(usersheetwithAXRow, columnWithNumberToIdentify);
         createExcelFile(newFileNameAndPath, filledUsersheet);

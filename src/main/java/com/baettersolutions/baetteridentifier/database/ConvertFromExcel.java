@@ -56,13 +56,15 @@ public class ConvertFromExcel {
         }
     }
 
-    public XSSFSheet generateUsersheetForWork(XSSFWorkbook workbook, int sheetNumber, int lineOfHeadline, int[] columns) {
+    public XSSFSheet generateUsersheetForWork(XSSFWorkbook workbook, int sheetNumber, int lineOfHeadline) {
         XSSFSheet sourceSheet = workbook.getSheetAt(sheetNumber);
         XSSFSheet workusersheet = workbook.createSheet("WorkUserSheet");
         XSSFRow sourceHeadlineRow = sourceSheet.getRow(lineOfHeadline);
         XSSFRow workusersheetHeadlineRow = workusersheet.createRow(0);
-        for (int i = 0; i < columns.length; i++) {
-            XSSFCell sourceCell = sourceHeadlineRow.getCell(columns[i]);
+
+        int lastCellNum = sourceHeadlineRow.getLastCellNum();
+        for (int i = 0; i < lastCellNum; i++) {
+            XSSFCell sourceCell = sourceHeadlineRow.getCell(i);
             XSSFCell targetCell = workusersheetHeadlineRow.createCell(i);
             targetCell.setCellValue(sourceCell.getStringCellValue());
         }
@@ -72,8 +74,8 @@ public class ConvertFromExcel {
             XSSFRow sourceRow = sourceSheet.getRow(sourceRowIndex);
             XSSFRow targetRow = workusersheet.createRow(targetRowIndex);
 
-            for (int i = 0; i < columns.length; i++) {
-                XSSFCell sourceCell = sourceRow.getCell(columns[i]);
+            for (int i = 0; i < lastCellNum; i++) {
+                XSSFCell sourceCell = sourceRow.getCell(i);
                 XSSFCell targetCell = targetRow.createCell(i);
 
                 if (sourceCell != null) {
@@ -85,7 +87,6 @@ public class ConvertFromExcel {
                             targetCell.setCellValue(sourceCell.getStringCellValue());
                             break;
                     }
-
                 }
             }
             targetRowIndex++;
@@ -93,6 +94,7 @@ public class ConvertFromExcel {
 
         return workusersheet;
     }
+
 
     public XSSFSheet masterdataConversion(XSSFWorkbook workbook, int sheetNumber, int lineOfHeadline) {
         XSSFSheet mastersheet = workbook.getSheetAt(sheetNumber);

@@ -20,6 +20,7 @@ public class MasterdataController {
     public int updateCounter;
 
     public int totalCount;
+
     public int getSaveCounter() {
         return saveCounter;
     }
@@ -31,6 +32,7 @@ public class MasterdataController {
     public int getTotalCount() {
         return totalCount;
     }
+
     @Autowired
     public MasterdataController(MasterdataRepository masterdataRepository) {
         this.masterdataRepository = masterdataRepository;
@@ -41,16 +43,25 @@ public class MasterdataController {
         saveCounter = 0;
         updateCounter = 0;
         totalCount = 0;
+        int commentEvery = 250;
+        int totalTransmissions = products.size();
+        int commentCount = 0;
+
         for (MasterdataVariables product : products) {
             int axnrnewdata = product.getAxnr();
             MasterdataVariables existingProduct = masterdataRepository.findByAxnr(axnrnewdata);
             if (existingProduct != null) {
                 updateProduct(product, existingProduct.getId());
                 updateCounter++;
+                commentCount++;
             } else {
                 masterdataRepository.save(product);
                 saveCounter++;
-
+                commentCount++;
+            }
+            if (commentCount % commentEvery == 0 || commentCount==totalTransmissions/2) {
+                int percent = commentCount*100/totalTransmissions;
+                System.out.println("\rTransmission Position at " + commentCount + " of " + totalTransmissions + "("+percent+"%)");
             }
         }
         totalCount = saveCounter + totalCount;
