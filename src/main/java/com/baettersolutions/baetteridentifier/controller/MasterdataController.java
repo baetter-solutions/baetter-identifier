@@ -115,7 +115,7 @@ public class MasterdataController {
         }
     }
 
-    @DeleteMapping
+    @DeleteMapping("/delete/all")
     public void deleteAllProducts() {
         masterdataRepository.deleteAll();
     }
@@ -138,6 +138,7 @@ public class MasterdataController {
     public ResponseEntity<Integer> getCountOfUpdated() {
         return ResponseEntity.ok(updateCounter);
     }
+
     public int getSaveCounter() {
         return saveCounter;
     }

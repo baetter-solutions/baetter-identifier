@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import Dropzone from 'react-dropzone';
 import axios from 'axios';
 
-function CounterUpdater({ setSavecount, setupdateCounter, settotalCount }) {
+function CounterUpdater({setSavecount, setupdateCounter, settotalCount}) {
     useEffect(() => {
         axios
             .get('http://localhost:8080/products/totaltransmitted')
@@ -38,6 +38,7 @@ function CounterUpdater({ setSavecount, setupdateCounter, settotalCount }) {
 
     return null;
 }
+
 const onDrop = acceptedFiles => {
     const formData = new FormData();
     formData.append('file', acceptedFiles[0]);
@@ -46,7 +47,7 @@ const onDrop = acceptedFiles => {
         .post('http://localhost:8080/masterdata', formData)
         .then(response => {
             console.log(response.data);
-
+            window.location.reload();
         })
         .catch(error => {
             console.error(error);
@@ -71,17 +72,17 @@ export default function ReferenceData() {
     }, []);
 
 
-
     return (
         <div className="mainstyle">
             <div className="divcontent">
                 <div className="div2ndlvl rounded border">
-                    Hier kann man die Stammdaten importieren bzw. aktualisieren
+                    Hier kann man die Stammdaten <br/>importieren bzw. aktualisieren
                 </div>
                 <div className="div2ndlvl">
                     <Dropzone onDrop={onDrop}>
                         {({getRootProps, getInputProps, isDragActive}) => (
-                            <div {...getRootProps()} className="dropzonestyle rounded border">
+                            <div {...getRootProps()}
+                                 className="dropzonestyle rounded border shadow-sm  bg-body-tertiary">
                                 <input {...getInputProps()} />
                                 {isDragActive
                                     ? "Drop it like it's hot!"

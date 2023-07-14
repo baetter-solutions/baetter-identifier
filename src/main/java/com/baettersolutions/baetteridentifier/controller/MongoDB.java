@@ -21,10 +21,8 @@ public class MongoDB {
 
     public String getAxnrByArticlenumber(String articlenumber) {
         try {
-//            connectionMongo();
             Document query = new Document("articlenumber", articlenumber);
             Document result = collection.find(query).first();
-//            closeConnection();
             return String.valueOf(result.getInteger("axnr"));
         } catch (NullPointerException e) {
             return null;

@@ -23,6 +23,7 @@ public class FileUploadController {
     private static final String UPLOAD_FOLDER = "src/main/resources/importfiles/customer";
     private static final String UPLOAD_MASTERDATA = "src/main/resources/importfiles/company/temp_masterinput";
     public int sheetNumber;
+    public int columnForCheck;
     public int lineOfHealine;
 
     private final MasterdataController masterdataController;
@@ -47,6 +48,17 @@ public class FileUploadController {
             return ResponseEntity.ok(file.getOriginalFilename() + "  wurde hochgeladen");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Upload failed");
+        }
+    }
+
+    @PostMapping("/columcheck")
+    public ResponseEntity<String> handleColumnForCheck(@RequestBody Integer columnCheck){
+        try {
+            columnForCheck = columnCheck - 1;
+            System.out.println(columnForCheck + " des muast da au schaun");
+            return ResponseEntity.ok("");
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error with Colmunvalue");
         }
     }
 
@@ -92,4 +104,5 @@ public class FileUploadController {
 //            throw new RuntimeException(e);
 //        }
 //    }
+
 }
