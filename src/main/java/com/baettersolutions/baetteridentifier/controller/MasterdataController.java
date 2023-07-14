@@ -61,7 +61,7 @@ public class MasterdataController {
             }
             if (commentCount % commentEvery == 0 || commentCount==totalTransmissions/2) {
                 int percent = commentCount*100/totalTransmissions;
-                System.out.println("\rTransmission Position at " + commentCount + " of " + totalTransmissions + "("+percent+"%)");
+                System.out.print("\rTransmission Position at " + commentCount + " of " + totalTransmissions + "("+percent+"%)");
             }
         }
         totalCount = saveCounter + totalCount;
