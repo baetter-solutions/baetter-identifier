@@ -1,27 +1,24 @@
 package com.baettersolutions.baetteridentifier.custfile;
 
 import com.baettersolutions.baetteridentifier.XSSFsheetIterator;
+import com.baettersolutions.baetteridentifier.controller.Eraser;
 import com.baettersolutions.baetteridentifier.controller.Identifier;
-import com.baettersolutions.baetteridentifier.database.ConvertFromExcel;
+import com.baettersolutions.baetteridentifier.database.ConvertExcelMD;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 
 public class CustomerdataMainHandler {
 
     private static String pathfinishedfile = "src/main/resources/outputfiles/customer/";
-    private static int axRowNumber = -1;
 
-    public static int getAxRowNumber() {
-        return axRowNumber;
+    public static void setPathfinishedfile(String pathfinishedfile) {
+        CustomerdataMainHandler.pathfinishedfile = pathfinishedfile;
     }
 
     public static void handlingOfUserdataInput(String filepathToExcelfileFromUser, int custSheetnumber, int custHeadline, int[] columns, int columnWithNumberToIdentify) {
@@ -30,71 +27,16 @@ public class CustomerdataMainHandler {
         String newFileNameAndPath = pathfinishedfile + path.getName();
         System.out.println(newFileNameAndPath);
 
-        ConvertFromExcel xslxToWorkitem = new ConvertFromExcel();
+        ConvertExcelMD xslxToWorkitem = new ConvertExcelMD();
         XSSFWorkbook userbook = xslxToWorkitem.generateWorksheet(filepathToExcelfileFromUser).getWorkbook();
         XSSFSheet usersheet = xslxToWorkitem.generateUsersheetForWork(userbook, custSheetnumber, custHeadline);
-        XSSFSheet usersheetwithAXRow = addRowAXNr(usersheet);
+        ConverExcelCF cfFile = new ConverExcelCF();
+        XSSFSheet usersheetwithAXRow = cfFile.addRowAXNr(usersheet);
         XSSFSheet filledUsersheet = new Identifier().addAxNr(usersheetwithAXRow, columnWithNumberToIdentify);
-        createExcelFile(newFileNameAndPath, filledUsersheet);
-//        iteratorsheet(filledUsersheet);
+        cfFile.createExcelFile(newFileNameAndPath, filledUsersheet);
 
-    }
-
-    public static XSSFSheet addRowAXNr(XSSFSheet usersheet) {
-        Row headerRow = usersheet.getRow(0);
-        axRowNumber = headerRow.getLastCellNum();
-        Cell headerCell = headerRow.createCell(axRowNumber);
-        headerCell.setCellValue("AX-Number");
-        return usersheet;
-    }
-
-    public static void createExcelFile(String outputPath, XSSFSheet filledUsersheet) {
-        try {
-            XSSFWorkbook workbook = new XSSFWorkbook();
-            XSSFSheet newSheet = workbook.createSheet(filledUsersheet.getSheetName());
-            copySheet(filledUsersheet, newSheet);
-            FileOutputStream out = new FileOutputStream(outputPath);
-            workbook.write(out);
-            workbook.close();
-            out.close();
-            System.out.println("Excel-Datei wurde erstellt: " + outputPath);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private static void iteratorsheet(XSSFSheet toPrint) {
-        new XSSFsheetIterator().showFileWithIterator(toPrint);
-    }
-
-    private static void copySheet(XSSFSheet sourceSheet, XSSFSheet targetSheet) {
-        for (Row sourceRow : sourceSheet) {
-            Row newRow = targetSheet.createRow(sourceRow.getRowNum());
-            for (Cell sourceCell : sourceRow) {
-                Cell newCell = newRow.createCell(sourceCell.getColumnIndex());
-                copyCell(sourceCell, newCell);
-            }
-        }
-    }
-
-    private static void copyCell(Cell sourceCell, Cell newCell) {
-        CellType cellType = sourceCell.getCellType();
-        switch (cellType) {
-            case STRING:
-                newCell.setCellValue(sourceCell.getStringCellValue());
-                break;
-            case NUMERIC:
-                newCell.setCellValue(sourceCell.getNumericCellValue());
-                break;
-            case FORMULA:
-                newCell.setCellValue(sourceCell.getCellFormula());
-                break;
-            case BLANK:
-                newCell.setCellValue("");
-                break;
-            default:
-                break;
-        }
+        Eraser.deleteFile(filepathToExcelfileFromUser);
+//        cfFile.iteratorsheet(filledUsersheet);
 
     }
 }

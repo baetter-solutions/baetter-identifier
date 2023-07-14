@@ -11,9 +11,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Objects;
 
-public class ConvertFromExcel {
+public class ConvertExcelMD {
 
     private final HashMap<String, String> headlineMap = new HashMap<String, String>() {{
         put("ARTIKELNUMMER", "axnr");

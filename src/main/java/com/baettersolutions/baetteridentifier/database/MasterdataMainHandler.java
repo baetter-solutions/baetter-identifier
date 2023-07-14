@@ -1,6 +1,5 @@
 package com.baettersolutions.baetteridentifier.database;
 
-import com.baettersolutions.baetteridentifier.XSSFsheetIterator;
 import com.baettersolutions.baetteridentifier.controller.Eraser;
 import com.baettersolutions.baetteridentifier.controller.HttpMasterdataClient;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -16,7 +15,7 @@ public class MasterdataMainHandler {
     }
 
     public static void handlingOfMasterdataInput(String importFilepathOrigin, int sheetNumber, int lineOfHeadline) throws IOException {
-        ConvertFromExcel xslxToWorkitem = new ConvertFromExcel();
+        ConvertExcelMD xslxToWorkitem = new ConvertExcelMD();
         System.out.println("- convert from Excel");
         XSSFWorkbook mastabook = xslxToWorkitem.generateWorksheet(importFilepathOrigin).getWorkbook();
         System.out.println("- generate Workbook");

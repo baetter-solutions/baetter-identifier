@@ -1,5 +1,6 @@
 package com.baettersolutions.baetteridentifier.controller;
 
+import com.baettersolutions.baetteridentifier.custfile.ConverExcelCF;
 import com.baettersolutions.baetteridentifier.custfile.CustomerdataMainHandler;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -44,7 +45,7 @@ public class Identifier {
         for (int i = 1; i < lastRow; i++) {
             Row currentRow = usersheet.getRow(i);
             Cell targetCell = currentRow.getCell(rowToFindValue);
-            Cell axNumToAdd = currentRow.createCell(CustomerdataMainHandler.getAxRowNumber());
+            Cell axNumToAdd = currentRow.createCell(ConverExcelCF.getAxRowNumber());
 
 
             String targetValue = getCellValue(targetCell);
@@ -54,7 +55,8 @@ public class Identifier {
                     axNr = identifyByManufacturType(targetValue);
                 }
                 if (axNr != null) {
-                    System.out.println(axNr + " identified - actual Position -> "+ i +" of " + lastRow);
+                    int perc = i*100/lastRow;
+                    System.out.print("\r"+axNr + " identified - actual Position -> "+ i +" of " + lastRow +" ("+perc+"%)" );
                     counterIdentified++;
                 }
                 axNumToAdd.setCellValue(axNr);
@@ -62,7 +64,7 @@ public class Identifier {
                 axNumToAdd.setCellValue("");
             }
         }
-        System.out.println(counterIdentified + " Article identified");
+        System.out.print("\r"+counterIdentified + " Article identified\n");
         connection.closeConnection();
         return usersheet;
     }
