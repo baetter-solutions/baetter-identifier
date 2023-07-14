@@ -34,7 +34,7 @@ public class ConverExcelCF {
             workbook.close();
             out.close();
             System.out.println("Excel-Datei wurde erstellt: " + outputPath);
-            CustomerdataMainHandler.setPathfinishedfile(outputPath);
+//            CustomerdataMainHandler.setPathfinishedfile(outputPath);
         } catch (Exception e) {
             e.printStackTrace();
         }

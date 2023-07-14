@@ -70,27 +70,26 @@ public class FileUploadController {
             String filePath = uploadPath.resolve(file.getOriginalFilename()).toString();
             file.transferTo(new File(filePath));
             new MasterdataMainHandler().handlingOfMasterdataInput(filePath, sheetNumber, lineOfHealine);
-            buildResponse();
             return ResponseEntity.ok(file.getOriginalFilename() + " wurde hochgeladen und wird nun konvertiert");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Upload failed");
         }
     }
 
-    @GetMapping("/masterdataresponse")
-    public ResponseEntity<HashMap<String, Integer>> buildResponse() {
-        try {
-            int totalCount = masterdataController.getTotalCount();
-            int updateCounter = masterdataController.getUpdateCounter();
-            int saveCounter = masterdataController.getSaveCounter();
-            HashMap<String, Integer> response = new HashMap<>();
-            response.put("saveCounter", saveCounter);
-            response.put("updateCounter", updateCounter);
-            response.put("totalCount", totalCount);
-            System.out.println(response);
-            return ResponseEntity.ok(response);
-        } catch (RuntimeException e){
-            throw new RuntimeException(e);
-        }
-    }
+//    @GetMapping("/masterdataresponse")
+//    public ResponseEntity<HashMap<String, Integer>> buildResponse() {
+//        try {
+//            int totalCount = masterdataController.getTotalCount();
+//            int updateCounter = masterdataController.getUpdateCounter();
+//            int saveCounter = masterdataController.getSaveCounter();
+//            HashMap<String, Integer> response = new HashMap<>();
+//            response.put("saveCounter", saveCounter);
+//            response.put("updateCounter", updateCounter);
+//            response.put("totalCount", totalCount);
+//            System.out.println(response);
+//            return ResponseEntity.ok(response);
+//        } catch (RuntimeException e){
+//            throw new RuntimeException(e);
+//        }
+//    }
 }

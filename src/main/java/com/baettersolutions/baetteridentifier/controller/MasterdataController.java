@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/products")
 public class MasterdataController {
     private final MasterdataRepository masterdataRepository;
@@ -20,18 +21,6 @@ public class MasterdataController {
     public int updateCounter;
 
     public int totalCount;
-
-    public int getSaveCounter() {
-        return saveCounter;
-    }
-
-    public int getUpdateCounter() {
-        return updateCounter;
-    }
-
-    public int getTotalCount() {
-        return totalCount;
-    }
 
     @Autowired
     public MasterdataController(MasterdataRepository masterdataRepository) {
@@ -64,11 +53,11 @@ public class MasterdataController {
                 System.out.print("\rTransmission Position at " + commentCount + " of " + totalTransmissions + " ("+percent+"%)");
             }
         }
-        totalCount = saveCounter + totalCount;
+        totalCount = saveCounter + updateCounter;
         if (totalCount > 0) {
-            System.out.println("Total transmitted: " + totalCount);
+            System.out.println("\nTotal transmitted: " + totalCount);
             System.out.println(" - New: " + saveCounter);
-            System.out.println(" - Updated " + totalCount);
+            System.out.println(" - Updated " + updateCounter);
         }
     }
 
@@ -131,6 +120,32 @@ public class MasterdataController {
         masterdataRepository.deleteAll();
     }
 
+    @GetMapping("/count")
+    public ResponseEntity<Long> getCountOfProducts() {
+        long count = masterdataRepository.count();
+        return ResponseEntity.ok(count);
+    }
 
+    @GetMapping("/totaltransmitted")
+    public ResponseEntity<Integer> getCountOfTotaltransmitted() {
+        return ResponseEntity.ok(totalCount);
+    }
+    @GetMapping("/countofnewitems")
+    public ResponseEntity<Integer> getCountOfNewItems() {
+        return ResponseEntity.ok(saveCounter);
+    }
+    @GetMapping("/countoffupdated")
+    public ResponseEntity<Integer> getCountOfUpdated() {
+        return ResponseEntity.ok(updateCounter);
+    }
+    public int getSaveCounter() {
+        return saveCounter;
+    }
+    public int getUpdateCounter() {
+        return updateCounter;
+    }
+    public int getTotalCount() {
+        return totalCount;
+    }
 }
 

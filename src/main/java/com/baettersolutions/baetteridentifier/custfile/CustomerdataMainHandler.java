@@ -22,11 +22,8 @@ public class CustomerdataMainHandler {
     }
 
     public static void handlingOfUserdataInput(String filepathToExcelfileFromUser, int custSheetnumber, int custHeadline, int[] columns, int columnWithNumberToIdentify) {
-        System.out.println("File located at: " + filepathToExcelfileFromUser);
         File path = new File(filepathToExcelfileFromUser);
         String newFileNameAndPath = pathfinishedfile + path.getName();
-        System.out.println(newFileNameAndPath);
-
         ConvertExcelMD xslxToWorkitem = new ConvertExcelMD();
         XSSFWorkbook userbook = xslxToWorkitem.generateWorksheet(filepathToExcelfileFromUser).getWorkbook();
         XSSFSheet usersheet = xslxToWorkitem.generateUsersheetForWork(userbook, custSheetnumber, custHeadline);

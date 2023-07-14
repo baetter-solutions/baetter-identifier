@@ -1,56 +1,82 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Dropzone from 'react-dropzone';
 import axios from 'axios';
 
-const ReferenceData = () => {
-    /*  const [counters, setCounters] = useState({});
-
-      useEffect(() => {
-          fetch('/masterdataresponse')
-              .then(response => response.json())
-              .then(data => setCounters(data))
-              .catch(error => console.error(error));
-      }, []);*/
-
-    const onDrop = acceptedFiles => {
-        const formData = new FormData();
-        formData.append('file', acceptedFiles[0]);
-
+function CounterUpdater({ setSavecount, setupdateCounter, settotalCount }) {
+    useEffect(() => {
         axios
-            .post('http://localhost:8080/masterdata', formData)
+            .get('http://localhost:8080/products/totaltransmitted')
             .then(response => {
-                console.log(response.data);
+                setSavecount(response.data);
             })
             .catch(error => {
                 console.error(error);
             });
-    };
+    }, [setSavecount]);
 
-    /*const {MongoClient} = require('mongodb');
-    const uri = process.env.REACT_APP_MONGODB_CONNECTION;
+    useEffect(() => {
+        axios
+            .get('http://localhost:8080/products/countofnewitems')
+            .then(response => {
+                setupdateCounter(response.data);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }, [setupdateCounter]);
 
-    const client = new MongoClient(uri, {useNewUrlParser: true, useUnifiedTopology: true});
+    useEffect(() => {
+        axios
+            .get('http://localhost:8080/products/countoffupdated')
+            .then(response => {
+                settotalCount(response.data);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }, [settotalCount]);
 
-    async function getTotalDocuments(){
-        try {
-            await client.connect();
-            const database = client.db('dbidentifier');
-            const collection = database.collection('masterdata');
+    return null;
+}
+const onDrop = acceptedFiles => {
+    const formData = new FormData();
+    formData.append('file', acceptedFiles[0]);
 
-            const totalDocuments = await collection.countDocuments();
-            return totalDocuments;
-        } finally {
-            await client.close();
-        }
-    }
-*/
-    // let countOfDocuments = "getTotalDocuments()";
+    axios
+        .post('http://localhost:8080/masterdata', formData)
+        .then(response => {
+            console.log(response.data);
+
+        })
+        .catch(error => {
+            console.error(error);
+        });
+};
+
+export default function ReferenceData() {
+    const [dbcount, setDBcount] = useState();
+    const [saveCounter, setSavecount] = useState();
+    const [updateCounter, setupdateCounter] = useState();
+    const [totalCount, settotalCount] = useState();
+
+    useEffect(() => {
+        axios
+            .get('http://localhost:8080/products/count')
+            .then(response => {
+                setDBcount(response.data);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }, []);
+
+
 
     return (
         <div className="mainstyle">
             <div className="divcontent">
                 <div className="div2ndlvl rounded border">
-                    <p>Hier kann man die Stammdaten importieren bzw. aktualisieren</p>
+                    Hier kann man die Stammdaten importieren bzw. aktualisieren
                 </div>
                 <div className="div2ndlvl">
                     <Dropzone onDrop={onDrop}>
@@ -65,12 +91,12 @@ const ReferenceData = () => {
                     </Dropzone>
                 </div>
                 <div className="div2ndlvl rounded border">
-                    <p>Total number of articles: "countOfDocuments"</p>
+                    Total number of articles: {dbcount}
                 </div>
                 <div className="div2ndlvl rounded border">
-                    Total transmitted: "counters.saveCounter"<br/>
-                    New: "counters.updateCounter"<br/>
-                    Updated: "counters.totalCount"
+                    Total transmitted: {saveCounter}<br/>
+                    New: {updateCounter}<br/>
+                    Updated: {totalCount}
                 </div>
                 <footer>
                     <h3>Implemented</h3>
@@ -78,14 +104,15 @@ const ReferenceData = () => {
                     Convert from Excel to JSON <br/>
                     Look in DB, is it Article = exist ? POST : PUT;
                     <h3>Coming soon</h3>
-                    installation of batch processing for large files <br/>
-                    feedback of transmission <br/>
-                    DB Status/Submit Display
+                    installation of batch processing for large files
                 </footer>
             </div>
+            <CounterUpdater
+                setSavecount={setSavecount}
+                setupdateCounter={setupdateCounter}
+                settotalCount={settotalCount}
+            />
 
         </div>
     );
-};
-
-export default ReferenceData;
+}

@@ -10,7 +10,7 @@ public class Eraser {
 
             if (file.exists()) {
                 if (file.delete()) {
-                    System.out.println("File deleted at: " + filePath);
+                    System.out.println("Temp-File deleted at: " + filePath);
                 } else {
                     System.out.println("Error while deleting: " + filePath);
                 }

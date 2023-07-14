@@ -60,10 +60,8 @@ class CustomerFile extends Component {
                                        value={this.state.custName}
                                        onChange={this.handleInputChange}/>
                             </div>
-                            <div className="form-container">
-                                <div className="btnPosition">
+                            <div className="btnPosition">
                                     <button type="submit" className="btn btn-primary">Submit</button>
-                                </div>
                             </div>
                         </form>
                     </div>
