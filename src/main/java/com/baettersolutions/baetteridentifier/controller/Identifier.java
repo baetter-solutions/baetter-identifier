@@ -1,5 +1,6 @@
 package com.baettersolutions.baetteridentifier.controller;
 
+import com.baettersolutions.baetteridentifier.custfile.CustomerdataMainHandler;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -27,49 +28,23 @@ public class Identifier {
     }
 
     public String identifyByManufacturArticlenumber(String manufactureNumber) {
-        String result = new MongoDB().getAxnrByArticlenumber(manufactureNumber);
-        int maxRetries = 100;
-        int retryDelay = 50;
-        int retryCount = 0;
-        while (result == null && retryCount < maxRetries) {
-            try {
-                Thread.sleep(retryDelay);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            result = new MongoDB().getAxnrByArticlenumber(manufactureNumber);
-            retryCount++;
-        }
-        return result;
+        return new MongoDB().getAxnrByArticlenumber(manufactureNumber);
     }
 
     public String identifyByManufacturType(String manufacturerType) {
-        String result = new MongoDB().getAxnrByType(manufacturerType);
-        int maxRetries = 100;
-        int retryDelay = 50;
-        int retryCount = 0;
-        while (result == null && retryCount < maxRetries) {
-            try {
-                Thread.sleep(retryDelay);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            result = new MongoDB().getAxnrByType(manufacturerType);
-            retryCount++;
-        }
-        return result;
+        return new MongoDB().getAxnrByType(manufacturerType);
     }
 
     public XSSFSheet addAxNr(XSSFSheet usersheet, int rowToFindValue) {
+        int lastRow = usersheet.getPhysicalNumberOfRows();
+        int counterIdentified = 1;
 
         MongoDB connection = new MongoDB();
         connection.connectionMongo();
-        int lastRow = usersheet.getPhysicalNumberOfRows();
-        int counterIdentified = 0;
         for (int i = 1; i < lastRow; i++) {
             Row currentRow = usersheet.getRow(i);
             Cell targetCell = currentRow.getCell(rowToFindValue);
-            Cell axNumToAdd = currentRow.createCell(lastRow + 1);
+            Cell axNumToAdd = currentRow.createCell(CustomerdataMainHandler.getAxRowNumber());
 
 
             String targetValue = getCellValue(targetCell);
@@ -87,6 +62,7 @@ public class Identifier {
                 axNumToAdd.setCellValue("");
             }
         }
+        System.out.println(counterIdentified + " Article identified");
         connection.closeConnection();
         return usersheet;
     }

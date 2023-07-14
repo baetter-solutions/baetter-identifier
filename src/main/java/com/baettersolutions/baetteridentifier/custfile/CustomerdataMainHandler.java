@@ -18,6 +18,11 @@ import java.io.IOException;
 public class CustomerdataMainHandler {
 
     private static String pathfinishedfile = "src/main/resources/outputfiles/customer/";
+    private static int axRowNumber = -1;
+
+    public static int getAxRowNumber() {
+        return axRowNumber;
+    }
 
     public static void handlingOfUserdataInput(String filepathToExcelfileFromUser, int custSheetnumber, int custHeadline, int[] columns, int columnWithNumberToIdentify) {
         System.out.println("File located at: " + filepathToExcelfileFromUser);
@@ -31,14 +36,14 @@ public class CustomerdataMainHandler {
         XSSFSheet usersheetwithAXRow = addRowAXNr(usersheet);
         XSSFSheet filledUsersheet = new Identifier().addAxNr(usersheetwithAXRow, columnWithNumberToIdentify);
         createExcelFile(newFileNameAndPath, filledUsersheet);
-        iteratorsheet(filledUsersheet);
+//        iteratorsheet(filledUsersheet);
 
     }
 
     public static XSSFSheet addRowAXNr(XSSFSheet usersheet) {
         Row headerRow = usersheet.getRow(0);
-        int lastCellNum = headerRow.getLastCellNum();
-        Cell headerCell = headerRow.createCell(lastCellNum);
+        axRowNumber = headerRow.getLastCellNum();
+        Cell headerCell = headerRow.createCell(axRowNumber);
         headerCell.setCellValue("AX-Number");
         return usersheet;
     }
@@ -80,9 +85,6 @@ public class CustomerdataMainHandler {
                 break;
             case NUMERIC:
                 newCell.setCellValue(sourceCell.getNumericCellValue());
-                break;
-            case BOOLEAN:
-                newCell.setCellValue(sourceCell.getBooleanCellValue());
                 break;
             case FORMULA:
                 newCell.setCellValue(sourceCell.getCellFormula());

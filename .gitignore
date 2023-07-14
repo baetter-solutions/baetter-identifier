@@ -4,6 +4,10 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+### ZEIG DES MA NET DORT BRAUCHT ###
+src/main/resources/outputfiles/customer
+src/main/resources/importfiles/customer
+
 ### STS ###
 .apt_generated
 .classpath
