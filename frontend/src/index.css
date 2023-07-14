@@ -37,13 +37,15 @@ code {
 
 .divcontent {
     display: flex;
-    width: 60%;
+    width: 40%;
     flex-direction: column;
     align-items: center;
     text-align: center;
 }
 .div2ndlvl{
     display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
     width: 100%;
     justify-content: center;
     padding: 10px;
@@ -56,11 +58,13 @@ code {
 }
 
 .custInputWidth {
-    width: 200px;
+    min-width: 150px;
+    width: 25%;
 }
 
 .form-container {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     margin-bottom: 10px;
 }

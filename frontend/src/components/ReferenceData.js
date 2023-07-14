@@ -94,9 +94,10 @@ export default function ReferenceData() {
                     Total number of articles: {dbcount}
                 </div>
                 <div className="div2ndlvl rounded border">
-                    Total transmitted: {saveCounter}<br/>
+                    <h3>Last Transmission</h3>
                     New: {updateCounter}<br/>
-                    Updated: {totalCount}
+                    Updated: {totalCount}<br/>
+                    Total transmitted: {saveCounter}
                 </div>
                 <footer>
                     <h3>Implemented</h3>
