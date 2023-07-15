@@ -20,11 +20,11 @@ public class CustomerdataMainHandler {
         CustomerdataMainHandler.pathfinishedfile = pathfinishedfile;
     }
 
+    public static String getPathfinishedfile() {
+        return pathfinishedfile;
+    }
+
     public static void handlingOfUserdataInput(String filepathToExcelfileFromUser, int custSheetnumber, int custHeadline, int columnWithNumberToIdentify) {
-//        System.out.println("filepathToExcelfileFromUser " +filepathToExcelfileFromUser);
-//        System.out.println("custSheetnumber " +custSheetnumber);
-//        System.out.println("custHeadline "+ custHeadline);
-//        System.out.println("columnWithNumberToIdentify "+columnWithNumberToIdentify);
         File path = new File(filepathToExcelfileFromUser);
         String newFileNameAndPath = pathfinishedfile + path.getName();
         ConvertExcelMD xslxToWorkitem = new ConvertExcelMD();

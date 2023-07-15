@@ -25,10 +25,8 @@ public class FileUploadController {
     // Masterdata
     public int sheetNumber;
     public int lineOfHealine;
-
+    // Cust File
     private String custFilePath;
-
-
     private final MasterdataController masterdataController;
 
     @Autowired
@@ -39,21 +37,18 @@ public class FileUploadController {
     @PostMapping("/upload")
     public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file) {
         try {
-            String timestamp = new SimpleDateFormat("yyMMdd-HHmm").format(new Date());
-            String originalFileName = StringUtils.cleanPath(file.getOriginalFilename());
-            String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
-            String newFileName = timestamp + "_" + originalFileName;
+            String newFileName = fileNameUpload(file);
             Path uploadPath = Paths.get(UPLOAD_FOLDER).toAbsolutePath().normalize();
             String path = uploadPath.resolve(newFileName).toString();
             file.transferTo(new File(path));
             System.out.println(newFileName + " wurde hochgeladen");
+
             this.custFilePath = path;
             return ResponseEntity.ok(file.getOriginalFilename() + "  wurde hochgeladen");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Upload failed");
         }
     }
-
 
     @PostMapping("/uploadToCustHandler")
     public ResponseEntity<String> uploadToCustHandler(@RequestBody CustomerFileHandler fileHandler) {
@@ -76,7 +71,6 @@ public class FileUploadController {
         return newFileName;
     }
 
-
     @PostMapping("/masterdata")
     public ResponseEntity<String> uploadMasterdata(@RequestParam("file") MultipartFile file) {
         if (file.isEmpty()) {
@@ -93,18 +87,4 @@ public class FileUploadController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Upload failed");
         }
     }
-
-    /*
-    @PostMapping("/columcheck")
-    public ResponseEntity<String> handleColumnForCheck(@RequestBody Integer columnCheck){
-        try {
-            columnWithNumberToIdentify = columnCheck - 1;
-            System.out.println(columnWithNumberToIdentify + " des muast da au schaun");
-            return ResponseEntity.ok("");
-        } catch (Exception e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error with Colmunvalue");
-        }
-    }
-*/
-
 }
