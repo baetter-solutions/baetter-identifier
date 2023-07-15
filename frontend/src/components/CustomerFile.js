@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import Dropzone from 'react-dropzone';
 import axios from 'axios';
+import {alphabetOptions} from "./stuff/AlphabetOptions";
 
 class CustomerFile extends Component {
 
@@ -14,7 +15,7 @@ class CustomerFile extends Component {
 
     onDrop = (acceptedFiles) => {
         this.formData.append('file', acceptedFiles[0]);
-        console.log(this.formData)
+        // console.log(acceptedFiles[0].name)
     };
 
     uploadFile = (formData) => {
@@ -27,21 +28,7 @@ class CustomerFile extends Component {
                 console.error(error);
             });
     }
-    uploadColNumber = (columnForCheck) => {
-        axios
-            .post('http://localhost:8080/columcheck', columnForCheck, {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then((response) => {
-                console.log(response.data);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
 
-    }
     handleSubmit = (event) => {
         event.preventDefault();
         this.uploadFile(this.formData)
@@ -72,19 +59,21 @@ class CustomerFile extends Component {
     }
 
         handleInputChange = (event) => {
-            this.setState({[event.target.id]: event.target.value});
+        const {id, value} = event.target;
+        this.setState({[id]: value}, ()=>{
+            // console.log(`Value of ${id}: ${value}`);
+        })
         };
 
 
-    render() {
 
+    render() {
         return (
             <article className="mainstyle">
                 <div className="divcontent">
                     <div className="div2ndlvl rounded border ">
-
                         <form onSubmit={this.handleSubmit}>
-                            <p>Kundendetails</p>
+                            Kundendetails
                             <div className="form-container hide">
                                 <label htmlFor="custNumber">Kundennummer:</label>
                                 <input type="number" className="form-control custInputWidth" id="custNumber"
@@ -119,20 +108,24 @@ class CustomerFile extends Component {
                             </div>
                             <div className="form-container">
                                 <label htmlFor="columnWithNumberToIdentify">Spalte zur Prüfung:</label>
-                                <input type="number" className="form-control custInputWidth"
-                                       id="columnWithNumberToIdentify" required
-                                       value={this.state.columnWithNumberToIdentify}
-                                       onInput={this.handleInputChange}
-                                       min="1"
-                                       max="500"
-                                />
+                                <select
+                                    className="form-control custInputWidth"
+                                    id="columnWithNumberToIdentify"
+                                    required
+                                    value={this.state.columnWithNumberToIdentify}
+                                    onChange={this.handleInputChange}
+                                >
+                                    {alphabetOptions.map(option => (
+                                        <option key={option.value} value={option.value}>{option.label}</option>
+                                    ))}
+                                </select>
                             </div>
                             <div className="btnPosition">
                                 <button type="submit" className="btn btn-primary">Submit</button>
                             </div>
                         </form>
                     </div>
-                    <div className="div2ndlvl">
+                    <div className="div2ndlvl" id="droppi">
                         <Dropzone onDrop={this.onDrop}>
                             {({getRootProps, getInputProps, isDragActive}) => (
                                 <div {...getRootProps()}
@@ -140,21 +133,17 @@ class CustomerFile extends Component {
                                     <input {...getInputProps()} />
                                     {isDragActive
                                         ? "Drop it like it's hot!"
-                                        : 'Klicken oder Datei mit der Maus darauf schieben'}
+                                        : this.formData.get('file') ? <div>Ausgewählte Datei: <br/> {this.formData.get('file').name}</div> : 'Klicken oder Datei mit der Maus darauf schieben'}
 
                                 </div>
                             )}
                         </Dropzone>
                     </div>
-                    <footer>
-                        <h3>Implemented</h3>
-                        On Drop -> Call to Backend
-
-
-                        <h3>Coming soon</h3>
-                        EXCEL File preview to select specific sheet, <br/>
-                        row number and details from top
-                    </footer>
+                    <div className="div2ndlvl" id="fertig">
+                        <div className="dropzonestyle rounded border shadow-sm  bg-body-tertiary">
+                            Download File: <a href="#top"> blub</a>
+                        </div>
+                    </div>
                 </div>
             </article>
         );

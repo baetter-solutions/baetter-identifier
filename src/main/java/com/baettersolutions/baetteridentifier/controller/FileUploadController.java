@@ -27,6 +27,11 @@ public class FileUploadController {
     public int lineOfHealine;
     // Cust File
     private String custFilePath;
+    private int custSheetnumber;
+    private int custHeadline;
+    private int columnWithNumberToIdentify;
+
+
     private final MasterdataController masterdataController;
 
     @Autowired
@@ -42,7 +47,6 @@ public class FileUploadController {
             String path = uploadPath.resolve(newFileName).toString();
             file.transferTo(new File(path));
             System.out.println(newFileName + " wurde hochgeladen");
-
             this.custFilePath = path;
             return ResponseEntity.ok(file.getOriginalFilename() + "  wurde hochgeladen");
         } catch (Exception e) {
@@ -53,9 +57,10 @@ public class FileUploadController {
     @PostMapping("/uploadToCustHandler")
     public ResponseEntity<String> uploadToCustHandler(@RequestBody CustomerFileHandler fileHandler) {
         try {
-            int custSheetnumber = fileHandler.getCustSheetnumber() - 1;
-            int custHeadline = fileHandler.getCustHeadline() - 1;
-            int columnWithNumberToIdentify = fileHandler.getColumnWithNumberToIdentify() - 1;
+            Thread.sleep(250);
+            custSheetnumber = fileHandler.getCustSheetnumber() - 1;
+            custHeadline = fileHandler.getCustHeadline() - 1;
+            columnWithNumberToIdentify = fileHandler.getColumnWithNumberToIdentify() - 1;
             CustomerdataMainHandler.handlingOfUserdataInput(custFilePath, custSheetnumber, custHeadline, columnWithNumberToIdentify);
             return ResponseEntity.ok("Daten wurden erfolgreich verarbeitet");
         } catch (Exception e) {

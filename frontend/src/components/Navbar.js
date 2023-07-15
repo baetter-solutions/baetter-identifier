@@ -8,7 +8,7 @@ export const Navbar = () => {
                 <NavLink className="nav-link" aria-current="page" to='/'>Home</NavLink>
             </li>
             <li className="nav-item"><NavLink className="nav-link" to='/CustomerFile'>Kundendatei</NavLink></li>
-            <li className="nav-item"><NavLink className="nav-link disabled" to='/Calculation'>Kalkulation</NavLink>
+            <li className="nav-item"><NavLink className="nav-link " to='/Calculation'>Kalkulation</NavLink>
             </li>
             <li className="nav-item"><NavLink className="nav-link disabled" to='/Export'>Export</NavLink></li>
             <li className="nav-item"><NavLink className="nav-link" to='/ReferenceData'>Stammdaten</NavLink></li>

@@ -64,11 +64,17 @@ code {
     width: 25%;
 }
 
+form{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    margin: 0;
+}
+
 .form-container {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    margin-bottom: 10px;
 }
 
 .form-container label {
@@ -76,7 +82,7 @@ code {
     margin-right: 10px;
 }
 
-.form-container input {
+.form-container input, select {
     flex-grow: 1;
 }
 
@@ -92,6 +98,5 @@ code {
 }
 
 .hide{
-    /*visibility: hidden;*/
     display: none;
 }
