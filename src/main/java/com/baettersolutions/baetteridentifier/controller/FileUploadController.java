@@ -92,4 +92,10 @@ public class FileUploadController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Upload failed");
         }
     }
+
+    @GetMapping("/TranslatedFilepath")
+    public ResponseEntity<String> getPathfinishedfile(){
+        ;
+        return ResponseEntity.ok(CustomerdataMainHandler.getPathfinishedfile());
+    }
 }

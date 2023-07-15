@@ -73,7 +73,7 @@ export default function ReferenceData() {
 
 
     return (
-        <div className="mainstyle">
+        <article className="mainstyle">
             <div className="divcontent">
                 <div className="div2ndlvl rounded border">
                     Hier kann man die Stammdaten <br/>importieren bzw. aktualisieren
@@ -100,14 +100,6 @@ export default function ReferenceData() {
                     Updated: {totalCount}<br/>
                     Total transmitted: {saveCounter}
                 </div>
-                <footer>
-                    <h3>Implemented</h3>
-                    On Drop -> Call to Backend <br/>
-                    Convert from Excel to JSON <br/>
-                    Look in DB, is it Article = exist ? POST : PUT;
-                    <h3>Coming soon</h3>
-                    installation of batch processing for large files
-                </footer>
             </div>
             <CounterUpdater
                 setSavecount={setSavecount}
@@ -115,6 +107,6 @@ export default function ReferenceData() {
                 settotalCount={settotalCount}
             />
 
-        </div>
+        </article>
     );
 }

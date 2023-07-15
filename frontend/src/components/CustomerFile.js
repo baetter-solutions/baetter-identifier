@@ -1,7 +1,21 @@
-import React, {Component} from 'react';
+import React, {Component, useEffect} from 'react';
 import Dropzone from 'react-dropzone';
 import axios from 'axios';
 import {alphabetOptions} from "./stuff/AlphabetOptions";
+
+function FilepathUpdate({setPathfinishedfile}) {
+    useEffect(() => {
+        axios
+            .get('http://localhost:8080/products/TranslatedFilepath')
+            .then(response => {
+                setPathfinishedfile(response.data);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }, [setPathfinishedfile]);
+    return null;
+}
 
 class CustomerFile extends Component {
 
@@ -38,12 +52,12 @@ class CustomerFile extends Component {
             custSheetnumber: parseInt(custSheetnumber),
             custHeadline: parseInt(custHeadline),
             columnWithNumberToIdentify: parseInt(columnWithNumberToIdentify)
-            };
+        };
 
         this.uploadToCustHandler(requestData);
     }
 
-    uploadToCustHandler = (columnForCheck)=> {
+    uploadToCustHandler = (columnForCheck) => {
         axios
             .post('http://localhost:8080/uploadToCustHandler', columnForCheck, {
                 headers: {
@@ -58,16 +72,16 @@ class CustomerFile extends Component {
             })
     }
 
-        handleInputChange = (event) => {
+    handleInputChange = (event) => {
         const {id, value} = event.target;
-        this.setState({[id]: value}, ()=>{
+        this.setState({[id]: value}, () => {
             // console.log(`Value of ${id}: ${value}`);
         })
-        };
-
+    };
 
 
     render() {
+        const { pathfinishedfile } = this.state;
         return (
             <article className="mainstyle">
                 <div className="divcontent">
@@ -90,7 +104,8 @@ class CustomerFile extends Component {
                             </div>
                             <div className="form-container">
                                 <label htmlFor="custSheetnumber">Tabellenblatt:</label>
-                                <input type="number" className="form-control custInputWidth" id="custSheetnumber" required
+                                <input type="number" className="form-control custInputWidth" id="custSheetnumber"
+                                       required
                                        value={this.state.custSheetnumber}
                                        onInput={this.handleInputChange}
                                        min="1"
@@ -133,7 +148,9 @@ class CustomerFile extends Component {
                                     <input {...getInputProps()} />
                                     {isDragActive
                                         ? "Drop it like it's hot!"
-                                        : this.formData.get('file') ? <div>Ausgewählte Datei: <br/> {this.formData.get('file').name}</div> : 'Klicken oder Datei mit der Maus darauf schieben'}
+                                        : this.formData.get('file') ?
+                                            <div>Ausgewählte Datei: <br/> {this.formData.get('file').name}
+                                            </div> : 'Klicken oder Datei mit der Maus darauf schieben'}
 
                                 </div>
                             )}
@@ -141,10 +158,11 @@ class CustomerFile extends Component {
                     </div>
                     <div className="div2ndlvl" id="fertig">
                         <div className="dropzonestyle rounded border shadow-sm  bg-body-tertiary">
-                            Download File: <a href="#top"> blub</a>
+                            Download File: <a href="#top"> {pathfinishedfile}</a>
                         </div>
                     </div>
                 </div>
+                <FilepathUpdate setPathfinishedfile={path => this.setState({ pathfinishedfile: path })} />
             </article>
         );
     }
