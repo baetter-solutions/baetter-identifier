@@ -95,7 +95,7 @@ public class FileUploadController {
 
     @GetMapping("/TranslatedFilepath")
     public ResponseEntity<String> getPathfinishedfile(){
-        ;
-        return ResponseEntity.ok(CustomerdataMainHandler.getPathfinishedfile());
+        String path = CustomerdataMainHandler.getPathfinishedfile();
+        return ResponseEntity.ok(path);
     }
 }

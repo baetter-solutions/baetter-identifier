@@ -7,6 +7,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import java.io.File;
 import java.io.FileOutputStream;
 
 
@@ -33,8 +34,7 @@ public class ConverExcelCF {
             workbook.write(out);
             workbook.close();
             out.close();
-            System.out.println("Excel-Datei wurde erstellt: " + outputPath);
-            CustomerdataMainHandler.setPathfinishedfile(outputPath);
+            CustomerdataMainHandler.setPathfinishedfile(new File(outputPath).getAbsolutePath());
         } catch (Exception e) {
             e.printStackTrace();
         }
