@@ -14,14 +14,17 @@ import java.io.File;
 import java.io.FileOutputStream;
 
 public class CustomerdataMainHandler {
-
     private static String pathfinishedfile = "src/main/resources/outputfiles/customer/";
 
     public static void setPathfinishedfile(String pathfinishedfile) {
         CustomerdataMainHandler.pathfinishedfile = pathfinishedfile;
     }
 
-    public static void handlingOfUserdataInput(String filepathToExcelfileFromUser, int custSheetnumber, int custHeadline, int[] columns, int columnWithNumberToIdentify) {
+    public static void handlingOfUserdataInput(String filepathToExcelfileFromUser, int custSheetnumber, int custHeadline, int columnWithNumberToIdentify) {
+//        System.out.println("filepathToExcelfileFromUser " +filepathToExcelfileFromUser);
+//        System.out.println("custSheetnumber " +custSheetnumber);
+//        System.out.println("custHeadline "+ custHeadline);
+//        System.out.println("columnWithNumberToIdentify "+columnWithNumberToIdentify);
         File path = new File(filepathToExcelfileFromUser);
         String newFileNameAndPath = pathfinishedfile + path.getName();
         ConvertExcelMD xslxToWorkitem = new ConvertExcelMD();

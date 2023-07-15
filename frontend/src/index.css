@@ -46,6 +46,8 @@ code {
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
+    max-width: 430px;
+    min-width: 160px;
     width: 100%;
     justify-content: center;
     padding: 10px;

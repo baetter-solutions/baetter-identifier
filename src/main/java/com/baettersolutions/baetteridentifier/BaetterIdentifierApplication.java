@@ -51,7 +51,7 @@ public class BaetterIdentifierApplication {
         int custHeadline = 0;
         int[] columns = {0, 2, 3, 4};
         int columnWithNumberToIdentify = 3;
-        CustomerdataMainHandler.handlingOfUserdataInput(path,custSheetnumber,custHeadline,columns, columnWithNumberToIdentify);
+        CustomerdataMainHandler.handlingOfUserdataInput(path,custSheetnumber,custHeadline, columnWithNumberToIdentify);
     }
 
 }

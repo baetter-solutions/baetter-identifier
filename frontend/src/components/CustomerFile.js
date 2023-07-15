@@ -5,11 +5,9 @@ import axios from 'axios';
 class CustomerFile extends Component {
 
     state = {
-        // sheetForWork: '',
-        // custNumber: '',
-        // custName: '',
-        columnForCheck: ''
-
+        custSheetnumber: '',
+        custHeadline: '',
+        columnWithNumberToIdentify: ''
     };
 
     formData = new FormData();
@@ -29,7 +27,7 @@ class CustomerFile extends Component {
                 console.error(error);
             });
     }
-    uploadColNumber = (columnForCheck) =>{
+    uploadColNumber = (columnForCheck) => {
         axios
             .post('http://localhost:8080/columcheck', columnForCheck, {
                 headers: {
@@ -46,22 +44,40 @@ class CustomerFile extends Component {
     }
     handleSubmit = (event) => {
         event.preventDefault();
-        // console.log(this.state.sheetForWork);
-        // console.log(this.state.custNumber);
-        // console.log(this.state.custName);
-            this.uploadColNumber(this.state.columnForCheck)
-            this.uploadFile(this.formData);
+        this.uploadFile(this.formData)
 
+        const {custSheetnumber, custHeadline, columnWithNumberToIdentify} = this.state;
+        const requestData = {
+            custSheetnumber: parseInt(custSheetnumber),
+            custHeadline: parseInt(custHeadline),
+            columnWithNumberToIdentify: parseInt(columnWithNumberToIdentify)
+            };
 
-    };
+        this.uploadToCustHandler(requestData);
+    }
 
-    handleInputChange = (event) => {
-        this.setState({[event.target.id]: event.target.value});
-    };
+    uploadToCustHandler = (columnForCheck)=> {
+        axios
+            .post('http://localhost:8080/uploadToCustHandler', columnForCheck, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then((response) => {
+                console.log(response.data);
+            })
+            .catch((error) => {
+                console.error(error);
+            })
+    }
 
+        handleInputChange = (event) => {
+            this.setState({[event.target.id]: event.target.value});
+        };
 
 
     render() {
+
         return (
             <article className="mainstyle">
                 <div className="divcontent">
@@ -69,11 +85,6 @@ class CustomerFile extends Component {
 
                         <form onSubmit={this.handleSubmit}>
                             <p>Kundendetails</p>
-                            <div className="form-container hide">
-                                <label htmlFor="sheetForWork">Tabellenblatt:</label>
-                                <input type="text" className="form-control custInputWidth" id="sheetForWork"
-                                    /* value={this.state.sheetForWork} onChange={this.handleInputChange}*//>
-                            </div>
                             <div className="form-container hide">
                                 <label htmlFor="custNumber">Kundennummer:</label>
                                 <input type="number" className="form-control custInputWidth" id="custNumber"
@@ -89,9 +100,28 @@ class CustomerFile extends Component {
                                     onChange={this.handleInputChange}*//>
                             </div>
                             <div className="form-container">
-                                <label htmlFor="columnForCheck">Spalte zur Prüfung:</label>
-                                <input type="number" className="form-control custInputWidth" id="columnForCheck" required
-                                       value={this.state.columnForCheck}
+                                <label htmlFor="custSheetnumber">Tabellenblatt:</label>
+                                <input type="number" className="form-control custInputWidth" id="custSheetnumber" required
+                                       value={this.state.custSheetnumber}
+                                       onInput={this.handleInputChange}
+                                       min="1"
+                                       max="20"
+                                />
+                            </div>
+                            <div className="form-container">
+                                <label htmlFor="custHeadline">Zeile der Überschrift:</label>
+                                <input type="number" className="form-control custInputWidth" id="custHeadline" required
+                                       value={this.state.custHeadline}
+                                       onInput={this.handleInputChange}
+                                       min="1"
+                                       max="500"
+                                />
+                            </div>
+                            <div className="form-container">
+                                <label htmlFor="columnWithNumberToIdentify">Spalte zur Prüfung:</label>
+                                <input type="number" className="form-control custInputWidth"
+                                       id="columnWithNumberToIdentify" required
+                                       value={this.state.columnWithNumberToIdentify}
                                        onInput={this.handleInputChange}
                                        min="1"
                                        max="500"
@@ -115,7 +145,6 @@ class CustomerFile extends Component {
                                 </div>
                             )}
                         </Dropzone>
-                        <a href="#top">{this.formData}</a>
                     </div>
                     <footer>
                         <h3>Implemented</h3>
