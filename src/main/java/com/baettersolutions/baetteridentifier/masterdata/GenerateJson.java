@@ -49,10 +49,7 @@ public class GenerateJson {
                     jsonArray.add(jsonRow);
                 }
             }
-
-
             mapper.writerWithDefaultPrettyPrinter().
-
                     writeValue(new File(MasterdataMainHandler.getJsonFilepath()), jsonArray);
         } catch (
                 IOException e) {

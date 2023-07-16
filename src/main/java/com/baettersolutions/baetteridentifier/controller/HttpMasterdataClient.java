@@ -7,7 +7,7 @@ import java.net.URL;
 public class HttpMasterdataClient {
     private static String masterdataUrl = "http://localhost:8080/products";
 
-    public static void httpPOSTClientForMasterdata(String jsonfilepath) throws IOException {
+    public static void httpPOSTClientForMasterdata(String jsonfilepath) {
         try {
             URL url = new URL(masterdataUrl);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -41,7 +41,6 @@ public class HttpMasterdataClient {
             }
             reader.close();
 
-
             connection.disconnect();
         } catch (IOException e) {
             e.printStackTrace();
@@ -49,49 +48,6 @@ public class HttpMasterdataClient {
 
     }
 
-    public static void httpSearchInDB(String searchValue) {
-        try {
-            URL url = new URL(masterdataUrl);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-            int responseCode = connection.getResponseCode();
-            if (responseCode == HttpURLConnection.HTTP_OK){
-                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                String line;
-                StringBuilder response = new StringBuilder();
-
-                while((line = reader.readLine()) != null){
-                    response.append(line);
-
-                    if (line.contains(searchValue)) {
-                        System.out.println("Wert gefunden: " + line);
-                    }
-                }
-                reader.close();
-                System.out.println("Serverantwort: " + response.toString());
-            } else {
-                System.out.println("Error: " + responseCode);
-            }
-            connection.disconnect();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    private int dbGETConnection() {
-        try {
-            URL url = new URL(masterdataUrl);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-            int responseCode = connection.getResponseCode();
-            return responseCode;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }
 
     public static void httpTestClient() {
 
@@ -103,7 +59,7 @@ public class HttpMasterdataClient {
             con.setRequestProperty("Accept", "application/json");
             con.setDoOutput(true);
 
-            String jsonString = "[{\"axnr\": 123456789,\"type\": \"DEI MAMA\",\"shortdescription\": \"Spiralband,Bündeldurchm.b.50,8mm,PE,orange,30,5m\",\"manufactureridnr\": 402000,\"manufacturer\": \"PANDUIT\",\"rabgroupe\": \"DZ.11\",\"articlenumber\": \"T25F-C3Y\",\"listprice\": 63.18,\"ep1\": 36.861111111111114,\"measureunit\": \"ROL\",\"priceunit\": 1,\"status\": 0}]";
+            String jsonString = "[{\"axnr\": 123456789,\"type\": \"3MMM\",\"shortdescription\": \"Spiralband,Bündeldurchm.b.50,8mm,PE,orange,30,5m\",\"manufactureridnr\": 402000,\"manufacturer\": \"PANDUIT\",\"rabgroupe\": \"DZ.11\",\"articlenumber\": \"T25F-C3Y\",\"listprice\": 63.18,\"ep1\": 36.861111111111114,\"measureunit\": \"ROL\",\"priceunit\": 1,\"status\": 0}]";
             try (OutputStream os = con.getOutputStream()) {
                 byte[] input = jsonString.getBytes("utf-8");
                 os.write(input, 0, input.length);

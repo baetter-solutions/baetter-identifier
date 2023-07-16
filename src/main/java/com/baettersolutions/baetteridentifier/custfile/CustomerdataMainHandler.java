@@ -10,14 +10,6 @@ import java.io.File;
 public class CustomerdataMainHandler {
     private static String pathfinishedfile = "src/main/resources/outputfiles/customer/";
 
-    public static void setPathfinishedfile(String pathfinishedfile) {
-        CustomerdataMainHandler.pathfinishedfile = pathfinishedfile;
-    }
-
-    public static String getPathfinishedfile() {
-        return pathfinishedfile;
-    }
-
     public static void handlingOfUserdataInput(String filepathToExcelfileFromUser, int custSheetnumber, int custHeadline, int columnWithNumberToIdentify) {
         File path = new File(filepathToExcelfileFromUser);
         String newFileNameAndPath = pathfinishedfile + path.getName();
@@ -27,10 +19,15 @@ public class CustomerdataMainHandler {
         ConverExcelCF cfFile = new ConverExcelCF();
         XSSFSheet usersheetwithAXRow = cfFile.addRowAXNr(usersheet);
         XSSFSheet filledUsersheet = new Identifier().addAxNr(usersheetwithAXRow, columnWithNumberToIdentify);
-        cfFile.createExcelFile(newFileNameAndPath, filledUsersheet);
-
         Eraser.deleteFile(filepathToExcelfileFromUser);
-//        cfFile.iteratorsheet(filledUsersheet);
+        cfFile.createExcelFile(newFileNameAndPath, filledUsersheet);
+    }
 
+    public static void setPathfinishedfile(String pathfinishedfile) {
+        CustomerdataMainHandler.pathfinishedfile = pathfinishedfile;
+    }
+
+    public static String getPathfinishedfile() {
+        return pathfinishedfile;
     }
 }

@@ -5,13 +5,8 @@
 
 [Router YT Tutorial](https://www.youtube.com/watch?v=tIUuqZaq_8s&list=PLC3y8-rFHvwjkxt8TOteFdT_YmzwpBlrG&index=4)
 
-## Available Scripts
-
-In the project directory, you can run:
-
 ### `npm start`
 
-Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 ### `npm run build`

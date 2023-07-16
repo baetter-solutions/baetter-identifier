@@ -227,12 +227,8 @@ public class ConvertExcelMD {
                     case BOOLEAN:
                         filteredCell.setCellValue(sourceCell.getBooleanCellValue());
                         break;
-
-
                 }
-
             }
-
         }
         return filteredSheet;
     }

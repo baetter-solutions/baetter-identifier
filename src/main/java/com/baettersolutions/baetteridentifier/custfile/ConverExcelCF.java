@@ -21,10 +21,6 @@ public class ConverExcelCF {
         headerCell.setCellValue("AX-Number");
         return usersheet;
     }
-    public static int getAxRowNumber() {
-        return axRowNumber;
-    }
-
     public static void createExcelFile(String outputPath, XSSFSheet filledUsersheet) {
         try {
             XSSFWorkbook workbook = new XSSFWorkbook();
@@ -35,10 +31,12 @@ public class ConverExcelCF {
             workbook.close();
             out.close();
             CustomerdataMainHandler.setPathfinishedfile(new File(outputPath).getAbsolutePath());
+            System.out.println("Datei zu finden unter: " + CustomerdataMainHandler.getPathfinishedfile());
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     private static void copySheet(XSSFSheet sourceSheet, XSSFSheet targetSheet) {
         for (Row sourceRow : sourceSheet) {
             Row newRow = targetSheet.createRow(sourceRow.getRowNum());
@@ -67,6 +65,9 @@ public class ConverExcelCF {
                 break;
         }
 
+    }
+    public static int getAxRowNumber() {
+        return axRowNumber;
     }
     public static void iteratorsheet(XSSFSheet toPrint) {
         new XSSFsheetIterator().showFileWithIterator(toPrint);

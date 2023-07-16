@@ -10,33 +10,6 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import java.text.DecimalFormat;
 
 public class Identifier {
-    private String getCellValue(Cell cell) {
-        String cellValue = "";
-        if (cell != null) {
-            switch (cell.getCellType()) {
-                case STRING:
-                    cellValue = cell.getStringCellValue();
-                    break;
-                case NUMERIC:
-                    double numericValue = cell.getNumericCellValue();
-                    DecimalFormat decimalFormat = new DecimalFormat("#");
-                    cellValue = decimalFormat.format(numericValue);
-                    break;
-                default:
-                    break;
-            }
-        }
-        return cellValue;
-    }
-
-    public String identifyByManufacturArticlenumber(String manufactureNumber) {
-        return new MongoDB().getAxnrByArticlenumber(manufactureNumber);
-    }
-
-    public String identifyByManufacturType(String manufacturerType) {
-        return new MongoDB().getAxnrByType(manufacturerType);
-    }
-
     public XSSFSheet addAxNr(XSSFSheet usersheet, int rowToFindValue) {
         int lastRow = usersheet.getPhysicalNumberOfRows();
         int counterIdentified = 1;
@@ -70,5 +43,30 @@ public class Identifier {
         return usersheet;
     }
 
+    private String getCellValue(Cell cell) {
+        String cellValue = "";
+        if (cell != null) {
+            switch (cell.getCellType()) {
+                case STRING:
+                    cellValue = cell.getStringCellValue();
+                    break;
+                case NUMERIC:
+                    double numericValue = cell.getNumericCellValue();
+                    DecimalFormat decimalFormat = new DecimalFormat("#");
+                    cellValue = decimalFormat.format(numericValue);
+                    break;
+                default:
+                    break;
+            }
+        }
+        return cellValue;
+    }
 
+    public String identifyByManufacturArticlenumber(String manufactureNumber) {
+        return new MongoDB().getAxnrByArticlenumber(manufactureNumber);
+    }
+
+    public String identifyByManufacturType(String manufacturerType) {
+        return new MongoDB().getAxnrByType(manufacturerType);
+    }
 }
