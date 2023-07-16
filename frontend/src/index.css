@@ -16,7 +16,8 @@ code {
     background-color: #bbdffc;
     padding-top: 16px;
 }
-.firstitemPad{
+
+.firstitemPad {
     margin-left: 10px;
 }
 
@@ -26,13 +27,12 @@ code {
 }
 
 
-
 .mainstyle {
     padding: 10px;
     display: flex;
+    flex-direction: column;
     flex-wrap: wrap;
-    justify-content: center;
-    align-content: space-between;
+    align-content: center;
 }
 
 .divcontent {
@@ -42,7 +42,8 @@ code {
     align-items: center;
     text-align: center;
 }
-.div2ndlvl{
+
+.div2ndlvl {
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
@@ -54,7 +55,8 @@ code {
     margin-bottom: 10px;
 
 }
-.btnPosition{
+
+.btnPosition {
     display: flex;
     justify-content: flex-end;
 }
@@ -64,7 +66,7 @@ code {
     width: 25%;
 }
 
-form{
+form {
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
@@ -86,7 +88,6 @@ form{
     flex-grow: 1;
 }
 
-
 .dropzonestyle {
     display: flex;
     background-color: #beb6b6;
@@ -97,6 +98,6 @@ form{
     padding: 20px;
 }
 
-.hide{
+.hide {
     display: none;
 }

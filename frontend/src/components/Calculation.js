@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import XLSX from 'xlsx';
+import * as XLSX from "xlsx";
 
 
 const Calculation = () => {
@@ -24,10 +24,12 @@ const Calculation = () => {
     return (
         <div className="mainstyle">
             <div className="divcontent">
-                <input type="file" onChange={handleFileChange}/>
+                <div className="div2ndlvl border rounded">
+                    <input type="file" onChange={handleFileChange}/>
+                </div>
             </div>
             {excelData && (
-                <div className="divcontent">
+                <div className="div2ndlvl border rounded">
                     <table>
                         <tbody>
                         {excelData.map((row, rowIndex) => (

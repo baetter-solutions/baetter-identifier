@@ -1,6 +1,6 @@
 package com.baettersolutions.baetteridentifier;
 
-import com.baettersolutions.baetteridentifier.controller.Identifier;
+import com.baettersolutions.baetteridentifier.custfile.Identifier;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

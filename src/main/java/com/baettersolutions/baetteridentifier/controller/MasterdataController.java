@@ -1,13 +1,12 @@
 package com.baettersolutions.baetteridentifier.controller;
 
-import com.baettersolutions.baetteridentifier.database.MasterdataVariables;
+import com.baettersolutions.baetteridentifier.masterdata.MasterdataVariables;
 import com.baettersolutions.baetteridentifier.repository.MasterdataRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,7 +31,7 @@ public class MasterdataController {
         saveCounter = 0;
         updateCounter = 0;
         totalCount = 0;
-        int commentEvery = 250;
+        int commentEvery = 50;
         int totalTransmissions = products.size();
         int commentCount = 0;
 

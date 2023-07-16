@@ -100,6 +100,7 @@ export default function ReferenceData() {
                     Updated: {totalCount}<br/>
                     Total transmitted: {saveCounter}
                 </div>
+
             </div>
             <CounterUpdater
                 setSavecount={setSavecount}
@@ -107,6 +108,8 @@ export default function ReferenceData() {
                 settotalCount={settotalCount}
             />
 
+
         </article>
+
     );
 }

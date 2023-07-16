@@ -1,9 +1,8 @@
 package com.baettersolutions.baetteridentifier.controller;
 
-import com.baettersolutions.baetteridentifier.BaetterIdentifierApplication;
 import com.baettersolutions.baetteridentifier.custfile.CustomerFileHandler;
 import com.baettersolutions.baetteridentifier.custfile.CustomerdataMainHandler;
-import com.baettersolutions.baetteridentifier.database.MasterdataMainHandler;
+import com.baettersolutions.baetteridentifier.masterdata.MasterdataMainHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -81,7 +80,6 @@ public class FileUploadController {
         if (file.isEmpty()) {
             return ResponseEntity.badRequest().body("Empty file");
         }
-
         try {
             Path uploadPath = Paths.get(UPLOAD_MASTERDATA).toAbsolutePath().normalize();
             String filePath = uploadPath.resolve(file.getOriginalFilename()).toString();

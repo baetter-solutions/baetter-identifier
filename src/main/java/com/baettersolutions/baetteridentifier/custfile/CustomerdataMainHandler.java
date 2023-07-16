@@ -1,17 +1,11 @@
 package com.baettersolutions.baetteridentifier.custfile;
 
-import com.baettersolutions.baetteridentifier.XSSFsheetIterator;
 import com.baettersolutions.baetteridentifier.controller.Eraser;
-import com.baettersolutions.baetteridentifier.controller.Identifier;
-import com.baettersolutions.baetteridentifier.database.ConvertExcelMD;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellType;
-import org.apache.poi.ss.usermodel.Row;
+import com.baettersolutions.baetteridentifier.masterdata.ConvertExcelMD;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
-import java.io.FileOutputStream;
 
 public class CustomerdataMainHandler {
     private static String pathfinishedfile = "src/main/resources/outputfiles/customer/";

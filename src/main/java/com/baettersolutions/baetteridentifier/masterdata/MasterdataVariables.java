@@ -1,4 +1,4 @@
-package com.baettersolutions.baetteridentifier.database;
+package com.baettersolutions.baetteridentifier.masterdata;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;

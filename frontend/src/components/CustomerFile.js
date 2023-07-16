@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Dropzone from 'react-dropzone';
 import axios from 'axios';
 import { alphabetOptions } from "./stuff/AlphabetOptions";
 
+/* WORK IN PROGRESS
 function FilepathUpdate() {
     const [pathfinishedfile, setPathfinishedfile] = useState('');
 
@@ -18,15 +19,16 @@ function FilepathUpdate() {
     }, []);
 
     return null;
-}
+}*/
 
 function CustomerFile() {
     const [custSheetnumber, setCustSheetnumber] = useState('');
     const [custHeadline, setCustHeadline] = useState('');
     const [columnWithNumberToIdentify, setColumnWithNumberToIdentify] = useState('');
-    const [pathfinishedfile, setPathfinishedfile] = useState('');
     const [formData, setFormData] = useState(new FormData());
-
+    /* WORK IN PROGRESS
+     const [pathfinishedfile, setPathfinishedfile] = useState('');
+*/
     const handleInputChange = (event) => {
         const { id, value } = event.target;
         if (id === 'custSheetnumber') {
@@ -167,11 +169,13 @@ function CustomerFile() {
                         )}
                     </Dropzone>
                 </div>
-                <div className="div2ndlvl" id="fertig">
+                {/* WORK IN PROGRESS
+                <div className="div2ndlvl hide" id="fertig">
                     <div className="dropzonestyle rounded border shadow-sm bg-body-tertiary">
-                        <a href={pathfinishedfile}>Klick mich</a>
+                        <a href={"pathfinishedfile"}>Klick mich</a>
                     </div>
                 </div>
+                */}
             </div>
         </article>
     );

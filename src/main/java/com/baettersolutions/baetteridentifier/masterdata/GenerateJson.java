@@ -1,4 +1,4 @@
-package com.baettersolutions.baetteridentifier.database;
+package com.baettersolutions.baetteridentifier.masterdata;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -1,4 +1,4 @@
-package com.baettersolutions.baetteridentifier.database;
+package com.baettersolutions.baetteridentifier.masterdata;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
