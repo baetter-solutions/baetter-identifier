@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import Dropzone from 'react-dropzone';
 import axios from 'axios';
-import { alphabetOptions } from "./stuff/AlphabetOptions";
+import {alphabetOptions} from "./stuff/AlphabetOptions";
 
 /* WORK IN PROGRESS
 function FilepathUpdate() {
@@ -30,7 +30,7 @@ function CustomerFile() {
      const [pathfinishedfile, setPathfinishedfile] = useState('');
 */
     const handleInputChange = (event) => {
-        const { id, value } = event.target;
+        const {id, value} = event.target;
         if (id === 'custSheetnumber') {
             setCustSheetnumber(value);
         } else if (id === 'custHeadline') {
@@ -150,25 +150,27 @@ function CustomerFile() {
                                 ))}
                             </select>
                         </div>
+                        <div className="div2ndlvl" id="droppi">
+                            <Dropzone onDrop={onDrop}>
+                                {({getRootProps, getInputProps, isDragActive}) => (
+                                    <div {...getRootProps()}
+                                         className="dropzonestyle rounded border shadow-sm bg-body-tertiary">
+                                        <input {...getInputProps()} />
+                                        {isDragActive
+                                            ? "Drop it like it's hot!"
+                                            : formData.get('file')
+                                                ? <div>Ausgewählte Datei: <br/> {formData.get('file').name}</div>
+                                                : 'Klicken oder Datei mit der Maus darauf schieben'}
+                                    </div>
+                                )}
+                            </Dropzone>
+                        </div>
                         <div className="btnPosition">
                             <button type="submit" className="btn btn-primary">Submit</button>
                         </div>
                     </form>
                 </div>
-                <div className="div2ndlvl" id="droppi">
-                    <Dropzone onDrop={onDrop}>
-                        {({ getRootProps, getInputProps, isDragActive }) => (
-                            <div {...getRootProps()} className="dropzonestyle rounded border shadow-sm bg-body-tertiary">
-                                <input {...getInputProps()} />
-                                {isDragActive
-                                    ? "Drop it like it's hot!"
-                                    : formData.get('file')
-                                        ? <div>Ausgewählte Datei: <br /> {formData.get('file').name}</div>
-                                        : 'Klicken oder Datei mit der Maus darauf schieben'}
-                            </div>
-                        )}
-                    </Dropzone>
-                </div>
+
                 {/* WORK IN PROGRESS
                 <div className="div2ndlvl hide" id="fertig">
                     <div className="dropzonestyle rounded border shadow-sm bg-body-tertiary">

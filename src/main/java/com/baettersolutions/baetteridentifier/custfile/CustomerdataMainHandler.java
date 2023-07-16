@@ -2,17 +2,19 @@ package com.baettersolutions.baetteridentifier.custfile;
 
 import com.baettersolutions.baetteridentifier.controller.Eraser;
 import com.baettersolutions.baetteridentifier.masterdata.ConvertExcelMD;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
 
 public class CustomerdataMainHandler {
-    private static String pathfinishedfile = "src/main/resources/outputfiles/customer/";
+    private static final String pathToSaveUserFile = "src/main/resources/outputfiles/customer/";
+    private static String pathfinishedfile;
 
     public static void handlingOfUserdataInput(String filepathToExcelfileFromUser, int custSheetnumber, int custHeadline, int columnWithNumberToIdentify) {
-        File path = new File(filepathToExcelfileFromUser);
-        String newFileNameAndPath = pathfinishedfile + path.getName();
+        String newFileName = FilenameUtils.getName(filepathToExcelfileFromUser);
+        String newFileNameAndPath = pathToSaveUserFile + newFileName;
         ConvertExcelMD xslxToWorkitem = new ConvertExcelMD();
         XSSFWorkbook userbook = xslxToWorkitem.generateWorksheet(filepathToExcelfileFromUser).getWorkbook();
         XSSFSheet usersheet = xslxToWorkitem.generateUsersheetForWork(userbook, custSheetnumber, custHeadline);
