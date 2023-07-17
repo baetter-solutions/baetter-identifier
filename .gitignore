@@ -37,3 +37,4 @@ build/
 ### VS Code ###
 .vscode/
 src/main/resources/files_from_work/company/QueryFile.xlsx
+*.properties
